@@ -1,0 +1,153 @@
+"use client";
+
+import { ShoppingBag, ArrowRight, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
+import { FormEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { PortalHeader } from "@/components/portal-header";
+import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
+import { useCreateOrder } from "@/services/order/order.hook";
+import { OrderSummary } from "@/components/dashboard/order-summary";
+import { DeliverySelection } from "@/components/dashboard/delivery-selection";
+import { OrderSuccess } from "@/components/dashboard/order-success";
+import Link from "next/link";
+import { CheckoutSkeleton } from "@/components/skeleton/checkout-skeleton";
+
+export default function CheckoutPage() {
+  const {
+    items,
+    subtotal,
+    vat = 0,
+    clearCart,
+    refetch,
+    ready: cartReady,
+  } = useCart();
+  const { user, ready: authReady } = useAuth();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
+  const [notes, setNotes] = useState("");
+  const [error, setError] = useState("");
+  const [confirmation, setConfirmation] = useState<any | null>(null);
+
+  const createOrderMutation = useCreateOrder({
+    onSuccess: (response) => {
+      const order = response?.data;
+      clearCart();
+      setConfirmation(order);
+    },
+    onError: (err: any) => {
+      const msg =
+        err.response?.data?.message ||
+        "Failed to place order. Please try again.";
+      setError(msg);
+      toast.error(msg);
+    },
+  });
+
+  const addresses = user?.addresses || [];
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    setError("");
+
+    if (!selectedAddressId) {
+      const msg = "Please select a delivery address.";
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
+
+    if (!items.length) {
+      const msg = "Your basket is empty.";
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
+
+    createOrderMutation.mutate({
+      addressId: selectedAddressId,
+      notes: notes?.trim() || undefined,
+    });
+  }
+
+  const ready = cartReady && authReady;
+
+  if (confirmation) {
+    return (
+      <div className="min-h-screen bg-background">
+        <PortalHeader />
+        <OrderSuccess order={confirmation} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+      <PortalHeader />
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8 flex-1 w-full">
+        <Link
+          href={ROUTES.CART}
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft className="size-3.5 sm:size-4" /> Back to cart
+        </Link>
+
+        {!ready ? (
+          <CheckoutSkeleton />
+        ) : items?.length === 0 ? (
+          <div className="mt-12 flex flex-col items-center justify-center text-center">
+            <div className="flex size-16 items-center justify-center rounded-full bg-muted text-muted-foreground">
+              <ShoppingBag className="size-8" />
+            </div>
+            <h2 className="mt-4 font-serif text-2xl font-bold">
+              Your cart is empty
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground max-w-sm">
+              You don&apos;t have any items in your shopping cart to checkout.
+            </p>
+            <Button asChild className="mt-6" size="lg">
+              <Link href={ROUTES.CATALOGUE}>
+                Browse Catalogue <ArrowRight className="size-4 ml-1.5" />
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="mt-6 sm:mt-8 space-y-6">
+            {error && (
+              <div
+                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-xs sm:text-sm font-semibold text-destructive flex items-center justify-between"
+                role="alert">
+                <span>{error}</span>
+              </div>
+            )}
+            <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_360px] w-full min-w-0">
+              <div className="flex flex-col gap-6 min-w-0 w-full">
+                <DeliverySelection
+                  addresses={addresses}
+                  selectedAddressId={selectedAddressId}
+                  onSelectAddress={setSelectedAddressId}
+                  notes={notes}
+                  onChangeNotes={setNotes}
+                />
+              </div>
+              <div className="min-w-0 w-full">
+                <OrderSummary
+                  items={items}
+                  subtotal={subtotal}
+                  vat={vat}
+                  placing={createOrderMutation.isPending}
+                  disabled={createOrderMutation.isPending}
+                />
+              </div>
+            </div>
+          </form>
+        )}
+      </main>
+    </div>
+  );
+}
