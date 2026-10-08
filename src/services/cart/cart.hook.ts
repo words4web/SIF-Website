@@ -9,13 +9,12 @@ export const cartKeys = {
 export const useCartQuery = (enabled: boolean = true) => {
   return useQuery({
     queryKey: cartKeys.detail(),
-    queryFn: () => cartService.getCart(),
+    queryFn: ({ signal }) => cartService.getCart(signal),
     enabled,
   });
 };
 
 export const useAddToCartMutation = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       productId,
@@ -24,14 +23,10 @@ export const useAddToCartMutation = () => {
       productId: string;
       quantity?: number;
     }) => cartService.addToCart(productId, quantity),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: cartKeys.all });
-    },
   });
 };
 
 export const useRemoveFromCartMutation = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       productId,
@@ -40,18 +35,11 @@ export const useRemoveFromCartMutation = () => {
       productId: string;
       quantity?: number;
     }) => cartService.removeFromCart(productId, quantity),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: cartKeys.all });
-    },
   });
 };
 
 export const useClearCartMutation = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => cartService.clearCart(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: cartKeys.all });
-    },
   });
 };

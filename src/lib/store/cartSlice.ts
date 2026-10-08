@@ -14,18 +14,21 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    setCart(state, action: PayloadAction<CartItem[]>) {
+      state.items = action?.payload;
+    },
     addItem(
       state,
       action: PayloadAction<{ product: Product; quantity?: number }>,
     ) {
       const { product, quantity = 1 } = action.payload;
-      const existing = state.items.find(
-        (item) => item.product.id === product.id,
+      const existing = state?.items?.find(
+        (item) => item?.product?.id === product?.id,
       );
       if (existing) {
-        existing.quantity = Math.min(99, existing.quantity + quantity);
+        existing.quantity = Math.min(99, existing?.quantity + quantity);
       } else {
-        state.items.push({ product, quantity });
+        state?.items?.push({ product, quantity });
       }
     },
     updateQuantity(
@@ -34,17 +37,17 @@ const cartSlice = createSlice({
     ) {
       const { id, quantity } = action.payload;
       if (quantity <= 0) {
-        state.items = state.items.filter((item) => item.product.id !== id);
+        state.items = state?.items?.filter((item) => item?.product?.id !== id);
       } else {
-        const item = state.items.find((item) => item.product.id === id);
+        const item = state?.items?.find((item) => item?.product?.id === id);
         if (item) {
           item.quantity = Math.min(99, quantity);
         }
       }
     },
     removeItem(state, action: PayloadAction<string>) {
-      state.items = state.items.filter(
-        (item) => item.product.id !== action.payload,
+      state.items = state?.items?.filter(
+        (item) => item?.product?.id !== action?.payload,
       );
     },
     clearCart(state) {
@@ -53,6 +56,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItem, updateQuantity, removeItem, clearCart } =
+export const { setCart, addItem, updateQuantity, removeItem, clearCart } =
   cartSlice.actions;
 export default cartSlice.reducer;

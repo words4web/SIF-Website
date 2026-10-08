@@ -197,11 +197,13 @@ frontend/
 
 ### 5. Shopping Cart & Wholesale Checkout Flow
 
-- **Cart Management (`useCart`, `useCartQuery`)**:
-  - Cart data is cached globally across general views (Catalogue, Header, Home) to prevent redundant network requests.
-  - Both `/cart` (`CartPage`) and `/checkout` (`CheckoutPage`) trigger explicit `refetch()` on mount to guarantee fresh, verified prices, availability, and totals before placing an order.
-  - Exposes `refetch` for explicit synchronization.
-  - Automatic quantity adjustments, optimistic updates, and server-side recalculation of subtotal and VAT.
+- **Optimistic State Management & Debounced Sync (`useCart`, `cartSlice`, `CartControl`)**:
+  - **Redux-Powered Instant UI**: All cart interactions (`addItem`, `updateQuantity`, `increment`, `decrement`, `removeItem`, `clearCart`) update Redux store (`cartSlice`) instantly with 0ms UI lag.
+  - **Reusable UI Component (`CartControl`)**: Unified component supporting `variant="card"` (inline stepper/add button on product cards), `variant="detail"` (detail page stepper + add button), and `variant="cart-item"` (cart item card stepper + remove button).
+  - **Global Debounced API Queue (500ms)**: Rapid `+` and `-` clicks on any item accumulate net quantity changes in a module-scoped queue and fire a single consolidated background mutation (`POST /api/user/cart/add` or `POST /api/user/cart/remove`) once user pauses clicking for 500ms.
+  - **In-Flight Query Cancellation (`AbortSignal`)**: Any user click immediately cancels in-flight `GET /api/user/cart` requests via `queryClient.cancelQueries` and Axios `AbortSignal`, preventing stale server responses from overwriting ongoing optimistic clicks.
+  - **Unique Item Count**: Header and mobile navigation badges reflect the count of unique items in the cart (`itemCount`).
+  - **Background Server Synchronization**: Server query (`useCartQuery`) automatically synchronizes verified prices and products to Redux when no active debounces are in flight.
 - **Checkout (`/checkout`)**:
   - Automatically verifies fresh cart contents on navigation / page mount.
   - Allows verified B2B clients to select from saved delivery addresses or create new Italian delivery addresses via `AddressModal`.

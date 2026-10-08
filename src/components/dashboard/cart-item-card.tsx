@@ -1,20 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Minus, Plus, Trash2 } from "lucide-react";
 import { ProductImage } from "@/components/common/ProductImage";
 import { CartItem } from "@/types/cart.types";
 import { formatPounds } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
+import { CartControl } from "@/components/cart/cart-control";
 
 export function CartItemCard({
   item,
-  updateQuantity,
-  removeItem,
 }: {
   item: CartItem;
-  updateQuantity: (id: string, quantity: number) => void;
-  removeItem: (id: string) => void;
+  updateQuantity?: (id: string, quantity: number) => void;
+  removeItem?: (id: string) => void;
 }) {
   const { product, quantity } = item;
   const imgUrl =
@@ -51,32 +49,8 @@ export function CartItemCard({
               </span>
             )}
           </p>
-          <div className="mt-3 sm:mt-4 flex items-center gap-3">
-            <div className="flex items-center rounded-xl border border-input bg-card shadow-sm overflow-hidden h-9">
-              <button
-                type="button"
-                onClick={() => updateQuantity(product?.id, quantity - 1)}
-                className="px-3 h-full hover:bg-muted transition-colors cursor-pointer"
-                aria-label="Decrease quantity">
-                <Minus className="size-3.5" />
-              </button>
-              <span className="px-3 text-xs sm:text-sm font-extrabold min-w-[2rem] text-center">
-                {quantity}
-              </span>
-              <button
-                type="button"
-                onClick={() => updateQuantity(product?.id, quantity + 1)}
-                className="px-3 h-full hover:bg-muted transition-colors cursor-pointer"
-                aria-label="Increase quantity">
-                <Plus className="size-3.5" />
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => removeItem(product?.id)}
-              className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-destructive transition-colors cursor-pointer">
-              <Trash2 className="size-3.5" /> Remove
-            </button>
+          <div className="mt-3 sm:mt-4">
+            <CartControl product={product} variant="cart-item" />
           </div>
         </div>
       </div>
