@@ -41,10 +41,13 @@ export default function Page() {
     id: prod?._id,
     name: prod?.name,
     slug: prod?.slug,
+    sku: prod?.sku,
     description: prod?.description || "",
     pack: prod?.pack || null,
     price: prod?.price || null,
     unit: prod?.unit,
+    stock: prod?.stock,
+    stockStatus: prod?.stockStatus,
     images: Array.isArray(prod?.images) ? prod?.images : [],
     imageUrl:
       Array.isArray(prod?.images) && prod?.images?.length > 0

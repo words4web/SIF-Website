@@ -7,14 +7,19 @@ export interface RelatedProductItem {
   price?: number;
 }
 
+export type StockStatus = "IN_STOCK" | "OUT_OF_STOCK";
+
 export interface ProductRow {
   _id: string;
   name: string;
   slug: string;
+  sku?: string;
   description?: string;
   pack: string;
   price: number;
   unit?: string;
+  stock?: number;
+  stockStatus?: StockStatus;
   categoryId:
     | {
         _id: string;
@@ -33,10 +38,13 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
+  sku?: string;
   description?: string;
   pack: string | null;
   price: number | null;
   unit?: string;
+  stock?: number;
+  stockStatus?: StockStatus;
   categoryId: string;
   categoryName: string;
   keywords?: string[];

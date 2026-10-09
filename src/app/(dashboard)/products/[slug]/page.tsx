@@ -42,10 +42,13 @@ export default function ProductPage() {
     id: productData?._id,
     name: productData?.name,
     slug: productData?.slug,
+    sku: productData?.sku,
     description: productData?.description || "",
     pack: productData?.pack || null,
     price: productData?.price || null,
     unit: productData?.unit,
+    stock: productData?.stock,
+    stockStatus: productData?.stockStatus,
     images: Array.isArray(productData?.images) ? productData?.images : [],
     imageUrl:
       Array.isArray(productData?.images) && productData?.images?.length > 0

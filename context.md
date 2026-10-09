@@ -145,7 +145,7 @@ frontend/
 │       ├── footer.types.ts           # FooterLink, FooterSocialLink, FooterData interfaces
 │       ├── notification.types.ts     # NotificationItem, SyncDevicePayload schemas
 │       ├── order.types.ts            # Order, OrderItem, OrderSummary schemas
-│       ├── product/                  # Product, ProductDetail, RelatedProductItem schemas
+│       ├── product/                  # Product, ProductDetail, ProductVariant ({ weight: number, price: number }), RelatedProductItem schemas
 │       ├── supply-chain.types.ts     # SupplyChainStep interfaces
 │       ├── testimonials.types.ts     # TestimonialItem interfaces
 │       └── user.types.ts             # User schema & profile structures

@@ -100,6 +100,23 @@ export function ProductDetail({ product }: { product: Product }) {
                 <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-primary/10 text-primary uppercase tracking-wider">
                   {product?.categoryName}
                 </span>
+
+                {product?.sku && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-bold bg-muted/80 text-foreground">
+                    SKU: {product?.sku}
+                  </span>
+                )}
+
+                {product?.stockStatus === "OUT_OF_STOCK" ||
+                (typeof product?.stock === "number" && product?.stock <= 0) ? (
+                  <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-destructive/10 text-destructive uppercase tracking-wider">
+                    Out of Stock
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-emerald-500/10 text-emerald-700 uppercase tracking-wider">
+                    In Stock
+                  </span>
+                )}
               </div>
 
               <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground leading-snug">

@@ -41,10 +41,15 @@ export function CartControl({
     router.push(ROUTES.LOGIN);
   };
 
+  const isOutOfStock =
+    product?.stockStatus === "OUT_OF_STOCK" ||
+    (typeof product?.stock === "number" && product?.stock <= 0);
+
   if (variant === "detail") {
     const handleDetailAdd = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      if (isOutOfStock) return;
       if (!user) {
         router.push(ROUTES.LOGIN);
         return;
@@ -68,13 +73,13 @@ export function CartControl({
               e.stopPropagation();
               setDetailStepperQty((prev) => Math.max(1, prev - 1));
             }}
-            disabled={!user}
+            disabled={!user || isOutOfStock}
             className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
             aria-label="Decrease quantity">
             <Minus className="size-3.5 sm:size-4" />
           </button>
           <span className="px-3 sm:px-4 text-xs sm:text-sm font-extrabold min-w-[2rem] sm:min-w-[2.5rem] text-center">
-            {detailStepperQty}
+            {isOutOfStock ? 0 : detailStepperQty}
           </span>
           <button
             type="button"
@@ -83,14 +88,22 @@ export function CartControl({
               e.stopPropagation();
               setDetailStepperQty((prev) => prev + 1);
             }}
-            disabled={!user}
+            disabled={!user || isOutOfStock}
             className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
             aria-label="Increase quantity">
             <Plus className="size-3.5 sm:size-4" />
           </button>
         </div>
 
-        {user ? (
+        {isOutOfStock ? (
+          <Button
+            disabled
+            size="lg"
+            variant="outline"
+            className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold bg-muted/60 text-muted-foreground border-border/80 cursor-not-allowed">
+            <span>Out of Stock</span>
+          </Button>
+        ) : user ? (
           <Button
             onClick={handleDetailAdd}
             size="lg"
@@ -160,6 +173,22 @@ export function CartControl({
           </button>
         )}
       </div>
+    );
+  }
+
+  if (isOutOfStock) {
+    return (
+      <Button
+        size={size || "sm"}
+        variant="outline"
+        disabled
+        className={cn(
+          "relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-2.5 bg-muted/50 text-muted-foreground border-border/80 cursor-not-allowed opacity-80 font-medium",
+          className,
+        )}
+        aria-label="Out of stock">
+        Out of Stock
+      </Button>
     );
   }
 

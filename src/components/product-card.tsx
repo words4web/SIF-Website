@@ -28,6 +28,23 @@ export function ProductCard({ product }: { product: Product }) {
               <ProductVisual product={product} />
             </div>
             <div className="p-2.5 sm:p-4 space-y-0.5 sm:space-y-1 min-h-[3.5rem] sm:min-h-[4.5rem]">
+              <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                {product?.sku && (
+                  <span className="font-mono text-[9px] sm:text-[10px] font-bold text-muted-foreground bg-muted/70 px-1.5 py-0.5 rounded">
+                    {product.sku}
+                  </span>
+                )}
+                {product?.stockStatus === "OUT_OF_STOCK" ||
+                (typeof product?.stock === "number" && product?.stock <= 0) ? (
+                  <span className="inline-flex items-center text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
+                    Out of Stock
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                    In Stock
+                  </span>
+                )}
+              </div>
               <h3 className="line-clamp-2 font-serif text-xs sm:text-[15px] font-extrabold leading-snug text-card-foreground group-hover:text-primary transition-colors">
                 {product?.name}
               </h3>
