@@ -59,7 +59,6 @@ export default function ProductPage() {
       typeof productData?.categoryId === "object"
         ? productData?.categoryId?.name
         : "",
-    isVatApplicable: productData?.isVatApplicable,
     relatedProducts: Array.isArray(productData?.relatedProducts)
       ? productData?.relatedProducts
       : [],

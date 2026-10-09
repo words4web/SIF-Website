@@ -9,11 +9,10 @@ import { OrderSummaryProps } from "@/types/order.types";
 export function OrderSummary({
   items,
   subtotal,
-  vat,
   placing,
   disabled,
 }: OrderSummaryProps) {
-  const estimatedTotal = subtotal + vat;
+  const estimatedTotal = subtotal;
 
   return (
     <aside className="order-first lg:order-last h-fit rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm space-y-4 w-full min-w-0 max-w-full">
@@ -71,15 +70,9 @@ export function OrderSummary({
 
       <div className="border-t border-border/60 pt-3 space-y-2 text-xs sm:text-sm">
         <div className="flex justify-between text-muted-foreground">
-          <span>Subtotal (excl. VAT)</span>
+          <span>Subtotal</span>
           <span className="font-semibold text-foreground">
             {formatPounds(subtotal)}
-          </span>
-        </div>
-        <div className="flex justify-between text-muted-foreground">
-          <span>VAT (20%)</span>
-          <span className="font-semibold text-foreground">
-            {formatPounds(vat)}
           </span>
         </div>
       </div>
@@ -88,9 +81,6 @@ export function OrderSummary({
         <div>
           <span className="font-bold text-sm sm:text-base text-foreground block">
             Estimated total
-          </span>
-          <span className="text-[11px] text-muted-foreground">
-            Includes applicable taxes
           </span>
         </div>
         <span className="font-serif text-xl sm:text-2xl font-extrabold text-primary">

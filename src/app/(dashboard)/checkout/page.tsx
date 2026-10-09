@@ -16,14 +16,7 @@ import Link from "next/link";
 import { CheckoutSkeleton } from "@/components/skeleton/checkout-skeleton";
 
 export default function CheckoutPage() {
-  const {
-    items,
-    subtotal,
-    vat = 0,
-    clearCart,
-    refetch,
-    ready: cartReady,
-  } = useCart();
+  const { items, subtotal, clearCart, refetch, ready: cartReady } = useCart();
   const { user, ready: authReady } = useAuth();
 
   useEffect(() => {
@@ -139,7 +132,6 @@ export default function CheckoutPage() {
                 <OrderSummary
                   items={items}
                   subtotal={subtotal}
-                  vat={vat}
                   placing={createOrderMutation.isPending}
                   disabled={createOrderMutation.isPending}
                 />

@@ -52,7 +52,7 @@ export function OrderCard({ order, onViewDetails }: OrderCardProps) {
       </div>
 
       <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-xl bg-muted/40 p-3 sm:p-4 border border-border/50 text-xs sm:text-sm">
-        <div className="grid grid-cols-3 gap-2 sm:gap-6 flex-1">
+        <div className="grid grid-cols-2 gap-2 sm:gap-6 flex-1">
           <div className="flex flex-col">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
               <Package className="size-3.5 text-primary shrink-0" />
@@ -64,17 +64,6 @@ export function OrderCard({ order, onViewDetails }: OrderCardProps) {
               <span className="text-xs font-normal text-muted-foreground">
                 pkgs
               </span>
-            </span>
-          </div>
-
-          <div className="flex flex-col border-l border-border/60 pl-3 sm:pl-4">
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-              <Receipt className="size-3.5 text-amber-500 shrink-0" />
-              <span className="hidden sm:inline">Total Tax</span>
-              <span className="sm:hidden">Tax</span>
-            </span>
-            <span className="mt-1 font-bold text-foreground text-sm sm:text-base">
-              {formatPounds(order?.vat || 0)}
             </span>
           </div>
 

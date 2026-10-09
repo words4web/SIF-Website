@@ -100,11 +100,6 @@ export function ProductDetail({ product }: { product: Product }) {
                 <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-primary/10 text-primary uppercase tracking-wider">
                   {product?.categoryName}
                 </span>
-                {product?.isVatApplicable && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20">
-                    VAT Applicable
-                  </span>
-                )}
               </div>
 
               <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground leading-snug">
@@ -130,17 +125,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 <div>
                   <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
                     <p className="text-xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                      {formatPounds(
-                        product?.isVatApplicable && product?.price
-                          ? product?.price * 1.2
-                          : product?.price,
-                      )}
+                      {formatPounds(product?.price)}
                     </p>
-                    {product?.isVatApplicable && (
-                      <span className="text-[10px] sm:text-xs font-semibold text-muted-foreground">
-                        (Includes VAT)
-                      </span>
-                    )}
                   </div>
                 </div>
                 <div className="rounded-lg sm:rounded-xl bg-secondary px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold text-secondary-foreground shadow-sm shrink-0 flex items-center gap-1.5">

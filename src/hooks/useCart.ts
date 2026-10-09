@@ -42,7 +42,6 @@ function normalizeCartItem(item: any): CartItem | null {
           : prod?.categoryId || "",
       categoryName:
         typeof prod?.categoryId === "object" ? prod?.categoryId?.name : "",
-      isVatApplicable: prod?.isVatApplicable ?? false,
     },
     quantity: item.quantity,
   };
@@ -271,20 +270,7 @@ export function useCart(): CartContextValue {
   const subtotal = useMemo(
     () =>
       items.reduce(
-        (sum, item) => sum + (item?.product?.price ?? 0) * item.quantity,
-        0,
-      ),
-    [items],
-  );
-
-  const vat = useMemo(
-    () =>
-      items.reduce(
-        (sum, item) =>
-          sum +
-          (item?.product?.isVatApplicable
-            ? (item?.product?.price ?? 0) * 0.2 * item.quantity
-            : 0),
+        (sum, item) => sum + (item?.product?.price ?? 0) * item?.quantity,
         0,
       ),
     [items],
@@ -304,7 +290,6 @@ export function useCart(): CartContextValue {
     refetch,
     itemCount,
     subtotal,
-    vat,
   };
 }
 

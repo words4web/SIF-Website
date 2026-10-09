@@ -17,7 +17,6 @@ export interface CartContextValue {
   isInCart: (id: string) => boolean;
   itemCount: number;
   subtotal: number;
-  vat: number;
   ready: boolean;
   refetch: () => void;
 }

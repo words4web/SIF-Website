@@ -33,7 +33,6 @@ export interface Order {
   orderId: string;
   items: OrderItem[];
   subtotal: number;
-  vat: number;
   total: number;
   delivery: DeliveryDetails;
   status: OrderStatus;
@@ -72,7 +71,6 @@ export interface OrderConfirmation {
 export interface OrderSummaryProps {
   items: CartItem[];
   subtotal: number;
-  vat: number;
   placing: boolean;
   disabled: boolean;
 }
@@ -89,7 +87,6 @@ export interface OrderSuccessProps {
   order: {
     orderId: string;
     subtotal: number;
-    vat: number;
     total: number;
     items: Array<{
       productId: string;

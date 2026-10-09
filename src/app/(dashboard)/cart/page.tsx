@@ -11,21 +11,14 @@ import { CartSkeleton } from "@/components/skeleton/cart-skeleton";
 import { CartItemCard } from "@/components/dashboard/cart-item-card";
 
 export default function CartPage() {
-  const {
-    items,
-    updateQuantity,
-    removeItem,
-    subtotal,
-    vat = 0,
-    ready,
-    refetch,
-  } = useCart();
+  const { items, updateQuantity, removeItem, subtotal, ready, refetch } =
+    useCart();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
 
-  const estimatedTotal = subtotal + vat;
+  const estimatedTotal = subtotal;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -62,14 +55,8 @@ export default function CartPage() {
               </h2>
               <div className="space-y-2.5 text-xs sm:text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    Subtotal (excl. VAT)
-                  </span>
+                  <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-bold">{formatPounds(subtotal)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">VAT (20%)</span>
-                  <span className="font-bold">{formatPounds(vat)}</span>
                 </div>
               </div>
               <div className="my-4 border-t border-border/60" />

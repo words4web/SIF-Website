@@ -121,12 +121,6 @@ export function OrderSuccess({ order }: OrderSuccessProps) {
                   {formatPounds(order?.subtotal)}
                 </span>
               </div>
-              <div className="flex justify-between items-center text-muted-foreground">
-                <span>VAT (20%)</span>
-                <span className="font-semibold text-foreground">
-                  {formatPounds(order?.vat)}
-                </span>
-              </div>
             </div>
 
             <div className="flex justify-between items-center pt-1 sm:pt-2">

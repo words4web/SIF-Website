@@ -43,11 +43,6 @@ export function CartItemCard({
             <span>{product?.pack ?? "Wholesale pack"}</span>
             <span>·</span>
             <span>{formatPounds(product?.price)} per pack</span>
-            {product?.isVatApplicable && (
-              <span className="text-[10px] sm:text-xs font-semibold text-amber-700 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full">
-                + VAT
-              </span>
-            )}
           </p>
           <div className="mt-3 sm:mt-4">
             <CartControl product={product} variant="cart-item" />

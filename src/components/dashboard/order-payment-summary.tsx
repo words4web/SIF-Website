@@ -3,11 +3,9 @@ import { Receipt } from "lucide-react";
 
 export function OrderPaymentSummary({
   subtotal,
-  vat,
   total,
 }: {
   subtotal: number;
-  vat: number;
   total: number;
 }) {
   return (
@@ -21,22 +19,17 @@ export function OrderPaymentSummary({
 
       <div className="space-y-2.5 text-sm pt-1">
         <div className="flex justify-between text-muted-foreground">
-          <span>Subtotal (Excl. VAT)</span>
+          <span>Subtotal</span>
           <span className="font-medium text-foreground">
             {formatPounds(subtotal || 0)}
           </span>
         </div>
 
-        <div className="flex justify-between text-muted-foreground">
-          <span>Estimated VAT</span>
-          <span className="font-medium text-foreground">
-            {formatPounds(vat || 0)}
-          </span>
-        </div>
-
         <div className="flex justify-between pt-3 border-t border-border font-serif text-lg sm:text-xl font-extrabold text-foreground">
           <span>Total Amount</span>
-          <span className="text-primary">{formatPounds(total || 0)}</span>
+          <span className="text-primary">
+            {formatPounds(total || subtotal || 0)}
+          </span>
         </div>
       </div>
     </div>

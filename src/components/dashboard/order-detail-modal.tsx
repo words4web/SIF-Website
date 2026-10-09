@@ -202,10 +202,6 @@ export function OrderDetailModal({
             <span>Subtotal</span>
             <span>{formatPounds(order?.subtotal || 0)}</span>
           </div>
-          <div className="flex justify-between text-muted-foreground text-xs sm:text-sm font-medium">
-            <span>VAT</span>
-            <span>{formatPounds(order?.vat || 0)}</span>
-          </div>
           <div className="flex justify-between pt-3 border-t border-border font-serif text-lg sm:text-xl font-extrabold text-primary">
             <span>Total Amount</span>
             <span>{formatPounds(order?.total || 0)}</span>

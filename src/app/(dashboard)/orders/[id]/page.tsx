@@ -182,7 +182,6 @@ export default function OrderDetailPage() {
               <div className="order-1 lg:order-2 space-y-6">
                 <OrderPaymentSummary
                   subtotal={order?.subtotal || 0}
-                  vat={order?.vat || 0}
                   total={order?.total || 0}
                 />
 

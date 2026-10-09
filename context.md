@@ -72,9 +72,9 @@ frontend/
 │   │   │   ├── hero-section.tsx      # Landing hero container
 │   │   │   ├── notification-toggle.tsx# Profile switch control for FCM notifications
 │   │   │   ├── order-card.tsx        # Overview card for past orders
-│   │   │   ├── order-detail-modal.tsx# Modal for full order itemization, tax breakdown & status
+│   │   │   ├── order-detail-modal.tsx# Modal for full order itemization & status
 │   │   │   ├── order-items-list.tsx  # Itemized list component for orders
-│   │   │   ├── order-payment-summary.tsx # Subtotal, VAT, and total breakdown
+│   │   │   ├── order-payment-summary.tsx # Subtotal and total breakdown
 │   │   │   ├── order-success.tsx     # Order submission confirmation screen
 │   │   │   ├── order-summary.tsx     # Checkout order summary card
 │   │   │   ├── order-tabs.tsx        # Filter tabs for orders (In Process / Delivered)
