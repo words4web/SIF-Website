@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, Package } from "lucide-react";
 import { ProductImage } from "@/components/common/ProductImage";
-import { formatPounds } from "@/lib/format";
+import { formatPrice, formatWeight } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
 import { OrderItem } from "@/types/order.types";
 
@@ -30,7 +30,7 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
 
           return (
             <div
-              key={prod?._id || idx}
+              key={prod?._id ? `${prod._id}-${item?.weight || idx}` : idx}
               className="py-3.5 first:pt-1 last:pb-1 flex items-center justify-between gap-3 text-sm">
               <div className="flex items-center gap-3.5 min-w-0 flex-1">
                 <ProductImage
@@ -40,25 +40,32 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
                   containerClassName="shrink-0"
                 />
                 <div className="min-w-0 flex-1">
-                  {prod?.slug ? (
-                    <Link
-                      href={ROUTES.PRODUCT_DETAIL(prod.slug)}
-                      className="font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group truncate text-sm">
-                      <span className="truncate">{name}</span>
-                      <ExternalLink className="size-3 text-muted-foreground group-hover:text-primary shrink-0 opacity-70" />
-                    </Link>
-                  ) : (
-                    <p className="font-bold text-foreground truncate text-sm">
-                      {name}
-                    </p>
-                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {prod?.slug ? (
+                      <Link
+                        href={ROUTES.PRODUCT_DETAIL(prod.slug)}
+                        className="font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group truncate text-sm">
+                        <span className="truncate">{name}</span>
+                        <ExternalLink className="size-3 text-muted-foreground group-hover:text-primary shrink-0 opacity-70" />
+                      </Link>
+                    ) : (
+                      <p className="font-bold text-foreground truncate text-sm">
+                        {name}
+                      </p>
+                    )}
+                    {item?.weight ? (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-extrabold bg-primary/10 text-primary border border-primary/20">
+                        {formatWeight(item.weight)}
+                      </span>
+                    ) : null}
+                  </div>
 
                   <p className="text-xs text-muted-foreground mt-0.5">
                     <span className="font-semibold text-foreground/80">
                       Qty: {item?.quantity}
                     </span>{" "}
-                    × {formatPounds(item?.price || 0)}
-                    {pack && (
+                    × {formatPrice(item?.price || 0)}
+                    {pack && !item?.weight && (
                       <span className="ml-1 text-muted-foreground/70">
                         • {pack}
                       </span>
@@ -69,7 +76,7 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
 
               <div className="text-right shrink-0">
                 <p className="font-serif font-bold text-foreground text-sm sm:text-base">
-                  {formatPounds((item?.price || 0) * (item?.quantity || 0))}
+                  {formatPrice((item?.price || 0) * (item?.quantity || 0))}
                 </p>
               </div>
             </div>

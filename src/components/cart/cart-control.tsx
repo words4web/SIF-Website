@@ -9,9 +9,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
+import { formatPrice, formatWeight } from "@/lib/format";
 
 interface CartControlProps {
   product: Product;
+  selectedWeight?: number;
+  onWeightChange?: (weight: number) => void;
+  showWeightSelector?: boolean;
   variant?: "card" | "detail" | "cart-item";
   size?: "default" | "sm" | "lg" | "icon" | "icon-sm";
   className?: string;
@@ -20,6 +24,9 @@ interface CartControlProps {
 
 export function CartControl({
   product,
+  selectedWeight: externalWeight,
+  onWeightChange,
+  showWeightSelector,
   variant = "card",
   size,
   className,
@@ -27,13 +34,39 @@ export function CartControl({
 }: CartControlProps) {
   const router = useRouter();
   const { user } = useAuth();
-  const { getItemQuantity, addItem, increment, decrement, removeItem } =
+  const { items, getItemQuantity, addItem, increment, decrement, removeItem } =
     useCart();
 
+  const variants =
+    Array.isArray(product?.variants) && product.variants.length > 0
+      ? product.variants
+      : [{ weight: 500, price: product?.price || 0 }];
+
+  const [internalWeight, setInternalWeight] = useState<number>(
+    variants[0]?.weight || 500,
+  );
   const [detailStepperQty, setDetailStepperQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
 
-  const quantity = getItemQuantity(product?.id);
+  const activeWeight =
+    externalWeight !== undefined ? externalWeight : internalWeight;
+
+  const handleSelectWeight = (weight: number) => {
+    if (externalWeight === undefined) {
+      setInternalWeight(weight);
+    }
+    onWeightChange?.(weight);
+  };
+
+  const quantity = getItemQuantity(product?.id, activeWeight);
+
+  const totalProductQuantityInCart =
+    items
+      ?.filter((item) => item?.productId === product?.id)
+      ?.reduce((sum, item) => sum + (item?.quantity || 0), 0) || 0;
+
+  const isStockLimitReached =
+    totalProductQuantityInCart >= (product?.stock ?? 0);
 
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,89 +75,126 @@ export function CartControl({
   };
 
   const isOutOfStock =
-    product?.stockStatus === "OUT_OF_STOCK" ||
-    (typeof product?.stock === "number" && product?.stock <= 0);
+    product?.stockStatus === "OUT_OF_STOCK" || (product?.stock ?? 0) <= 0;
+
+  const activeVariant =
+    variants?.find((v) => v?.weight === activeWeight) || variants[0];
+  const activePrice = activeVariant?.price ?? product?.price ?? 0;
 
   if (variant === "detail") {
     const handleDetailAdd = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      if (isOutOfStock) return;
+      if (isOutOfStock || isStockLimitReached) return;
       if (!user) {
         router.push(ROUTES.LOGIN);
         return;
       }
-      addItem(product, detailStepperQty);
+      addItem(product, activeWeight, detailStepperQty);
       setJustAdded(true);
       window.setTimeout(() => setJustAdded(false), 1600);
     };
 
     return (
-      <div
-        className={cn(
-          "flex flex-row items-center gap-2.5 sm:gap-3",
-          className,
-        )}>
-        <div className="flex items-center justify-between rounded-xl border border-input bg-card shadow-sm overflow-hidden h-10 sm:h-11 shrink-0">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setDetailStepperQty((prev) => Math.max(1, prev - 1));
-            }}
-            disabled={!user || isOutOfStock}
-            className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
-            aria-label="Decrease quantity">
-            <Minus className="size-3.5 sm:size-4" />
-          </button>
-          <span className="px-3 sm:px-4 text-xs sm:text-sm font-extrabold min-w-[2rem] sm:min-w-[2.5rem] text-center">
-            {isOutOfStock ? 0 : detailStepperQty}
-          </span>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setDetailStepperQty((prev) => prev + 1);
-            }}
-            disabled={!user || isOutOfStock}
-            className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
-            aria-label="Increase quantity">
-            <Plus className="size-3.5 sm:size-4" />
-          </button>
-        </div>
-
-        {isOutOfStock ? (
-          <Button
-            disabled
-            size="lg"
-            variant="outline"
-            className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold bg-muted/60 text-muted-foreground border-border/80 cursor-not-allowed">
-            <span>Out of Stock</span>
-          </Button>
-        ) : user ? (
-          <Button
-            onClick={handleDetailAdd}
-            size="lg"
-            className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer">
-            {justAdded ? (
-              <Check className="size-3.5 sm:size-4" />
-            ) : (
-              <ShoppingCart className="size-3.5 sm:size-4" />
-            )}
-            <span>{justAdded ? "Added to cart" : "Add to cart"}</span>
-          </Button>
-        ) : (
-          <Button
-            asChild
-            className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-            size="lg">
-            <button type="button" onClick={handleLoginClick}>
-              Login to Add
-            </button>
-          </Button>
+      <div className={cn("space-y-4", className)}>
+        {showWeightSelector && variants.length > 1 && (
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+              Select Weight Variant
+            </span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              {variants?.map((v) => {
+                const isSelected = activeWeight === v?.weight;
+                return (
+                  <button
+                    key={v?.weight}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleSelectWeight(v?.weight);
+                    }}
+                    className={cn(
+                      "flex flex-col items-start p-3 rounded-xl border text-left transition-all cursor-pointer",
+                      isSelected
+                        ? "border-primary bg-primary/5 ring-2 ring-primary/20 shadow-xs"
+                        : "border-border/70 bg-card hover:bg-muted/40",
+                    )}>
+                    <span className="text-xs sm:text-sm font-extrabold text-foreground">
+                      {formatWeight(v?.weight)}
+                    </span>
+                    <span className="text-xs font-bold text-primary mt-0.5">
+                      {formatPrice(v?.price)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         )}
+
+        <div className="flex flex-row items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center justify-between rounded-xl border border-input bg-card shadow-sm overflow-hidden h-10 sm:h-11 shrink-0">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setDetailStepperQty((prev) => Math.max(1, prev - 1));
+              }}
+              disabled={!user || isOutOfStock}
+              className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
+              aria-label="Decrease quantity">
+              <Minus className="size-3.5 sm:size-4" />
+            </button>
+            <span className="px-3 sm:px-4 text-xs sm:text-sm font-extrabold min-w-[2rem] sm:min-w-[2.5rem] text-center">
+              {isOutOfStock ? 0 : detailStepperQty}
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setDetailStepperQty((prev) => prev + 1);
+              }}
+              disabled={!user || isOutOfStock}
+              className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
+              aria-label="Increase quantity">
+              <Plus className="size-3.5 sm:size-4" />
+            </button>
+          </div>
+
+          {isOutOfStock ? (
+            <Button
+              disabled
+              size="lg"
+              variant="outline"
+              className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold bg-muted/60 text-muted-foreground border-border/80 cursor-not-allowed">
+              <span>Out of Stock</span>
+            </Button>
+          ) : user ? (
+            <Button
+              onClick={handleDetailAdd}
+              size="lg"
+              className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer">
+              {justAdded ? (
+                <Check className="size-3.5 sm:size-4" />
+              ) : (
+                <ShoppingCart className="size-3.5 sm:size-4" />
+              )}
+              <span>{justAdded ? "Added to cart" : "Add to cart"}</span>
+            </Button>
+          ) : (
+            <Button
+              asChild
+              className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              size="lg">
+              <button type="button" onClick={handleLoginClick}>
+                Login to Add
+              </button>
+            </Button>
+          )}
+        </div>
       </div>
     );
   }
@@ -138,7 +208,7 @@ export function CartControl({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              decrement(product?.id);
+              decrement(product?.id, activeWeight);
             }}
             className="px-3 h-full hover:bg-muted transition-colors cursor-pointer"
             aria-label="Decrease quantity">
@@ -149,12 +219,13 @@ export function CartControl({
           </span>
           <button
             type="button"
+            disabled={isStockLimitReached}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              increment(product);
+              increment(product, activeWeight);
             }}
-            className="px-3 h-full hover:bg-muted transition-colors cursor-pointer"
+            className="px-3 h-full hover:bg-muted transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Increase quantity">
             <Plus className="size-3.5" />
           </button>
@@ -166,7 +237,7 @@ export function CartControl({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              removeItem(product?.id);
+              removeItem(product?.id, activeWeight);
             }}
             className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-destructive transition-colors cursor-pointer">
             <Trash2 className="size-3.5" /> Remove
@@ -176,99 +247,139 @@ export function CartControl({
     );
   }
 
-  if (isOutOfStock) {
+  const renderActionControl = () => {
+    if (isOutOfStock) {
+      return (
+        <Button
+          size={size || "sm"}
+          variant="outline"
+          disabled
+          className="relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-2.5 bg-muted/50 text-muted-foreground border-border/80 cursor-not-allowed opacity-80 font-medium"
+          aria-label="Out of stock">
+          Out of Stock
+        </Button>
+      );
+    }
+
+    if (!user) {
+      return (
+        <Button
+          size={size || "sm"}
+          variant="outline"
+          onClick={handleLoginClick}
+          className="relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-3 cursor-pointer"
+          aria-label="Login to add to basket">
+          Login to Add
+        </Button>
+      );
+    }
+
+    if (quantity > 0) {
+      return (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center rounded-lg sm:rounded-xl border border-primary/30 bg-primary/5 text-primary shadow-xs overflow-hidden h-7 sm:h-8">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              decrement(product?.id, activeWeight);
+            }}
+            className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center"
+            aria-label="Decrease quantity">
+            <Minus className="size-3 sm:size-3.5" />
+          </button>
+          <span className="px-1.5 sm:px-2 text-xs font-extrabold min-w-[1.5rem] sm:min-w-[1.75rem] text-center select-none text-foreground">
+            {quantity}
+          </span>
+          <button
+            type="button"
+            disabled={isStockLimitReached}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              increment(product, activeWeight);
+            }}
+            className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Increase quantity">
+            <Plus className="size-3 sm:size-3.5" />
+          </button>
+        </div>
+      );
+    }
+
+    const handleCardAdd = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isStockLimitReached) return;
+      addItem(product, activeWeight, 1);
+      setJustAdded(true);
+      window.setTimeout(() => setJustAdded(false), 1200);
+    };
+
     return (
       <Button
         size={size || "sm"}
-        variant="outline"
-        disabled
-        className={cn(
-          "relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-2.5 bg-muted/50 text-muted-foreground border-border/80 cursor-not-allowed opacity-80 font-medium",
-          className,
+        variant={justAdded ? "secondary" : "default"}
+        disabled={isStockLimitReached}
+        onClick={handleCardAdd}
+        className="relative z-10 cursor-pointer h-7 sm:h-8 px-2 sm:px-3 text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        aria-label={`${justAdded ? "Added" : "Add"} ${product?.name} to basket`}>
+        {justAdded ? (
+          <Check className="size-3.5 sm:size-4" />
+        ) : (
+          <Plus className="size-3.5 sm:size-4" />
         )}
-        aria-label="Out of stock">
-        Out of Stock
+        <span className="hidden sm:inline">{justAdded ? "Added" : "Add"}</span>
       </Button>
     );
-  }
+  };
 
-  if (!user) {
-    return (
-      <Button
-        size={size || "sm"}
-        variant="outline"
-        onClick={handleLoginClick}
-        className={cn(
-          "relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-3 cursor-pointer",
-          className,
-        )}
-        aria-label="Login to add to basket">
-        Login to Add
-      </Button>
-    );
-  }
-
-  if (quantity > 0) {
+  if (showWeightSelector) {
     return (
       <div
-        onClick={(e) => e.stopPropagation()}
-        className={cn(
-          "flex items-center rounded-lg sm:rounded-xl border border-primary/30 bg-primary/5 text-primary shadow-xs overflow-hidden h-7 sm:h-8",
-          className,
-        )}>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            decrement(product?.id);
-          }}
-          className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center"
-          aria-label="Decrease quantity">
-          <Minus className="size-3 sm:size-3.5" />
-        </button>
-        <span className="px-1.5 sm:px-2 text-xs font-extrabold min-w-[1.5rem] sm:min-w-[1.75rem] text-center select-none text-foreground">
-          {quantity}
-        </span>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            increment(product);
-          }}
-          className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center"
-          aria-label="Increase quantity">
-          <Plus className="size-3 sm:size-3.5" />
-        </button>
+        className={cn("space-y-2", className)}
+        onClick={(e) => e.stopPropagation()}>
+        {variants?.length > 1 && (
+          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+            {variants?.map((v) => {
+              const isSelected = activeWeight === v?.weight;
+              return (
+                <button
+                  key={v?.weight}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleSelectWeight(v?.weight);
+                  }}
+                  className={cn(
+                    "text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-md border transition-all cursor-pointer",
+                    isSelected
+                      ? "bg-primary text-primary-foreground border-primary shadow-xs"
+                      : "bg-muted/60 text-muted-foreground border-border/70 hover:bg-muted hover:text-foreground",
+                  )}>
+                  {formatWeight(v?.weight)}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-col">
+            <span className="text-[10px] sm:text-[11px] font-medium text-muted-foreground leading-none mb-0.5">
+              {formatWeight(activeWeight)}
+            </span>
+            <p className="font-serif text-sm sm:text-lg font-extrabold text-foreground leading-tight">
+              {formatPrice(activePrice)}
+            </p>
+          </div>
+          {renderActionControl()}
+        </div>
       </div>
     );
   }
 
-  const handleCardAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addItem(product, 1);
-    setJustAdded(true);
-    window.setTimeout(() => setJustAdded(false), 1200);
-  };
-
-  return (
-    <Button
-      size={size || "sm"}
-      variant={justAdded ? "secondary" : "default"}
-      onClick={handleCardAdd}
-      className={cn(
-        "relative z-10 cursor-pointer h-7 sm:h-8 px-2 sm:px-3 text-xs transition-all",
-        className,
-      )}
-      aria-label={`${justAdded ? "Added" : "Add"} ${product?.name} to basket`}>
-      {justAdded ? (
-        <Check className="size-3.5 sm:size-4" />
-      ) : (
-        <Plus className="size-3.5 sm:size-4" />
-      )}
-      <span className="hidden sm:inline">{justAdded ? "Added" : "Add"}</span>
-    </Button>
-  );
+  return renderActionControl();
 }

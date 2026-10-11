@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { ProductImage } from "@/components/common/ProductImage";
-import type { Product } from "@/types/product/product.types";
-import { formatPounds } from "@/lib/format";
+import type { Product, ProductVariant } from "@/types/product/product.types";
+import { formatPrice, formatWeight } from "@/lib/format";
 import { ProductVisual } from "@/components/product-visual";
 import { ProductGrid } from "@/components/product-card";
 import { CartControl } from "@/components/cart/cart-control";
@@ -14,6 +13,18 @@ import { CartControl } from "@/components/cart/cart-control";
 export function ProductDetail({ product }: { product: Product }) {
   const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const variants =
+    Array.isArray(product?.variants) && product?.variants?.length > 0
+      ? product?.variants
+      : [{ weight: 500, price: product?.price || 0 }];
+
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
+    variants[0],
+  );
+
+  const currentPrice =
+    selectedVariant?.price ?? variants[0]?.price ?? product?.price ?? 0;
 
   const images =
     Array.isArray(product?.images) && product?.images?.length > 0
@@ -28,6 +39,7 @@ export function ProductDetail({ product }: { product: Product }) {
         name: rel?.name,
         slug: rel?.slug,
         description: rel?.description || "",
+        variants: Array.isArray(rel?.variants) ? rel.variants : [],
         pack: rel?.pack || null,
         price: rel?.price || null,
         images: Array.isArray(rel?.images) ? rel?.images : [],
@@ -140,23 +152,30 @@ export function ProductDetail({ product }: { product: Product }) {
             <div className="rounded-xl sm:rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm space-y-4 sm:space-y-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-0.5">
+                    Selected Variant ({formatWeight(selectedVariant?.weight)})
+                  </span>
                   <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
                     <p className="text-xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                      {formatPounds(product?.price)}
+                      {formatPrice(currentPrice)}
                     </p>
                   </div>
                 </div>
                 <div className="rounded-lg sm:rounded-xl bg-secondary px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-bold text-secondary-foreground shadow-sm shrink-0 flex items-center gap-1.5">
-                  <span>{product?.pack ?? "Wholesale pack"}</span>
-                  {product?.unit && (
-                    <span className="capitalize px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[10px] sm:text-[11px]">
-                      Per {product.unit}
-                    </span>
-                  )}
+                  <span>{formatWeight(selectedVariant?.weight)}</span>
                 </div>
               </div>
 
-              <CartControl product={product} variant="detail" />
+              <CartControl
+                product={product}
+                selectedWeight={selectedVariant?.weight}
+                onWeightChange={(w) => {
+                  const found = variants?.find((v) => v?.weight === w);
+                  if (found) setSelectedVariant(found);
+                }}
+                showWeightSelector
+                variant="detail"
+              />
             </div>
           </div>
         </div>

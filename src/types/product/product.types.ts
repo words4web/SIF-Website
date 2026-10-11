@@ -9,15 +9,18 @@ export interface RelatedProductItem {
 
 export type StockStatus = "IN_STOCK" | "OUT_OF_STOCK";
 
+export interface ProductVariant {
+  weight: number;
+  price: number;
+}
+
 export interface ProductRow {
   _id: string;
   name: string;
   slug: string;
   sku?: string;
   description?: string;
-  pack: string;
-  price: number;
-  unit?: string;
+  variants: ProductVariant[];
   stock?: number;
   stockStatus?: StockStatus;
   categoryId:
@@ -40,8 +43,9 @@ export interface Product {
   slug: string;
   sku?: string;
   description?: string;
-  pack: string | null;
-  price: number | null;
+  variants: ProductVariant[];
+  pack?: string | null;
+  price?: number | null;
   unit?: string;
   stock?: number;
   stockStatus?: StockStatus;

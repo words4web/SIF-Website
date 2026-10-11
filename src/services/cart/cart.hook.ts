@@ -18,11 +18,13 @@ export const useAddToCartMutation = () => {
   return useMutation({
     mutationFn: ({
       productId,
+      weight,
       quantity,
     }: {
       productId: string;
+      weight: number;
       quantity?: number;
-    }) => cartService.addToCart(productId, quantity),
+    }) => cartService.addToCart(productId, weight, quantity),
   });
 };
 
@@ -30,11 +32,13 @@ export const useRemoveFromCartMutation = () => {
   return useMutation({
     mutationFn: ({
       productId,
+      weight,
       quantity,
     }: {
       productId: string;
+      weight: number;
       quantity?: number;
-    }) => cartService.removeFromCart(productId, quantity),
+    }) => cartService.removeFromCart(productId, weight, quantity),
   });
 };
 

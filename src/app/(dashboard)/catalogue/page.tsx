@@ -58,8 +58,12 @@ export default function CataloguePage() {
     slug: prod?.slug,
     sku: prod?.sku,
     description: prod?.description || "",
+    variants: Array.isArray(prod?.variants) ? prod?.variants : [],
     pack: prod?.pack || null,
-    price: prod?.price || null,
+    price:
+      Array.isArray(prod?.variants) && prod?.variants?.length > 0
+        ? prod?.variants[0]?.price
+        : prod?.price || null,
     unit: prod?.unit,
     stock: prod?.stock,
     stockStatus: prod?.stockStatus,

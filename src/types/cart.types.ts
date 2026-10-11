@@ -1,22 +1,26 @@
 import { Product } from "./product/product.types";
 
 export interface CartItem {
-  product: Product;
+  productId: string;
+  weight: number;
+  price: number;
   quantity: number;
+  product: Product;
 }
 
 export interface CartContextValue {
   items: CartItem[];
-  addItem: (product: Product, quantity?: number) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  increment: (product: Product) => void;
-  decrement: (id: string) => void;
-  removeItem: (id: string) => void;
+  addItem: (product: Product, weight: number, quantity?: number) => void;
+  updateQuantity: (productId: string, weight: number, quantity: number) => void;
+  increment: (product: Product, weight: number) => void;
+  decrement: (productId: string, weight: number) => void;
+  removeItem: (productId: string, weight: number) => void;
   clearCart: () => void;
-  getItemQuantity: (id: string) => number;
-  isInCart: (id: string) => boolean;
+  getItemQuantity: (productId: string, weight: number) => number;
+  isInCart: (productId: string, weight: number) => boolean;
   itemCount: number;
   subtotal: number;
   ready: boolean;
+  isFetching: boolean;
   refetch: () => void;
 }

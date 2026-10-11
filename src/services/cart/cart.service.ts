@@ -7,17 +7,27 @@ export const cartService = {
     return response?.data;
   },
 
-  addToCart: async (productId: string, quantity: number = 1) => {
+  addToCart: async (
+    productId: string,
+    weight: number,
+    quantity: number = 1,
+  ) => {
     const response = await axiosInstance.post(`${API_ROUTES.CART}/add`, {
       productId,
+      weight,
       quantity,
     });
     return response?.data;
   },
 
-  removeFromCart: async (productId: string, quantity?: number) => {
+  removeFromCart: async (
+    productId: string,
+    weight: number,
+    quantity?: number,
+  ) => {
     const response = await axiosInstance.post(`${API_ROUTES.CART}/remove`, {
       productId,
+      weight,
       quantity,
     });
     return response?.data;

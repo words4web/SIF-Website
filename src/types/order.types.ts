@@ -15,6 +15,7 @@ export interface OrderItemProduct {
 
 export interface OrderItem {
   productId: OrderItemProduct | string;
+  weight?: number;
   quantity: number;
   price: number;
 }
@@ -90,6 +91,7 @@ export interface OrderSuccessProps {
     total: number;
     items: Array<{
       productId: string;
+      weight?: number;
       quantity: number;
       price: number;
     }>;

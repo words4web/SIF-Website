@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ProductImage } from "@/components/common/ProductImage";
 import { CartItem } from "@/types/cart.types";
-import { formatPounds } from "@/lib/format";
+import { formatPrice, formatWeight } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
 import { CartControl } from "@/components/cart/cart-control";
 
@@ -11,10 +11,17 @@ export function CartItemCard({
   item,
 }: {
   item: CartItem;
-  updateQuantity?: (id: string, quantity: number) => void;
-  removeItem?: (id: string) => void;
+  updateQuantity?: (
+    productId: string,
+    weight: number,
+    quantity: number,
+  ) => void;
+  removeItem?: (productId: string, weight: number) => void;
 }) {
-  const { product, quantity } = item;
+  const { product, weight, price, quantity } = item;
+  const itemUnitPrice = price ?? product?.price ?? 0;
+  const itemTotal = itemUnitPrice * quantity;
+
   const imgUrl =
     product?.imageUrl ||
     (Array.isArray(product?.images) && product?.images?.length > 0
@@ -34,18 +41,32 @@ export function CartItemCard({
           />
         </Link>
         <div className="min-w-0 flex-1">
-          <Link
-            href={ROUTES.PRODUCT_DETAIL(product?.slug)}
-            className="font-serif text-base sm:text-lg font-bold hover:text-primary transition-colors line-clamp-2">
-            {product?.name}
-          </Link>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link
+              href={ROUTES.PRODUCT_DETAIL(product?.slug)}
+              className="font-serif text-base sm:text-lg font-bold hover:text-primary transition-colors line-clamp-2">
+              {product?.name}
+            </Link>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-extrabold border border-primary/20">
+              {formatWeight(weight)}
+            </span>
+            {product?.sku && (
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[11px] font-mono font-medium border border-border/60">
+                {product?.sku}
+              </span>
+            )}
+          </div>
           <p className="mt-1 text-xs sm:text-sm text-muted-foreground flex items-center gap-2 flex-wrap">
-            <span>{product?.pack ?? "Wholesale pack"}</span>
+            <span>{formatWeight(weight)} Pack</span>
             <span>·</span>
-            <span>{formatPounds(product?.price)} per pack</span>
+            <span>{formatPrice(itemUnitPrice)} per pack</span>
           </p>
           <div className="mt-3 sm:mt-4">
-            <CartControl product={product} variant="cart-item" />
+            <CartControl
+              product={product}
+              selectedWeight={weight}
+              variant="cart-item"
+            />
           </div>
         </div>
       </div>
@@ -54,7 +75,7 @@ export function CartItemCard({
           Item Total
         </span>
         <p className="font-serif text-base sm:text-lg font-extrabold text-foreground">
-          {formatPounds((product?.price ?? 0) * quantity)}
+          {formatPrice(itemTotal)}
         </p>
       </div>
     </div>

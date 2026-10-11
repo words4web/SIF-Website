@@ -81,7 +81,7 @@ export default function CartPage() {
             <div className="space-y-3 order-last lg:order-first max-h-[560px] sm:max-h-[680px] lg:max-h-[calc(100vh-260px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/30 hover:scrollbar-thumb-muted-foreground/50 scrollbar-track-transparent scrollbar-thumb-rounded-full">
               {items?.map((item) => (
                 <CartItemCard
-                  key={item?.product?.id}
+                  key={`${item?.product?.id}-${item?.weight}`}
                   item={item}
                   updateQuantity={updateQuantity}
                   removeItem={removeItem}

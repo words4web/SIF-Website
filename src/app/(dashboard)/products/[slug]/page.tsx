@@ -44,8 +44,12 @@ export default function ProductPage() {
     slug: productData?.slug,
     sku: productData?.sku,
     description: productData?.description || "",
+    variants: Array.isArray(productData?.variants) ? productData?.variants : [],
     pack: productData?.pack || null,
-    price: productData?.price || null,
+    price:
+      Array.isArray(productData?.variants) && productData?.variants?.length > 0
+        ? productData?.variants?.[0]?.price
+        : productData?.price || null,
     unit: productData?.unit,
     stock: productData?.stock,
     stockStatus: productData?.stockStatus,

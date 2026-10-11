@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { Product } from "@/types/product/product.types";
-import { formatPounds } from "@/lib/format";
+import { formatWeight } from "@/lib/format";
 import { ProductVisual } from "@/components/product-visual";
 import { ROUTES } from "@/constants/routes";
 import { CartControl } from "@/components/cart/cart-control";
@@ -10,6 +10,11 @@ import { CartControl } from "@/components/cart/cart-control";
 export function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
   const productHref = ROUTES.PRODUCT_DETAIL(product?.slug);
+
+  const variants =
+    Array.isArray(product?.variants) && product?.variants?.length > 0
+      ? product.variants
+      : [{ weight: 500, price: product?.price || 0 }];
 
   const handleCardClick = () => {
     if (product?.slug) {
@@ -27,7 +32,7 @@ export function ProductCard({ product }: { product: Product }) {
             <div className="w-full aspect-square relative overflow-hidden">
               <ProductVisual product={product} />
             </div>
-            <div className="p-2.5 sm:p-4 space-y-0.5 sm:space-y-1 min-h-[3.5rem] sm:min-h-[4.5rem]">
+            <div className="p-2.5 sm:p-4 space-y-1 sm:space-y-1.5 min-h-[4.5rem] sm:min-h-[5.5rem]">
               <div className="flex items-center justify-between gap-1.5 flex-wrap">
                 {product?.sku && (
                   <span className="font-mono text-[9px] sm:text-[10px] font-bold text-muted-foreground bg-muted/70 px-1.5 py-0.5 rounded">
@@ -48,11 +53,6 @@ export function ProductCard({ product }: { product: Product }) {
               <h3 className="line-clamp-2 font-serif text-xs sm:text-[15px] font-extrabold leading-snug text-card-foreground group-hover:text-primary transition-colors">
                 {product?.name}
               </h3>
-              <p className="text-[10px] sm:text-xs font-medium text-muted-foreground">
-                {product?.pack
-                  ? `Pack size · ${product?.pack}`
-                  : "Wholesale pack"}
-              </p>
             </div>
           </div>
 
@@ -63,12 +63,11 @@ export function ProductCard({ product }: { product: Product }) {
                   {product?.name}
                 </h3>
                 <p className="text-[11px] sm:text-xs font-semibold text-muted-foreground mt-0.5">
-                  {product?.pack
-                    ? `Pack size: ${product?.pack}`
-                    : "Wholesale pack"}
+                  Available variants:
+                  {variants?.map((v) => formatWeight(v?.weight))?.join(", ")}
                 </p>
               </div>
-              <div className="flex-1 overflow-y-auto scrollbar-none pr-0.5 text-xs sm:text-sm text-black leading-relaxed cursor-pointer font-normal">
+              <div className="flex-1 overflow-y-auto scrollbar-none pr-0.5 text-xs sm:text-sm text-foreground leading-relaxed cursor-pointer font-normal">
                 {product?.description ? (
                   product.description
                 ) : (
@@ -83,12 +82,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="p-2.5 sm:p-4 pt-1.5 sm:pt-2 bg-card z-10 border-t border-border/30">
-        <div className="flex items-center justify-between gap-2 sm:gap-3">
-          <p className="font-serif text-sm sm:text-lg font-extrabold text-foreground">
-            {formatPounds(product?.price)}
-          </p>
-          <CartControl product={product} variant="card" />
-        </div>
+        <CartControl product={product} showWeightSelector variant="card" />
       </div>
     </article>
   );

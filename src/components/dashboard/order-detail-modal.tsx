@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ProductImage } from "@/components/common/ProductImage";
 import { ROUTES } from "@/constants/routes";
 import { OrderDetailModalProps } from "@/types/order.types";
-import { formatPounds } from "@/lib/format";
+import { formatPrice, formatWeight } from "@/lib/format";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -150,7 +150,7 @@ export function OrderDetailModal({
 
               return (
                 <div
-                  key={prod?._id || idx}
+                  key={prod?._id ? `${prod._id}-${item?.weight || idx}` : idx}
                   className="p-3 sm:p-4 flex items-center justify-between gap-3 text-sm hover:bg-muted/20 transition-colors">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <ProductImage
@@ -160,27 +160,34 @@ export function OrderDetailModal({
                       containerClassName="shrink-0"
                     />
                     <div className="min-w-0 flex-1">
-                      {prod?.slug ? (
-                        <Link
-                          href={ROUTES.PRODUCT_DETAIL(prod?.slug)}
-                          onClick={(e) => {
-                            if (!e.ctrlKey && !e.metaKey) {
-                              onOpenChange(false);
-                            }
-                          }}
-                          className="font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group truncate">
-                          <span className="truncate">{name}</span>
-                          <ExternalLink className="size-3 text-muted-foreground group-hover:text-primary shrink-0 opacity-70" />
-                        </Link>
-                      ) : (
-                        <p className="font-bold text-foreground truncate">
-                          {name}
-                        </p>
-                      )}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {prod?.slug ? (
+                          <Link
+                            href={ROUTES.PRODUCT_DETAIL(prod?.slug)}
+                            onClick={(e) => {
+                              if (!e.ctrlKey && !e.metaKey) {
+                                onOpenChange(false);
+                              }
+                            }}
+                            className="font-bold text-foreground hover:text-primary transition-colors flex items-center gap-1.5 group truncate">
+                            <span className="truncate">{name}</span>
+                            <ExternalLink className="size-3 text-muted-foreground group-hover:text-primary shrink-0 opacity-70" />
+                          </Link>
+                        ) : (
+                          <p className="font-bold text-foreground truncate">
+                            {name}
+                          </p>
+                        )}
+                        {item?.weight ? (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-extrabold bg-primary/10 text-primary border border-primary/20">
+                            {formatWeight(item.weight)}
+                          </span>
+                        ) : null}
+                      </div>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         <span className="font-medium">{item?.quantity} ×</span>{" "}
-                        {formatPounds(item?.price || 0)}
-                        {pack && (
+                        {formatPrice(item?.price || 0)}
+                        {pack && !item?.weight && (
                           <span className="ml-1 text-muted-foreground/70">
                             • {pack}
                           </span>
@@ -189,7 +196,7 @@ export function OrderDetailModal({
                     </div>
                   </div>
                   <p className="font-bold text-foreground text-right shrink-0">
-                    {formatPounds((item?.price || 0) * (item?.quantity || 0))}
+                    {formatPrice((item?.price || 0) * (item?.quantity || 0))}
                   </p>
                 </div>
               );
@@ -200,11 +207,11 @@ export function OrderDetailModal({
         <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-5 space-y-2.5 text-sm">
           <div className="flex justify-between text-muted-foreground text-xs sm:text-sm font-medium">
             <span>Subtotal</span>
-            <span>{formatPounds(order?.subtotal || 0)}</span>
+            <span>{formatPrice(order?.subtotal || 0)}</span>
           </div>
           <div className="flex justify-between pt-3 border-t border-border font-serif text-lg sm:text-xl font-extrabold text-primary">
             <span>Total Amount</span>
-            <span>{formatPounds(order?.total || 0)}</span>
+            <span>{formatPrice(order?.total || 0)}</span>
           </div>
         </div>
       </div>
