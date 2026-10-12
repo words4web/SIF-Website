@@ -1,4 +1,4 @@
-import { CartItem } from "./cart.types";
+import { CartItem, CartCharge } from "./cart.types";
 import { Address } from "./address.types";
 
 export type OrderStatus = "IN_PROCESS" | "DELIVERED";
@@ -35,6 +35,8 @@ export interface Order {
   items: OrderItem[];
   subtotal: number;
   total: number;
+  totalWeightKg?: number;
+  charges?: CartCharge[];
   delivery: DeliveryDetails;
   status: OrderStatus;
   invoiceUrl?: string;
@@ -45,13 +47,6 @@ export interface Order {
 
 export interface OrderCardProps {
   order: Order;
-  onViewDetails?: (order: Order) => void;
-}
-
-export interface OrderDetailModalProps {
-  order: Order | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
 }
 
 export interface OrderTabsProps {
@@ -72,6 +67,9 @@ export interface OrderConfirmation {
 export interface OrderSummaryProps {
   items: CartItem[];
   subtotal: number;
+  total?: number;
+  totalWeightKg?: number;
+  charges?: CartCharge[];
   placing: boolean;
   disabled: boolean;
 }
@@ -85,17 +83,5 @@ export interface DeliverySelectionProps {
 }
 
 export interface OrderSuccessProps {
-  order: {
-    orderId: string;
-    subtotal: number;
-    total: number;
-    items: Array<{
-      productId: string;
-      weight?: number;
-      quantity: number;
-      price: number;
-    }>;
-    delivery: DeliveryDetails;
-    status: OrderStatus;
-  };
+  order: Order;
 }

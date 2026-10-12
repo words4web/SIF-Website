@@ -19,6 +19,9 @@ export default function CheckoutPage() {
   const {
     items,
     subtotal,
+    total,
+    totalWeightKg,
+    charges,
     clearCart,
     refetch,
     ready: cartReady,
@@ -139,6 +142,9 @@ export default function CheckoutPage() {
                 <OrderSummary
                   items={items}
                   subtotal={subtotal}
+                  total={total}
+                  totalWeightKg={totalWeightKg}
+                  charges={charges}
                   placing={createOrderMutation.isPending}
                   disabled={createOrderMutation.isPending || !!cartFetching}
                 />

@@ -9,10 +9,13 @@ import { OrderSummaryProps } from "@/types/order.types";
 export function OrderSummary({
   items,
   subtotal,
+  total,
+  totalWeightKg,
+  charges = [],
   placing,
   disabled,
 }: OrderSummaryProps) {
-  const estimatedTotal = subtotal;
+  const estimatedTotal = typeof total === "number" ? total : subtotal;
 
   return (
     <aside className="order-first lg:order-last h-fit rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm space-y-4 w-full min-w-0 max-w-full">
@@ -83,6 +86,30 @@ export function OrderSummary({
             {formatPrice(subtotal)}
           </span>
         </div>
+
+        {charges?.map((charge, idx) => (
+          <div
+            key={`${charge?.type}-${idx}`}
+            className="flex justify-between items-center text-muted-foreground">
+            <span>
+              {charge?.name}
+              {typeof totalWeightKg === "number" &&
+              totalWeightKg > 0 &&
+              charge?.type === "SHIPPING"
+                ? ` (${totalWeightKg} kg)`
+                : ""}
+            </span>
+            {Number(charge?.amount) === 0 ? (
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                FREE
+              </span>
+            ) : (
+              <span className="font-semibold text-foreground">
+                {formatPrice(charge?.amount)}
+              </span>
+            )}
+          </div>
+        ))}
       </div>
 
       <div className="border-t border-border/60 pt-3 flex justify-between items-baseline">

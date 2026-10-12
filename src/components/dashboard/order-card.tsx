@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<string, string> = {
   DELIVERED: "Delivered",
 };
 
-export function OrderCard({ order, onViewDetails }: OrderCardProps) {
+export function OrderCard({ order }: OrderCardProps) {
   const totalItems =
     order?.items?.reduce((acc, item) => acc + (item?.quantity || 0), 0) || 0;
 

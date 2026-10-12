@@ -121,6 +121,25 @@ export function OrderSuccess({ order }: OrderSuccessProps) {
                   {formatPounds(order?.subtotal)}
                 </span>
               </div>
+              {order?.charges && order?.charges?.length > 0
+                ? order?.charges?.map((charge, idx) => (
+                    <div
+                      key={idx}
+                      className="flex justify-between items-center text-muted-foreground">
+                      <span>{charge?.name}</span>
+                      <span
+                        className={
+                          charge?.amount === 0
+                            ? "text-emerald-600 dark:text-emerald-400 font-bold"
+                            : "font-semibold text-foreground"
+                        }>
+                        {charge?.amount === 0
+                          ? "FREE"
+                          : formatPounds(charge?.amount)}
+                      </span>
+                    </div>
+                  ))
+                : null}
             </div>
 
             <div className="flex justify-between items-center pt-1 sm:pt-2">

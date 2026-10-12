@@ -72,7 +72,6 @@ frontend/
 │   │   │   ├── hero-section.tsx      # Landing hero container
 │   │   │   ├── notification-toggle.tsx# Profile switch control for FCM notifications
 │   │   │   ├── order-card.tsx        # Overview card for past orders
-│   │   │   ├── order-detail-modal.tsx# Modal for full order itemization & status
 │   │   │   ├── order-items-list.tsx  # Itemized list component for orders
 │   │   │   ├── order-payment-summary.tsx # Subtotal and total breakdown
 │   │   │   ├── order-success.tsx     # Order submission confirmation screen
@@ -208,7 +207,7 @@ frontend/
   - Automatically verifies fresh cart contents on navigation / page mount.
   - Allows verified B2B clients to select from saved delivery addresses or create new Italian delivery addresses via `AddressModal`.
 - **Order Invoicing & Customer Document Access**:
-  - B2B customer order history cards (`/orders`) and detail modal (`OrderDetailModal`) include direct "View Invoice" / "Download Invoice" actions powered by the `/api/v1/documents/pdf` streaming endpoint.
+  - B2B customer order history cards (`/orders`) and dedicated order detail view (`/orders/[id]`) include direct "View Invoice" / "Download Invoice" actions powered by the `/api/v1/documents/pdf` streaming endpoint.
 
 ### 6. FCM Push Notification Lifecycle
 

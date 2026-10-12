@@ -364,6 +364,31 @@ export function useCart(): CartContextValue {
     [items],
   );
 
+  const charges = useMemo(
+    () =>
+      Array.isArray(cartData?.data?.charges) ? cartData?.data?.charges : [],
+    [cartData],
+  );
+
+  const totalWeightKg = useMemo(
+    () =>
+      typeof cartData?.data?.totalWeightKg === "number"
+        ? cartData?.data?.totalWeightKg
+        : 0,
+    [cartData],
+  );
+
+  const total = useMemo(() => {
+    if (typeof cartData?.data?.total === "number") {
+      return cartData?.data?.total;
+    }
+    const totalCharges = charges?.reduce(
+      (sum: number, c: any) => sum + (Number(c?.amount) || 0),
+      0,
+    );
+    return Number((subtotal + totalCharges)?.toFixed(2));
+  }, [cartData, subtotal, charges]);
+
   return {
     items,
     ready: !isLoading,
@@ -379,6 +404,9 @@ export function useCart(): CartContextValue {
     refetch,
     itemCount,
     subtotal,
+    total,
+    totalWeightKg,
+    charges,
   };
 }
 

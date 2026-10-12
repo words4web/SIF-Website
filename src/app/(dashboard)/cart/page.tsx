@@ -11,14 +11,23 @@ import { CartSkeleton } from "@/components/skeleton/cart-skeleton";
 import { CartItemCard } from "@/components/dashboard/cart-item-card";
 
 export default function CartPage() {
-  const { items, updateQuantity, removeItem, subtotal, ready, refetch } =
-    useCart();
+  const {
+    items,
+    updateQuantity,
+    removeItem,
+    subtotal,
+    total,
+    totalWeightKg,
+    charges,
+    ready,
+    refetch,
+  } = useCart();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
 
-  const estimatedTotal = subtotal;
+  const estimatedTotal = typeof total === "number" ? total : subtotal;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -58,6 +67,30 @@ export default function CartPage() {
                   <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-bold">{formatPounds(subtotal)}</span>
                 </div>
+
+                {charges?.map((charge, idx) => (
+                  <div
+                    key={`${charge?.type}-${idx}`}
+                    className="flex justify-between items-center text-muted-foreground">
+                    <span>
+                      {charge?.name}
+                      {typeof totalWeightKg === "number" &&
+                      totalWeightKg > 0 &&
+                      charge?.type === "SHIPPING"
+                        ? ` (${totalWeightKg} kg)`
+                        : ""}
+                    </span>
+                    {Number(charge?.amount) === 0 ? (
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                        FREE
+                      </span>
+                    ) : (
+                      <span className="font-bold text-foreground">
+                        {formatPounds(charge?.amount)}
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
               <div className="my-4 border-t border-border/60" />
               <div className="flex justify-between items-baseline">

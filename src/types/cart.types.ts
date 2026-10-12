@@ -1,5 +1,11 @@
 import { Product } from "./product/product.types";
 
+export interface CartCharge {
+  type: string;
+  name: string;
+  amount: number;
+}
+
 export interface CartItem {
   productId: string;
   weight: number;
@@ -20,6 +26,9 @@ export interface CartContextValue {
   isInCart: (productId: string, weight: number) => boolean;
   itemCount: number;
   subtotal: number;
+  total: number;
+  totalWeightKg: number;
+  charges: CartCharge[];
   ready: boolean;
   isFetching: boolean;
   refetch: () => void;

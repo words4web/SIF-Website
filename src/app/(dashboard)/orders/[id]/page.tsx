@@ -160,12 +160,12 @@ export default function OrderDetailPage() {
                       size="sm"
                       onClick={() =>
                         window.open(
-                          order.invoiceUrl,
+                          order?.invoiceUrl,
                           "_blank",
                           "noopener,noreferrer",
                         )
                       }
-                      className="gap-1.5 font-bold text-xs h-9 cursor-pointer mt-1">
+                      className="gap-1.5 font-bold text-xs h-9 cursor-pointer mt-1 hover:border-primary hover:text-primary transition-colors">
                       <FileText className="size-3.5 text-primary" />
                       View Invoice (PDF)
                     </Button>
@@ -183,6 +183,7 @@ export default function OrderDetailPage() {
                 <OrderPaymentSummary
                   subtotal={order?.subtotal || 0}
                   total={order?.total || 0}
+                  charges={order?.charges}
                 />
 
                 <div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-xs space-y-4">
