@@ -120,6 +120,7 @@ frontend/
 │   │   ├── axiosInstance.ts          # Axios client with JWT refresh interceptor
 │   │   ├── firebase.ts               # Firebase client initialization & messaging instance
 │   │   ├── format.ts                 # Currency and number formatters
+│   │   ├── idempotency.ts            # Client idempotency key manager (sessionStorage)
 │   │   ├── store/                    # Redux Slices (authSlice, cartSlice, notificationSlice)
 │   │   └── store.ts                  # Redux root store configuration & persistence setup
 │   │
@@ -206,6 +207,12 @@ frontend/
 - **Checkout (`/checkout`)**:
   - Automatically verifies fresh cart contents on navigation / page mount.
   - Allows verified B2B clients to select from saved delivery addresses or create new Italian delivery addresses via `AddressModal`.
+  - **Idempotency Key Lifecycle (`idempotency.ts`)**:
+    - Manages key in `sessionStorage` under `shelly_foods_checkout_idempotency_key` via `getOrCreateIdempotencyKey()`.
+    - Transmits key via `Idempotency-Key` request header in `orderService.create`.
+    - Preserves key during in-flight retries or accidental reloads to prevent duplicate order placement.
+    - Resets key on cancellation or failure returns (`?status=cancelled` or `?status=failed`) via `resetIdempotencyKey()`.
+    - Clears key upon successful order submission (`clearIdempotencyKey()`).
 - **Order Invoicing & Customer Document Access**:
   - B2B customer order history cards (`/orders`) and dedicated order detail view (`/orders/[id]`) include direct "View Invoice" / "Download Invoice" actions powered by the `/api/v1/documents/pdf` streaming endpoint.
 

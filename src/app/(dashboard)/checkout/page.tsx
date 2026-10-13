@@ -14,6 +14,11 @@ import { DeliverySelection } from "@/components/dashboard/delivery-selection";
 import { OrderSuccess } from "@/components/dashboard/order-success";
 import Link from "next/link";
 import { CheckoutSkeleton } from "@/components/skeleton/checkout-skeleton";
+import {
+  getOrCreateIdempotencyKey,
+  clearIdempotencyKey,
+  resetIdempotencyKey,
+} from "@/lib/idempotency";
 
 export default function CheckoutPage() {
   const {
@@ -31,6 +36,15 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     refetch();
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const status = params.get("status");
+      if (status === "cancelled" || status === "failed") {
+        resetIdempotencyKey();
+      } else {
+        getOrCreateIdempotencyKey();
+      }
+    }
   }, [refetch]);
 
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
@@ -41,6 +55,7 @@ export default function CheckoutPage() {
   const createOrderMutation = useCreateOrder({
     onSuccess: (response) => {
       const order = response?.data;
+      clearIdempotencyKey();
       clearCart();
       setConfirmation(order);
     },
@@ -73,9 +88,12 @@ export default function CheckoutPage() {
       return;
     }
 
+    const idempotencyKey = getOrCreateIdempotencyKey();
+
     createOrderMutation.mutate({
       addressId: selectedAddressId,
       notes: notes?.trim() || undefined,
+      idempotencyKey,
     });
   }
 

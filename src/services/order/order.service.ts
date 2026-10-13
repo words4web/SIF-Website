@@ -1,9 +1,23 @@
 import { axiosInstance } from "@/lib/axiosInstance";
 import { API_ROUTES } from "@/constants/api";
 
+export interface CreateOrderPayload {
+  addressId: string;
+  notes?: string;
+}
+
 export const orderService = {
-  create: async (payload: { addressId: string; notes?: string }) => {
-    const response = await axiosInstance.post(API_ROUTES.ORDERS, payload);
+  create: async (
+    payload: CreateOrderPayload,
+    options?: { idempotencyKey?: string },
+  ) => {
+    const headers: Record<string, string> = {};
+    if (options?.idempotencyKey) {
+      headers["Idempotency-Key"] = options.idempotencyKey;
+    }
+    const response = await axiosInstance.post(API_ROUTES.ORDERS, payload, {
+      headers,
+    });
     return response?.data;
   },
 
