@@ -218,5 +218,49 @@
     "pageIndicator": "Page {page} of {totalPages}",
     "previous": "Previous",
     "next": "Next"
+  },
+  "orders": {
+    "badge": "Order history",
+    "inProcessTab": "In Process",
+    "deliveredTab": "Delivered",
+    "noInProcessOrders": "No in-process orders",
+    "noDeliveredOrders": "No delivered orders",
+    "inProcessEmptyDesc": "Active wholesale order requests will appear here.",
+    "deliveredEmptyDesc": "Completed delivered orders will appear here.",
+    "card": {
+      "placedOn": "Placed {date}",
+      "totalItems": "Total Items",
+      "itemsShort": "Items",
+      "pkgs": "pkgs",
+      "totalAmount": "Total Amount",
+      "totalShort": "Total",
+      "invoice": "Invoice",
+      "viewDetails": "View Details"
+    },
+    "detail": {
+      "backToOrders": "Back to orders",
+      "notFoundTitle": "Order Not Found",
+      "notFoundDefault": "The requested order could not be located.",
+      "tryAgain": "Try Again",
+      "viewAllOrders": "View All Orders",
+      "orderTitle": "Order {id}",
+      "placedOn": "Placed on {date}",
+      "itemsOrdered": "{count} {count, plural, one {item} other {items}} ordered",
+      "totalAmount": "Total Amount",
+      "viewInvoicePdf": "View Invoice (PDF)",
+      "deliveryDestination": "Delivery Destination",
+      "noDeliveryAddress": "No delivery address specified.",
+      "deliveryNotes": "Delivery Notes",
+      "statusTitle": "Order Status: {status}",
+      "statusUpdateProgress": "Order status update in progress.",
+      "paymentSummary": "Payment Summary",
+      "subtotal": "Subtotal",
+      "free": "FREE",
+      "orderedItems": "Ordered Items ({count})",
+      "productFallback": "Product Item",
+      "qty": "Qty: {qty}",
+      "inProcessDesc": "Your wholesale order request has been received and is being prepared by our fulfillment team.",
+      "deliveredDesc": "This order has been fulfilled and delivered to the destination address."
+    }
   }
 }

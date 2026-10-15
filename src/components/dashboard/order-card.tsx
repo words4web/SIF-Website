@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { OrderCardProps } from "@/types/order.types";
 import { formatPounds } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
@@ -12,22 +13,30 @@ const STATUS_COLORS: Record<string, string> = {
   DELIVERED: "bg-primary/10 text-primary border-primary/20",
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  IN_PROCESS: "In Process",
-  DELIVERED: "Delivered",
-};
-
 export function OrderCard({ order }: OrderCardProps) {
+  const t = useTranslations("orders");
+  const locale = useLocale();
+
   const totalItems =
     order?.items?.reduce((acc, item) => acc + (item?.quantity || 0), 0) || 0;
 
   const formattedDate = order?.createdAt
-    ? new Date(order.createdAt).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
+    ? new Date(order.createdAt).toLocaleDateString(
+        locale === "it" ? "it-IT" : "en-GB",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        },
+      )
     : "";
+
+  const statusLabel =
+    order?.status === "IN_PROCESS"
+      ? t("inProcessTab")
+      : order?.status === "DELIVERED"
+        ? t("deliveredTab")
+        : order?.status;
 
   return (
     <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-xs hover:shadow-md hover:border-primary/30 transition-all">
@@ -41,13 +50,13 @@ export function OrderCard({ order }: OrderCardProps) {
               STATUS_COLORS[order?.status] ||
               "bg-secondary text-secondary-foreground"
             }`}>
-            {STATUS_LABELS[order?.status] || order?.status}
+            {statusLabel}
           </span>
         </div>
 
         <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground self-start sm:self-auto">
           <Calendar className="size-3.5 text-muted-foreground/70" />
-          <span>Placed {formattedDate}</span>
+          <span>{t("card.placedOn", { date: formattedDate })}</span>
         </div>
       </div>
 
@@ -56,13 +65,13 @@ export function OrderCard({ order }: OrderCardProps) {
           <div className="flex flex-col">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
               <Package className="size-3.5 text-primary shrink-0" />
-              <span className="hidden sm:inline">Total Items</span>
-              <span className="sm:hidden">Items</span>
+              <span className="hidden sm:inline">{t("card.totalItems")}</span>
+              <span className="sm:hidden">{t("card.itemsShort")}</span>
             </span>
             <span className="mt-1 font-bold text-foreground text-sm sm:text-base">
               {totalItems}{" "}
               <span className="text-xs font-normal text-muted-foreground">
-                pkgs
+                {t("card.pkgs")}
               </span>
             </span>
           </div>
@@ -70,8 +79,8 @@ export function OrderCard({ order }: OrderCardProps) {
           <div className="flex flex-col border-l border-border/60 pl-3 sm:pl-4">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
               <CreditCard className="size-3.5 text-primary shrink-0" />
-              <span className="hidden sm:inline">Total Amount</span>
-              <span className="sm:hidden">Total</span>
+              <span className="hidden sm:inline">{t("card.totalAmount")}</span>
+              <span className="sm:hidden">{t("card.totalShort")}</span>
             </span>
             <span className="mt-1 font-serif font-extrabold text-primary text-sm sm:text-base">
               {formatPounds(order?.total || 0)}
@@ -89,7 +98,7 @@ export function OrderCard({ order }: OrderCardProps) {
                 window.open(order.invoiceUrl, "_blank", "noopener,noreferrer")
               }
               className="w-full sm:w-auto gap-1.5 font-bold cursor-pointer hover:border-primary hover:text-primary transition-colors shrink-0">
-              <Receipt className="size-3.5 text-primary" /> Invoice
+              <Receipt className="size-3.5 text-primary" /> {t("card.invoice")}
             </Button>
           )}
 
@@ -99,7 +108,7 @@ export function OrderCard({ order }: OrderCardProps) {
             asChild
             className="w-full sm:w-auto gap-2 font-bold cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors shrink-0">
             <Link href={ROUTES.ORDER_DETAIL(order?._id)}>
-              <Eye className="size-4" /> View Details
+              <Eye className="size-4" /> {t("card.viewDetails")}
             </Link>
           </Button>
         </div>
@@ -107,3 +116,5 @@ export function OrderCard({ order }: OrderCardProps) {
     </div>
   );
 }
+
+export default OrderCard;

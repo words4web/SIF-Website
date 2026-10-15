@@ -218,5 +218,49 @@
     "pageIndicator": "Pagina {page} di {totalPages}",
     "previous": "Precedente",
     "next": "Successivo"
+  },
+  "orders": {
+    "badge": "Cronologia ordini",
+    "inProcessTab": "In Lavorazione",
+    "deliveredTab": "Consegnati",
+    "noInProcessOrders": "Nessun ordine in lavorazione",
+    "noDeliveredOrders": "Nessun ordine consegnato",
+    "inProcessEmptyDesc": "Le tue richieste d'ordine all'ingrosso attive appariranno qui.",
+    "deliveredEmptyDesc": "Gli ordini completati e consegnati appariranno qui.",
+    "card": {
+      "placedOn": "Effettuato il {date}",
+      "totalItems": "Articoli Totali",
+      "itemsShort": "Articoli",
+      "pkgs": "colli",
+      "totalAmount": "Importo Totale",
+      "totalShort": "Totale",
+      "invoice": "Fattura",
+      "viewDetails": "Visualizza Dettagli"
+    },
+    "detail": {
+      "backToOrders": "Torna agli ordini",
+      "notFoundTitle": "Ordine Non Trovato",
+      "notFoundDefault": "Impossibile trovare l'ordine richiesto.",
+      "tryAgain": "Riprova",
+      "viewAllOrders": "Visualizza Tutti gli Ordini",
+      "orderTitle": "Ordine {id}",
+      "placedOn": "Effettuato il {date}",
+      "itemsOrdered": "{count} {count, plural, one {articolo ordinato} other {articoli ordinati}}",
+      "totalAmount": "Importo Totale",
+      "viewInvoicePdf": "Visualizza Fattura (PDF)",
+      "deliveryDestination": "Destinazione di Consegna",
+      "noDeliveryAddress": "Nessun indirizzo di consegna specificato.",
+      "deliveryNotes": "Note di Consegna",
+      "statusTitle": "Stato Ordine: {status}",
+      "statusUpdateProgress": "Aggiornamento stato ordine in corso.",
+      "paymentSummary": "Riepilogo Pagamento",
+      "subtotal": "Subtotale",
+      "free": "GRATIS",
+      "orderedItems": "Articoli Ordinati ({count})",
+      "productFallback": "Articolo Prodotto",
+      "qty": "Q.tà: {qty}",
+      "inProcessDesc": "La tua richiesta d'ordine all'ingrosso è stata ricevuta ed è in preparazione dal nostro team.",
+      "deliveredDesc": "Questo ordine è stato completato e consegnato all'indirizzo di destinazione."
+    }
   }
 }

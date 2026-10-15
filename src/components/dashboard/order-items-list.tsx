@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ExternalLink, Package } from "lucide-react";
 import { ProductImage } from "@/components/common/ProductImage";
 import { formatPrice, formatWeight } from "@/lib/format";
@@ -6,13 +7,15 @@ import { ROUTES } from "@/constants/routes";
 import { OrderItem } from "@/types/order.types";
 
 export function OrderItemsList({ items }: { items: OrderItem[] }) {
+  const t = useTranslations("orders.detail");
+
   return (
     <div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-xs space-y-4">
       <div className="flex items-center justify-between border-b border-border/60 pb-3">
         <div className="flex items-center gap-2">
           <Package className="size-5 text-primary" />
           <h2 className="font-serif text-lg font-bold text-foreground">
-            Ordered Items ({items?.length || 0})
+            {t("orderedItems", { count: items?.length || 0 })}
           </h2>
         </div>
       </div>
@@ -21,7 +24,7 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
         {items?.map((item, idx) => {
           const prod =
             typeof item?.productId === "object" ? item?.productId : null;
-          const name = prod?.name || "Product Item";
+          const name = prod?.name || t("productFallback");
           const pack = prod?.pack ? ` (${prod?.pack})` : "";
           const imgUrl =
             Array.isArray(prod?.images) && prod?.images?.length > 0
@@ -62,7 +65,7 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
 
                   <p className="text-xs text-muted-foreground mt-0.5">
                     <span className="font-semibold text-foreground/80">
-                      Qty: {item?.quantity}
+                      {t("qty", { qty: item?.quantity })}
                     </span>{" "}
                     × {formatPrice(item?.price || 0)}
                     {pack && !item?.weight && (

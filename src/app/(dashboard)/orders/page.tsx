@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { useAuth } from "@/hooks/useAuth";
 import { useOrdersQuery } from "@/services/order/order.hook";
@@ -10,8 +11,10 @@ import { OrderCard } from "@/components/dashboard/order-card";
 import { OrderTabs } from "@/components/dashboard/order-tabs";
 import { Order, OrderStatus } from "@/types/order.types";
 import { PackageCheck } from "lucide-react";
+import { ROUTES } from "@/constants/routes";
 
 export default function OrdersPage() {
+  const t = useTranslations("orders");
   const router = useRouter();
   const { user, ready } = useAuth();
   const { data: responseBody, isLoading } = useOrdersQuery(ready && !!user);
@@ -19,7 +22,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (ready && !user) {
-      router.replace("/login");
+      router.replace(ROUTES.LOGIN);
     }
   }, [ready, user, router]);
 
@@ -39,7 +42,7 @@ export default function OrdersPage() {
       <main className="mx-auto max-w-5xl px-3.5 sm:px-5 pt-4 sm:pt-5 pb-12">
         <div>
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[.14em] text-primary">
-            Order history
+            {t("badge")}
           </p>
         </div>
 
@@ -64,13 +67,14 @@ export default function OrdersPage() {
               <section className="mx-auto mt-12 max-w-xl rounded-2xl border border-dashed border-border p-8 text-center">
                 <PackageCheck className="mx-auto size-10 text-muted-foreground" />
                 <h2 className="font-serif text-2xl font-bold mt-5">
-                  No {activeTab === "IN_PROCESS" ? "in-process" : "delivered"}{" "}
-                  orders
+                  {activeTab === "IN_PROCESS"
+                    ? t("noInProcessOrders")
+                    : t("noDeliveredOrders")}
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {activeTab === "IN_PROCESS"
-                    ? "Active wholesale order requests will appear here."
-                    : "Completed delivered orders will appear here."}
+                    ? t("inProcessEmptyDesc")
+                    : t("deliveredEmptyDesc")}
                 </p>
               </section>
             )}

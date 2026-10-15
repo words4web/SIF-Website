@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import {
   ArrowLeft,
   Building2,
@@ -29,6 +30,9 @@ import { ORDER_STATUS_CONFIG } from "@/constants/order";
 import { Order } from "@/types/order.types";
 
 export default function OrderDetailPage() {
+  const t = useTranslations("orders.detail");
+  const tOrders = useTranslations("orders");
+  const locale = useLocale();
   const params = useParams();
   const router = useRouter();
   const orderId = params?.id as string;
@@ -44,7 +48,7 @@ export default function OrderDetailPage() {
 
   useEffect(() => {
     if (ready && !user) {
-      router.replace("/login");
+      router.replace(ROUTES.LOGIN);
     }
   }, [ready, user, router]);
 
@@ -56,8 +60,22 @@ export default function OrderDetailPage() {
           label: order?.status || "Unknown",
           badgeClass: "bg-secondary text-secondary-foreground border-border",
           icon: Clock,
-          description: "Order status update in progress.",
+          description: t("statusUpdateProgress"),
         };
+
+  const statusLabel =
+    order?.status === "IN_PROCESS"
+      ? tOrders("inProcessTab")
+      : order?.status === "DELIVERED"
+        ? tOrders("deliveredTab")
+        : statusInfo.label;
+
+  const statusDescription =
+    order?.status === "IN_PROCESS"
+      ? t("inProcessDesc")
+      : order?.status === "DELIVERED"
+        ? t("deliveredDesc")
+        : statusInfo.description;
 
   const StatusIcon = statusInfo.icon;
   const totalItems = order?.items?.length || 0;
@@ -71,7 +89,7 @@ export default function OrderDetailPage() {
           <Link
             href={ROUTES.ORDERS}
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="size-4" /> Back to orders
+            <ArrowLeft className="size-4" /> {t("backToOrders")}
           </Link>
         </div>
 
@@ -84,11 +102,11 @@ export default function OrderDetailPage() {
             </div>
             <div>
               <h2 className="font-serif text-xl font-bold text-foreground">
-                Order Not Found
+                {t("notFoundTitle")}
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 {(error as any)?.response?.data?.message ||
-                  "The requested order could not be located."}
+                  t("notFoundDefault")}
               </p>
             </div>
             <div className="flex items-center justify-center gap-3 pt-2">
@@ -97,10 +115,10 @@ export default function OrderDetailPage() {
                 size="sm"
                 onClick={() => refetch()}
                 className="gap-1.5">
-                <RotateCcw className="size-3.5" /> Try Again
+                <RotateCcw className="size-3.5" /> {t("tryAgain")}
               </Button>
               <Button size="sm" asChild>
-                <Link href={ROUTES.ORDERS}>View All Orders</Link>
+                <Link href={ROUTES.ORDERS}>{t("viewAllOrders")}</Link>
               </Button>
             </div>
           </div>
@@ -111,43 +129,42 @@ export default function OrderDetailPage() {
                 <div>
                   <div className="flex items-center gap-3 flex-wrap">
                     <h1 className="font-serif text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-                      Order {order.orderId}
+                      {t("orderTitle", { id: order.orderId })}
                     </h1>
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-xs font-bold ${statusInfo.badgeClass}`}>
                       <StatusIcon className="size-3.5" />
-                      {statusInfo.label}
+                      {statusLabel}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1.5 flex-wrap">
                     <span className="flex items-center gap-1 font-medium">
                       <Calendar className="size-3.5 text-muted-foreground/70" />
-                      Placed on{" "}
                       {order.createdAt
-                        ? new Date(order.createdAt).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            },
-                          )
+                        ? t("placedOn", {
+                            date: new Date(order.createdAt).toLocaleDateString(
+                              locale === "it" ? "it-IT" : "en-GB",
+                              {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            ),
+                          })
                         : "N/A"}
                     </span>
                     <span>•</span>
-                    <span>
-                      {totalItems} {totalItems === 1 ? "item" : "items"} ordered
-                    </span>
+                    <span>{t("itemsOrdered", { count: totalItems })}</span>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:items-end gap-2 border-t sm:border-t-0 border-border/60 pt-3 sm:pt-0">
                   <div>
                     <p className="text-xs font-semibold text-muted-foreground sm:text-right">
-                      Total Amount
+                      {t("totalAmount")}
                     </p>
                     <p className="font-serif text-2xl sm:text-3xl font-extrabold text-primary sm:text-right">
                       {formatPounds(order?.total || 0)}
@@ -167,7 +184,7 @@ export default function OrderDetailPage() {
                       }
                       className="gap-1.5 font-bold text-xs h-9 cursor-pointer mt-1 hover:border-primary hover:text-primary transition-colors">
                       <FileText className="size-3.5 text-primary" />
-                      View Invoice (PDF)
+                      {t("viewInvoicePdf")}
                     </Button>
                   )}
                 </div>
@@ -191,7 +208,7 @@ export default function OrderDetailPage() {
                     <div className="flex items-center gap-2">
                       <MapPin className="size-4.5 text-primary" />
                       <h2 className="font-serif text-base font-bold text-foreground">
-                        Delivery Destination
+                        {t("deliveryDestination")}
                       </h2>
                     </div>
                     {order?.delivery?.businessName && (
@@ -233,18 +250,17 @@ export default function OrderDetailPage() {
 
                     <div className="rounded-xl border border-border/50 bg-muted/20 p-3.5 text-xs leading-relaxed text-muted-foreground">
                       <p className="font-medium text-foreground/90 whitespace-pre-line">
-                        {order?.delivery?.address ||
-                          "No delivery address specified."}
+                        {order?.delivery?.address || t("noDeliveryAddress")}
                       </p>
                     </div>
 
                     {order?.delivery?.notes && (
                       <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3 space-y-1 text-xs">
                         <span className="flex items-center gap-1.5 font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider text-[11px]">
-                          <FileText className="size-3.5" /> Delivery Notes
+                          <FileText className="size-3.5" /> {t("deliveryNotes")}
                         </span>
                         <p className="text-amber-900/90 dark:text-amber-200/90 italic pl-5 leading-relaxed">
-                          &ldquo{order?.delivery?.notes}&rdquo;
+                          &ldquo;{order?.delivery?.notes}&rdquo;
                         </p>
                       </div>
                     )}
@@ -255,11 +271,11 @@ export default function OrderDetailPage() {
                   <div className="flex items-center gap-2">
                     <StatusIcon className="size-4 text-primary" />
                     <h3 className="font-serif text-sm font-bold text-foreground">
-                      Order Status: {statusInfo?.label}
+                      {t("statusTitle", { status: statusLabel })}
                     </h3>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
-                    {statusInfo?.description}
+                    {statusDescription}
                   </p>
                 </div>
               </div>

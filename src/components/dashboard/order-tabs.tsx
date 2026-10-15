@@ -1,6 +1,7 @@
 "use client";
 
 import { Clock, CheckCircle2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { OrderTabsProps } from "@/types/order.types";
 
 export function OrderTabs({
@@ -9,6 +10,8 @@ export function OrderTabs({
   inProcessCount,
   deliveredCount,
 }: OrderTabsProps) {
+  const t = useTranslations("orders");
+
   return (
     <div className="grid grid-cols-2 w-full sm:w-auto sm:inline-flex items-center gap-1.5 sm:gap-2 rounded-2xl bg-muted/80 p-1 sm:p-1.5 text-sm sm:text-base font-medium border border-border/50">
       <button
@@ -20,7 +23,7 @@ export function OrderTabs({
             : "text-muted-foreground hover:text-foreground hover:bg-card/50"
         }`}>
         <Clock className="size-3.5 sm:size-5 text-amber-500 shrink-0" />
-        <span className="truncate">In Process</span>
+        <span className="truncate">{t("inProcessTab")}</span>
         <span
           className={`ml-1 rounded-full px-1.5 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-extrabold transition-colors shrink-0 ${
             activeTab === "IN_PROCESS"
@@ -40,7 +43,7 @@ export function OrderTabs({
             : "text-muted-foreground hover:text-foreground hover:bg-card/50"
         }`}>
         <CheckCircle2 className="size-3.5 sm:size-5 text-primary shrink-0" />
-        <span className="truncate">Delivered</span>
+        <span className="truncate">{t("deliveredTab")}</span>
         <span
           className={`ml-1 rounded-full px-1.5 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-extrabold transition-colors shrink-0 ${
             activeTab === "DELIVERED"
