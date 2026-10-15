@@ -99,5 +99,32 @@
       "bannerDesc": "Push notifications are blocked in your browser settings. Enable them in your browser site settings to receive instant order updates.",
       "dismissAria": "Dismiss notification banner"
     }
+  },
+  "cart": {
+    "badge": "Your order",
+    "title": "Cart",
+    "emptyTitle": "Your cart is empty",
+    "emptySubtitle": "Browse the catalogue to add your first wholesale item.",
+    "browseCatalogue": "Browse catalogue",
+    "summaryTitle": "Order summary",
+    "subtotal": "Subtotal",
+    "shippingCharge": "Shipping Charges",
+    "shippingChargeWithWeight": "Shipping Charges ({weight} kg)",
+    "free": "FREE",
+    "estimatedTotal": "Estimated total",
+    "continueToDelivery": "Continue to delivery",
+    "itemTotal": "Item Total",
+    "pack": "{weight} Pack",
+    "perPack": "{price} per pack",
+    "remove": "Remove",
+    "decreaseAria": "Decrease quantity",
+    "increaseAria": "Increase quantity",
+    "selectVariant": "Select Weight Variant",
+    "outOfStock": "Out of Stock",
+    "loginToAdd": "Login to Add",
+    "addToCart": "Add to cart",
+    "addedToCart": "Added to cart",
+    "added": "Added",
+    "add": "Add"
   }
 }

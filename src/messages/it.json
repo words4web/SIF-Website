@@ -99,5 +99,32 @@
       "bannerDesc": "Le notifiche push sono bloccate nel tuo browser. Abilitale nelle impostazioni del sito per ricevere aggiornamenti istantanei.",
       "dismissAria": "Chiudi avviso notifiche"
     }
+  },
+  "cart": {
+    "badge": "Il tuo ordine",
+    "title": "Carrello",
+    "emptyTitle": "Il tuo carrello è vuoto",
+    "emptySubtitle": "Sfoglia il catalogo per aggiungere i primi articoli all'ingrosso.",
+    "browseCatalogue": "Sfoglia catalogo",
+    "summaryTitle": "Riepilogo ordine",
+    "subtotal": "Subtotale",
+    "shippingCharge": "Spese di Spedizione",
+    "shippingChargeWithWeight": "Spese di Spedizione ({weight} kg)",
+    "free": "GRATIS",
+    "estimatedTotal": "Totale stimato",
+    "continueToDelivery": "Procedi alla spedizione",
+    "itemTotal": "Totale articolo",
+    "pack": "Confezione da {weight}",
+    "perPack": "{price} a confezione",
+    "remove": "Rimuovi",
+    "decreaseAria": "Riduci quantità",
+    "increaseAria": "Aumenta quantità",
+    "selectVariant": "Seleziona variante di peso",
+    "outOfStock": "Esaurito",
+    "loginToAdd": "Accedi per ordinare",
+    "addToCart": "Aggiungi al carrello",
+    "addedToCart": "Aggiunto al carrello",
+    "added": "Aggiunto",
+    "add": "Aggiungi"
   }
 }

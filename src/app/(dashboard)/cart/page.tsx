@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { useCart } from "@/hooks/useCart";
 import { formatPounds } from "@/lib/format";
@@ -11,6 +12,7 @@ import { CartSkeleton } from "@/components/skeleton/cart-skeleton";
 import { CartItemCard } from "@/components/dashboard/cart-item-card";
 
 export default function CartPage() {
+  const t = useTranslations("cart");
   const {
     items,
     updateQuantity,
@@ -35,10 +37,10 @@ export default function CartPage() {
       <PortalHeader />
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8 flex-1 w-full">
         <p className="text-xs sm:text-sm font-bold uppercase tracking-[.14em] text-primary">
-          Your order
+          {t("badge")}
         </p>
         <h1 className="mt-1 sm:mt-2 font-serif text-2xl sm:text-4xl font-extrabold tracking-tight">
-          Cart
+          {t("title")}
         </h1>
 
         {!ready ? (
@@ -46,14 +48,14 @@ export default function CartPage() {
         ) : !items?.length ? (
           <div className="mt-8 sm:mt-10 rounded-2xl sm:rounded-3xl border border-dashed border-border p-8 sm:p-16 text-center">
             <h2 className="font-serif text-xl sm:text-2xl font-bold">
-              Your cart is empty
+              {t("emptyTitle")}
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
-              Browse the catalogue to add your first wholesale item.
+              {t("emptySubtitle")}
             </p>
             <Button asChild className="mt-6 rounded-xl font-bold">
               <Link href="/catalogue">
-                Browse catalogue <ArrowRight className="size-4 ml-1" />
+                {t("browseCatalogue")} <ArrowRight className="size-4 ml-1" />
               </Link>
             </Button>
           </div>
@@ -61,42 +63,46 @@ export default function CartPage() {
           <div className="mt-6 sm:mt-8 grid gap-6 lg:gap-8 lg:grid-cols-[1fr_360px]">
             <aside className="order-first lg:order-last h-fit rounded-xl sm:rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm space-y-4">
               <h2 className="font-serif text-lg sm:text-xl font-bold">
-                Order summary
+                {t("summaryTitle")}
               </h2>
               <div className="space-y-2.5 text-xs sm:text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-muted-foreground">{t("subtotal")}</span>
                   <span className="font-bold">{formatPounds(subtotal)}</span>
                 </div>
 
-                {charges?.map((charge, idx) => (
-                  <div
-                    key={`${charge?.type}-${idx}`}
-                    className="flex justify-between items-center text-muted-foreground">
-                    <span>
-                      {charge?.name}
-                      {typeof totalWeightKg === "number" &&
-                      totalWeightKg > 0 &&
-                      charge?.type === "SHIPPING"
-                        ? ` (${totalWeightKg} kg)`
-                        : ""}
-                    </span>
-                    {Number(charge?.amount) === 0 ? (
-                      <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                        FREE
-                      </span>
-                    ) : (
-                      <span className="font-bold text-foreground">
-                        {formatPounds(charge?.amount)}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                {charges?.map((charge, idx) => {
+                  const isShipping = charge?.type === "SHIPPING";
+                  const hasWeight =
+                    typeof totalWeightKg === "number" && totalWeightKg > 0;
+                  const chargeName = isShipping
+                    ? hasWeight
+                      ? t("shippingChargeWithWeight", { weight: totalWeightKg })
+                      : t("shippingCharge")
+                    : charge?.name;
+
+                  return (
+                    <div
+                      key={`${charge?.type}-${idx}`}
+                      className="flex justify-between items-center text-muted-foreground">
+                      <span>{chargeName}</span>
+                      {Number(charge?.amount) === 0 ? (
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                          {t("free")}
+                        </span>
+                      ) : (
+                        <span className="font-bold text-foreground">
+                          {formatPounds(charge?.amount)}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
               <div className="my-4 border-t border-border/60" />
               <div className="flex justify-between items-baseline">
                 <span className="font-bold text-sm sm:text-base">
-                  Estimated total
+                  {t("estimatedTotal")}
                 </span>
                 <span className="font-serif text-xl sm:text-2xl font-extrabold text-foreground">
                   {formatPounds(estimatedTotal)}
@@ -107,7 +113,8 @@ export default function CartPage() {
                 className="mt-4 w-full h-11 rounded-xl font-bold text-sm shadow-sm"
                 size="lg">
                 <Link href="/checkout">
-                  Continue to delivery <ArrowRight className="size-4 ml-1" />
+                  {t("continueToDelivery")}{" "}
+                  <ArrowRight className="size-4 ml-1" />
                 </Link>
               </Button>
             </aside>

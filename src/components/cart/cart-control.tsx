@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Check, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Product } from "@/types/product/product.types";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,6 +33,7 @@ export function CartControl({
   className,
   showRemoveButton = true,
 }: CartControlProps) {
+  const t = useTranslations("cart");
   const router = useRouter();
   const { user } = useAuth();
   const { items, getItemQuantity, addItem, increment, decrement, removeItem } =
@@ -100,7 +102,7 @@ export function CartControl({
         {showWeightSelector && variants.length > 1 && (
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-              Select Weight Variant
+              {t("selectVariant")}
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {variants?.map((v) => {
@@ -144,7 +146,7 @@ export function CartControl({
               }}
               disabled={!user || isOutOfStock}
               className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
-              aria-label="Decrease quantity">
+              aria-label={t("decreaseAria")}>
               <Minus className="size-3.5 sm:size-4" />
             </button>
             <span className="px-3 sm:px-4 text-xs sm:text-sm font-extrabold min-w-[2rem] sm:min-w-[2.5rem] text-center">
@@ -159,7 +161,7 @@ export function CartControl({
               }}
               disabled={!user || isOutOfStock}
               className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
-              aria-label="Increase quantity">
+              aria-label={t("increaseAria")}>
               <Plus className="size-3.5 sm:size-4" />
             </button>
           </div>
@@ -170,7 +172,7 @@ export function CartControl({
               size="lg"
               variant="outline"
               className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold bg-muted/60 text-muted-foreground border-border/80 cursor-not-allowed">
-              <span>Out of Stock</span>
+              <span>{t("outOfStock")}</span>
             </Button>
           ) : user ? (
             <Button
@@ -182,7 +184,7 @@ export function CartControl({
               ) : (
                 <ShoppingCart className="size-3.5 sm:size-4" />
               )}
-              <span>{justAdded ? "Added to cart" : "Add to cart"}</span>
+              <span>{justAdded ? t("addedToCart") : t("addToCart")}</span>
             </Button>
           ) : (
             <Button
@@ -190,7 +192,7 @@ export function CartControl({
               className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
               size="lg">
               <button type="button" onClick={handleLoginClick}>
-                Login to Add
+                {t("loginToAdd")}
               </button>
             </Button>
           )}
@@ -211,7 +213,7 @@ export function CartControl({
               decrement(product?.id, activeWeight);
             }}
             className="px-3 h-full hover:bg-muted transition-colors cursor-pointer"
-            aria-label="Decrease quantity">
+            aria-label={t("decreaseAria")}>
             <Minus className="size-3.5" />
           </button>
           <span className="px-3 text-xs sm:text-sm font-extrabold min-w-[2rem] text-center">
@@ -226,7 +228,7 @@ export function CartControl({
               increment(product, activeWeight);
             }}
             className="px-3 h-full hover:bg-muted transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            aria-label="Increase quantity">
+            aria-label={t("increaseAria")}>
             <Plus className="size-3.5" />
           </button>
         </div>
@@ -240,7 +242,7 @@ export function CartControl({
               removeItem(product?.id, activeWeight);
             }}
             className="inline-flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-destructive transition-colors cursor-pointer">
-            <Trash2 className="size-3.5" /> Remove
+            <Trash2 className="size-3.5" /> {t("remove")}
           </button>
         )}
       </div>
@@ -255,8 +257,8 @@ export function CartControl({
           variant="outline"
           disabled
           className="relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-2.5 bg-muted/50 text-muted-foreground border-border/80 cursor-not-allowed opacity-80 font-medium"
-          aria-label="Out of stock">
-          Out of Stock
+          aria-label={t("outOfStock")}>
+          {t("outOfStock")}
         </Button>
       );
     }
@@ -268,8 +270,8 @@ export function CartControl({
           variant="outline"
           onClick={handleLoginClick}
           className="relative z-10 text-[10px] sm:text-[11px] h-7 sm:h-8 px-2 sm:px-3 cursor-pointer"
-          aria-label="Login to add to basket">
-          Login to Add
+          aria-label={t("loginToAdd")}>
+          {t("loginToAdd")}
         </Button>
       );
     }
@@ -287,7 +289,7 @@ export function CartControl({
               decrement(product?.id, activeWeight);
             }}
             className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center"
-            aria-label="Decrease quantity">
+            aria-label={t("decreaseAria")}>
             <Minus className="size-3 sm:size-3.5" />
           </button>
           <span className="px-1.5 sm:px-2 text-xs font-extrabold min-w-[1.5rem] sm:min-w-[1.75rem] text-center select-none text-foreground">
@@ -302,7 +304,7 @@ export function CartControl({
               increment(product, activeWeight);
             }}
             className="px-2 sm:px-2.5 h-full hover:bg-primary/15 transition-colors cursor-pointer flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
-            aria-label="Increase quantity">
+            aria-label={t("increaseAria")}>
             <Plus className="size-3 sm:size-3.5" />
           </button>
         </div>
@@ -325,13 +327,15 @@ export function CartControl({
         disabled={isStockLimitReached}
         onClick={handleCardAdd}
         className="relative z-10 cursor-pointer h-7 sm:h-8 px-2 sm:px-3 text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-        aria-label={`${justAdded ? "Added" : "Add"} ${product?.name} to basket`}>
+        aria-label={`${justAdded ? t("added") : t("add")} ${product?.name}`}>
         {justAdded ? (
           <Check className="size-3.5 sm:size-4" />
         ) : (
           <Plus className="size-3.5 sm:size-4" />
         )}
-        <span className="hidden sm:inline">{justAdded ? "Added" : "Add"}</span>
+        <span className="hidden sm:inline">
+          {justAdded ? t("added") : t("add")}
+        </span>
       </Button>
     );
   };
