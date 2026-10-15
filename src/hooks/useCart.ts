@@ -79,11 +79,15 @@ export function useCart(): CartContextValue {
     data: cartData,
     isLoading,
     isFetching,
-    refetch,
+    refetch: rawRefetch,
   } = useCartQuery(!!user);
-  const addToCartMutation = useAddToCartMutation();
-  const removeFromCartMutation = useRemoveFromCartMutation();
-  const clearCartMutation = useClearCartMutation();
+
+  const refetch = useCallback(() => {
+    return rawRefetch();
+  }, [rawRefetch]);
+  const { mutate: addToCartMutate } = useAddToCartMutation();
+  const { mutate: removeFromCartMutate } = useRemoveFromCartMutation();
+  const { mutate: clearCartMutate } = useClearCartMutation();
 
   const pendingDeltas = useRef<
     Record<string, { productId: string; weight: number; delta: number }>
@@ -112,7 +116,7 @@ export function useCart(): CartContextValue {
       };
 
       if (entry.delta > 0) {
-        addToCartMutation.mutate(
+        addToCartMutate(
           {
             productId: entry.productId,
             weight: entry.weight,
@@ -124,7 +128,7 @@ export function useCart(): CartContextValue {
           },
         );
       } else {
-        removeFromCartMutation.mutate(
+        removeFromCartMutate(
           {
             productId: entry.productId,
             weight: entry.weight,
@@ -137,7 +141,7 @@ export function useCart(): CartContextValue {
         );
       }
     },
-    [addToCartMutation, removeFromCartMutation, queryClient],
+    [addToCartMutate, removeFromCartMutate, queryClient],
   );
 
   useEffect(() => {
@@ -250,7 +254,7 @@ export function useCart(): CartContextValue {
         delete pendingDeltas.current[key];
         delete debounceTimers.current[key];
 
-        removeFromCartMutation.mutate(
+        removeFromCartMutate(
           { productId, weight },
           {
             onSuccess: () => {
@@ -275,7 +279,7 @@ export function useCart(): CartContextValue {
       items,
       dispatch,
       queueDebouncedDelta,
-      removeFromCartMutation,
+      removeFromCartMutate,
       refetch,
       queryClient,
     ],
@@ -317,7 +321,7 @@ export function useCart(): CartContextValue {
       delete debounceTimers.current[key];
 
       dispatch(removeItemAction({ productId, weight }));
-      removeFromCartMutation.mutate(
+      removeFromCartMutate(
         { productId, weight },
         {
           onSuccess: () => {
@@ -329,7 +333,7 @@ export function useCart(): CartContextValue {
         },
       );
     },
-    [user, dispatch, removeFromCartMutation, refetch, queryClient],
+    [user, dispatch, removeFromCartMutate, refetch, queryClient],
   );
 
   const clearCart = useCallback(() => {
@@ -341,13 +345,13 @@ export function useCart(): CartContextValue {
     debounceTimers.current = {};
 
     dispatch(clearCartAction());
-    clearCartMutation.mutate(undefined, {
+    clearCartMutate(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: cartKeys.all });
       },
       onError: () => refetch(),
     });
-  }, [user, dispatch, clearCartMutation, refetch, queryClient]);
+  }, [user, dispatch, clearCartMutate, refetch, queryClient]);
 
   const itemCount = useMemo(
     () => items?.filter((item) => item?.quantity > 0)?.length,

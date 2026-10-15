@@ -11,6 +11,7 @@ export const useCartQuery = (enabled: boolean = true) => {
     queryKey: cartKeys.detail(),
     queryFn: ({ signal }) => cartService.getCart(signal),
     enabled,
+    staleTime: 1000 * 30,
   });
 };
 

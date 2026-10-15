@@ -1,7 +1,11 @@
 import { CartItem, CartCharge } from "./cart.types";
 import { Address } from "./address.types";
 
-export type OrderStatus = "IN_PROCESS" | "DELIVERED";
+export type OrderStatus =
+  | "PAYMENT_PENDING"
+  | "IN_PROCESS"
+  | "DELIVERED"
+  | "CANCELLED";
 
 export interface OrderItemProduct {
   _id: string;
@@ -39,6 +43,9 @@ export interface Order {
   charges?: CartCharge[];
   delivery: DeliveryDetails;
   status: OrderStatus;
+  paymentMethod?: string;
+  paymentStatus?: string;
+  approvalUrl?: string;
   invoiceUrl?: string;
   deliveryNoteUrl?: string;
   createdAt: string;

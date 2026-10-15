@@ -25,7 +25,8 @@ export default function CartPage() {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const estimatedTotal = typeof total === "number" ? total : subtotal;
 

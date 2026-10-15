@@ -50,6 +50,7 @@ frontend/
 │   │   │   ├── checkout/             # Delivery selection & Order summary checkout flow
 │   │   │   ├── faq/                  # Interactive FAQ page (search, category tabs, accordions, support CTA)
 │   │   │   ├── notifications/        # Client notification inbox with read/unread states
+│   │   │   ├── order-success/[id]/   # Dedicated order confirmation & receipt page
 │   │   │   ├── orders/               # Client past order history (Segmented control: In Process / Delivered)
 │   │   │   ├── products/[slug]/      # Single product details page (multi-image gallery, specs, related items)
 │   │   │   ├── profile/              # Business client profile, delivery addresses & NotificationToggle
@@ -207,12 +208,31 @@ frontend/
 - **Checkout (`/checkout`)**:
   - Automatically verifies fresh cart contents on navigation / page mount.
   - Allows verified B2B clients to select from saved delivery addresses or create new Italian delivery addresses via `AddressModal`.
+  - **PayPal Dual-Finalization Redirection Flow**:
+    - When client clicks **Proceed to PayPal**, the mutation submits the order with `status: 'PAYMENT_PENDING'`.
+    - Client is redirected directly to PayPal checkout (`approvalUrl`).
+    - The shopping cart is preserved on the server so if the customer abandons or cancels payment, items remain safely in the cart.
+    - `useCreateOrder` hook preserves cache without premature query invalidation so the redirect to PayPal happens without redundant cart refetches.
+    - Upon returning from PayPal:
+      - **Cancellation Return (`?status=cancelled`)**:
+        - Checks query parameters on mount.
+        - Resets the checkout idempotency key via `resetIdempotencyKey()`.
+        - Displays appropriate error toast based on `reason` (`expired`, `capture_failed`, or user cancellation).
+        - Silently removes query parameters via `window.history.replaceState({}, '', ROUTES.CHECKOUT)` to avoid scroll jumps, page flickers, or back-button cancellation loops.
+        - Preserves customer cart and form inputs for seamless retry.
+  - **Dedicated Order Success Page (`/order-success/[id]`)**:
+    - Protected route accessible after payment completion (`ROUTES.ORDER_SUCCESS(id)`).
+    - Automatically executes on mount:
+      - `clearIdempotencyKey()` to reset checkout idempotency state.
+      - `clearCart()` to empty client Redux cart and sync with cleared backend cart.
+    - Queries order status and details via `useOrderDetailQuery(id)`.
+    - Renders celebratory receipt screen via `OrderSuccess` component with public order ID, itemized products, delivery details, and navigation actions ("View All Orders", "Back to Home").
   - **Idempotency Key Lifecycle (`idempotency.ts`)**:
     - Manages key in `sessionStorage` under `shelly_foods_checkout_idempotency_key` via `getOrCreateIdempotencyKey()`.
     - Transmits key via `Idempotency-Key` request header in `orderService.create`.
     - Preserves key during in-flight retries or accidental reloads to prevent duplicate order placement.
-    - Resets key on cancellation or failure returns (`?status=cancelled` or `?status=failed`) via `resetIdempotencyKey()`.
-    - Clears key upon successful order submission (`clearIdempotencyKey()`).
+    - Resets key on cancellation return (`?status=cancelled`) via `resetIdempotencyKey()`.
+    - Clears key upon reaching order confirmation (`clearIdempotencyKey()`).
 - **Order Invoicing & Customer Document Access**:
   - B2B customer order history cards (`/orders`) and dedicated order detail view (`/orders/[id]`) include direct "View Invoice" / "Download Invoice" actions powered by the `/api/v1/documents/pdf` streaming endpoint.
 

@@ -128,7 +128,7 @@ export function OrderSummary({
         className="mt-2 w-full h-11 sm:h-12 rounded-xl font-bold text-sm shadow-md cursor-pointer transition-all hover:shadow-lg"
         size="lg"
         disabled={disabled || placing}>
-        {placing ? "Sending order…" : "Place order request"}{" "}
+        {placing ? "Redirecting to PayPal…" : "Proceed to PayPal"}{" "}
         <ArrowRight className="size-4 ml-1.5" />
       </Button>
     </aside>

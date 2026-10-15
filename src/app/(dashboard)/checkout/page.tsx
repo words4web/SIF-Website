@@ -5,59 +5,69 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { PortalHeader } from "@/components/portal-header";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useCreateOrder } from "@/services/order/order.hook";
 import { OrderSummary } from "@/components/dashboard/order-summary";
 import { DeliverySelection } from "@/components/dashboard/delivery-selection";
-import { OrderSuccess } from "@/components/dashboard/order-success";
 import Link from "next/link";
 import { CheckoutSkeleton } from "@/components/skeleton/checkout-skeleton";
 import {
   getOrCreateIdempotencyKey,
-  clearIdempotencyKey,
   resetIdempotencyKey,
 } from "@/lib/idempotency";
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const {
     items,
     subtotal,
     total,
     totalWeightKg,
     charges,
-    clearCart,
     refetch,
     ready: cartReady,
     isFetching: cartFetching,
   } = useCart();
   const { user, ready: authReady } = useAuth();
 
+  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
+  const [notes, setNotes] = useState("");
+  const [error, setError] = useState("");
+
   useEffect(() => {
     refetch();
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const status = params.get("status");
-      if (status === "cancelled" || status === "failed") {
+      const reason = params.get("reason");
+
+      if (status === "cancelled") {
         resetIdempotencyKey();
+        const cancelMsg =
+          reason === "expired"
+            ? "Payment session expired. Please try placing your order again."
+            : "Payment was cancelled on PayPal.";
+        setError(cancelMsg);
+        toast.error(cancelMsg);
+        window.history.replaceState({}, "", ROUTES.CHECKOUT);
       } else {
         getOrCreateIdempotencyKey();
       }
     }
-  }, [refetch]);
-
-  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
-  const [notes, setNotes] = useState("");
-  const [error, setError] = useState("");
-  const [confirmation, setConfirmation] = useState<any | null>(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const createOrderMutation = useCreateOrder({
     onSuccess: (response) => {
-      const order = response?.data;
-      clearIdempotencyKey();
-      clearCart();
-      setConfirmation(order);
+      const data = response?.data;
+      if (data?.approvalUrl) {
+        window.location.href = data.approvalUrl;
+      } else if (data?.id || data?._id) {
+        router.push(ROUTES.ORDER_SUCCESS(data.id || data._id));
+      }
     },
     onError: (err: any) => {
       const msg =
@@ -98,15 +108,6 @@ export default function CheckoutPage() {
   }
 
   const ready = cartReady && authReady;
-
-  if (confirmation) {
-    return (
-      <div className="min-h-screen bg-background">
-        <PortalHeader />
-        <OrderSuccess order={confirmation} />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">

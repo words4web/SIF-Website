@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { orderService, CreateOrderPayload } from "./order.service";
 
@@ -10,13 +10,10 @@ export const useCreateOrder = (options?: {
   onSuccess?: (data: any) => void;
   onError?: (error: any) => void;
 }) => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ idempotencyKey, ...payload }: CreateOrderMutationParams) =>
       orderService.create(payload, { idempotencyKey }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
       options?.onSuccess?.(data);
     },
     onError: (error: any) => {
