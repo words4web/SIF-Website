@@ -1,23 +1,39 @@
 import { OrderStatus } from "@/types/order.types";
-import { CheckCircle2, Clock } from "lucide-react";
+import { CheckCircle2, Clock, AlertCircle, XCircle } from "lucide-react";
 
-export const ORDER_STATUS_CONFIG: Record<
-  OrderStatus,
-  { label: string; badgeClass: string; icon: any; description: string }
-> = {
+export interface OrderStatusMeta {
+  badgeClass: string;
+  icon: any;
+  labelKey: `statuses.${OrderStatus}.label`;
+  descriptionKey: `statuses.${OrderStatus}.description`;
+}
+
+export const ORDER_STATUS_CONFIG: Record<OrderStatus, OrderStatusMeta> = {
+  PAYMENT_PENDING: {
+    badgeClass:
+      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+    icon: AlertCircle,
+    labelKey: "statuses.PAYMENT_PENDING.label",
+    descriptionKey: "statuses.PAYMENT_PENDING.description",
+  },
   IN_PROCESS: {
-    label: "In Process",
     badgeClass:
       "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
     icon: Clock,
-    description:
-      "Your wholesale order request has been received and is being prepared by our fulfillment team.",
+    labelKey: "statuses.IN_PROCESS.label",
+    descriptionKey: "statuses.IN_PROCESS.description",
   },
   DELIVERED: {
-    label: "Delivered",
     badgeClass: "bg-primary/10 text-primary border-primary/20",
     icon: CheckCircle2,
-    description:
-      "This order has been fulfilled and delivered to the destination address.",
+    labelKey: "statuses.DELIVERED.label",
+    descriptionKey: "statuses.DELIVERED.description",
+  },
+  CANCELLED: {
+    badgeClass:
+      "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+    icon: XCircle,
+    labelKey: "statuses.CANCELLED.label",
+    descriptionKey: "statuses.CANCELLED.description",
   },
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { ProductImage } from "@/components/common/ProductImage";
@@ -9,8 +10,10 @@ import { formatPrice, formatWeight } from "@/lib/format";
 import { ProductVisual } from "@/components/product-visual";
 import { ProductGrid } from "@/components/product-card";
 import { CartControl } from "@/components/cart/cart-control";
+import { ROUTES } from "@/constants/routes";
 
 export function ProductDetail({ product }: { product: Product }) {
+  const t = useTranslations("productDetail");
   const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -56,7 +59,7 @@ export function ProductDetail({ product }: { product: Product }) {
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push("/catalogue");
+      router.push(ROUTES.CATALOGUE);
     }
   };
 
@@ -68,7 +71,7 @@ export function ProductDetail({ product }: { product: Product }) {
           onClick={handleBack}
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-primary transition-colors mb-4 sm:mb-8 group cursor-pointer">
           <ArrowLeft className="size-3.5 sm:size-4 group-hover:-translate-x-1 transition-transform" />
-          Back
+          {t("back")}
         </button>
 
         <div className="grid gap-6 sm:gap-8 md:gap-10 md:grid-cols-2 md:items-start">
@@ -93,7 +96,7 @@ export function ProductDetail({ product }: { product: Product }) {
                         ? "border-primary shadow-sm scale-102"
                         : "border-border/60 hover:border-primary/50 opacity-70 hover:opacity-100"
                     }`}
-                    aria-label={`View product image ${idx + 1}`}>
+                    aria-label={t("viewImageAria", { number: idx + 1 })}>
                     <ProductImage
                       src={imgUrl}
                       alt={`${product?.name} thumbnail ${idx + 1}`}
@@ -115,18 +118,18 @@ export function ProductDetail({ product }: { product: Product }) {
 
                 {product?.sku && (
                   <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-bold bg-muted/80 text-foreground">
-                    SKU: {product?.sku}
+                    {t("sku", { sku: product.sku })}
                   </span>
                 )}
 
                 {product?.stockStatus === "OUT_OF_STOCK" ||
                 (typeof product?.stock === "number" && product?.stock <= 0) ? (
                   <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-destructive/10 text-destructive uppercase tracking-wider">
-                    Out of Stock
+                    {t("outOfStock")}
                   </span>
                 ) : (
                   <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-emerald-500/10 text-emerald-700 uppercase tracking-wider">
-                    In Stock
+                    {t("inStock")}
                   </span>
                 )}
               </div>
@@ -137,12 +140,12 @@ export function ProductDetail({ product }: { product: Product }) {
 
               <div className="pt-2 border-t border-border/40">
                 <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 sm:mb-2">
-                  Description
+                  {t("description")}
                 </h3>
                 <div className="text-xs sm:text-sm leading-relaxed text-muted-foreground whitespace-pre-line font-normal max-h-48 sm:max-h-none overflow-y-auto scrollbar-thin">
                   {product?.description || (
                     <span className="italic text-muted-foreground/70">
-                      No detailed description available for this product.
+                      {t("noDescription")}
                     </span>
                   )}
                 </div>
@@ -153,7 +156,9 @@ export function ProductDetail({ product }: { product: Product }) {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-0.5">
-                    Selected Variant ({formatWeight(selectedVariant?.weight)})
+                    {t("selectedVariant", {
+                      weight: formatWeight(selectedVariant?.weight),
+                    })}
                   </span>
                   <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
                     <p className="text-xl sm:text-3xl font-extrabold text-foreground tracking-tight">
@@ -185,10 +190,10 @@ export function ProductDetail({ product }: { product: Product }) {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="font-serif text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">
-                  Related Products
+                  {t("relatedTitle")}
                 </h2>
                 <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
-                  Complementary items recommended for your store inventory
+                  {t("relatedSubtitle")}
                 </p>
               </div>
             </div>
@@ -199,3 +204,5 @@ export function ProductDetail({ product }: { product: Product }) {
     </div>
   );
 }
+
+export default ProductDetail;

@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ChevronRight } from "lucide-react";
 import { ProductGrid } from "@/components/product-card";
 import { ProductGridSkeleton } from "@/components/skeleton/product-skeleton";
+import { ROUTES } from "@/constants/routes";
 
 export function ProductsSection({
   products,
@@ -10,18 +14,20 @@ export function ProductsSection({
   products: any[];
   isLoading?: boolean;
 }) {
+  const t = useTranslations("productsSection");
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-14 md:py-20 lg:px-8">
       <div className="mb-7 flex items-end justify-between gap-4">
         <div>
           <h2 className="font-serif text-3xl font-extrabold tracking-tight">
-            Popular wholesale picks
+            {t("title")}
           </h2>
         </div>
         <Link
-          href="/catalogue"
+          href={ROUTES.CATALOGUE}
           className="hidden items-center gap-1 text-sm font-bold text-primary hover:underline sm:flex">
-          View all <ChevronRight className="size-4" />
+          {t("viewAll")} <ChevronRight className="size-4" />
         </Link>
       </div>
       {isLoading ? (
@@ -32,3 +38,5 @@ export function ProductsSection({
     </section>
   );
 }
+
+export default ProductsSection;

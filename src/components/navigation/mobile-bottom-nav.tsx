@@ -27,7 +27,7 @@ export function MobileBottomNav() {
 
           return (
             <Link
-              key={item?.href}
+              key={item?.id}
               href={item?.href}
               className={`relative flex flex-1 flex-col items-center justify-center py-1 px-1 transition-all duration-200 active:scale-95 ${
                 active

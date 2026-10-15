@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import { useMemo } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Ship,
   CalendarDays,
@@ -15,7 +16,8 @@ import {
   Landmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CORPORATE_STORY_DATA } from "@/data/corporate-story";
+import { ROUTES } from "@/constants/routes";
+import { getCorporateStoryData } from "@/data/corporate-story";
 
 const STAT_ICONS = {
   Ship,
@@ -32,6 +34,8 @@ const PILLAR_ICONS = {
 };
 
 export function TrustStorySection() {
+  const t = useTranslations("trustStorySection");
+  const corporateStoryData = useMemo(() => getCorporateStoryData(t), [t]);
   const {
     badge,
     headingPrefix,
@@ -39,7 +43,7 @@ export function TrustStorySection() {
     description,
     pillars,
     stats,
-  } = CORPORATE_STORY_DATA;
+  } = corporateStoryData;
 
   return (
     <section className="relative py-16 md:py-24 bg-gradient-to-b from-[#faf8f5] via-white to-[#faf8f5] border-t border-stone-200/80 overflow-hidden">
@@ -91,9 +95,9 @@ export function TrustStorySection() {
                 size="lg"
                 className="rounded-xl font-bold bg-primary hover:bg-[#b01e25] text-white shadow-md shadow-primary/20 transition-all h-12">
                 <Link
-                  href="/catalog"
+                  href={ROUTES.CATALOGUE}
                   className="flex items-center justify-center gap-2">
-                  <span>Explore B2B Catalog</span>
+                  <span>{t("exploreCatalog")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
@@ -104,9 +108,9 @@ export function TrustStorySection() {
                 size="lg"
                 className="rounded-xl font-bold border-stone-300 text-stone-700 hover:bg-stone-50 h-12">
                 <Link
-                  href="/login"
+                  href={ROUTES.LOGIN}
                   className="flex items-center justify-center">
-                  Trade Account Access
+                  {t("tradeAccess")}
                 </Link>
               </Button>
             </div>
@@ -156,7 +160,7 @@ export function TrustStorySection() {
 
                     <div className="relative z-10 mt-6 pt-3.5 border-t border-stone-100 flex items-center justify-between">
                       <span className="text-[11px] font-semibold text-stone-400 group-hover:text-primary transition-colors">
-                        Verified Metric
+                        {t("verifiedMetric")}
                       </span>
                       <div className="w-6 h-6 rounded-full bg-stone-50 group-hover:bg-primary/10 flex items-center justify-center text-stone-400 group-hover:text-primary transition-colors">
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -172,3 +176,5 @@ export function TrustStorySection() {
     </section>
   );
 }
+
+export default TrustStorySection;

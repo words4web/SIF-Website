@@ -2,36 +2,43 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   HelpCircle,
   ChevronDown,
-  Plus,
-  Minus,
-  Sparkles,
   Phone,
   Mail,
   MapPin,
   ArrowRight,
-  ShieldCheck,
   Search,
   MessageCircle,
 } from "lucide-react";
 import { PortalHeader } from "@/components/portal-header";
 import { Footer } from "@/components/footer";
-import { FAQ_DATA } from "@/data/faq";
+
+const FAQ_KEYS = [
+  { id: "faq-1", key: "faq1", categoryKey: "authenticityProducts" },
+  { id: "faq-2", key: "faq2", categoryKey: "ordersDelivery" },
+  { id: "faq-3", key: "faq3", categoryKey: "b2bWholesale" },
+  { id: "faq-4", key: "faq4", categoryKey: "authenticityProducts" },
+  { id: "faq-5", key: "faq5", categoryKey: "companyHeritage" },
+] as const;
 
 export default function FAQPage() {
-  const { badge, title, subtitle, faqs } = FAQ_DATA;
+  const t = useTranslations("faqPage");
+
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({
     "faq-1": true,
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const categories = [
-    "all",
-    ...Array.from(new Set(faqs.map((f) => f.category).filter(Boolean))),
-  ];
+  const categoryKeys = [
+    "authenticityProducts",
+    "ordersDelivery",
+    "b2bWholesale",
+    "companyHeritage",
+  ] as const;
 
   const toggleItem = (id: string) => {
     setOpenItems((prev) => ({
@@ -40,12 +47,20 @@ export default function FAQPage() {
     }));
   };
 
-  const filteredFaqs = faqs.filter((faq) => {
+  const localizedFaqs = FAQ_KEYS.map((item) => ({
+    id: item.id,
+    question: t(`items.${item.key}.question` as any),
+    answer: t(`items.${item.key}.answer` as any),
+    categoryKey: item.categoryKey,
+    categoryName: t(`categories.${item.categoryKey}` as any),
+  }));
+
+  const filteredFaqs = localizedFaqs.filter((faq) => {
     const matchesSearch =
       faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "all" || faq.category === selectedCategory;
+      selectedCategory === "all" || faq.categoryKey === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -70,15 +85,15 @@ export default function FAQPage() {
           <div className="container relative mx-auto px-4 sm:px-6 max-w-5xl text-center">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>{badge}</span>
+              <span>{t("badge")}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900 leading-tight">
-              {title}
+              {t("title")}
             </h1>
 
             <p className="mt-4 text-sm sm:text-base md:text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed font-normal">
-              {subtitle}
+              {t("subtitle")}
             </p>
 
             <div className="mt-8 max-w-xl mx-auto relative">
@@ -88,29 +103,37 @@ export default function FAQPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search questions (e.g. Tata Tea, Cremona store, delivery)..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-stone-200/90 shadow-md shadow-stone-200/40 text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all"
                 />
               </div>
             </div>
 
-            {categories.length > 2 && (
-              <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setSelectedCategory(cat as string)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold capitalize border transition-all ${
-                      selectedCategory === cat
-                        ? "bg-primary text-white border-primary shadow-xs"
-                        : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
-                    }`}>
-                    {cat === "all" ? "All Questions" : cat}
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <button
+                type="button"
+                onClick={() => setSelectedCategory("all")}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold capitalize border transition-all ${
+                  selectedCategory === "all"
+                    ? "bg-primary text-white border-primary shadow-xs"
+                    : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+                }`}>
+                {t("allCategory")}
+              </button>
+              {categoryKeys.map((catKey) => (
+                <button
+                  key={catKey}
+                  type="button"
+                  onClick={() => setSelectedCategory(catKey)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold capitalize border transition-all ${
+                    selectedCategory === catKey
+                      ? "bg-primary text-white border-primary shadow-xs"
+                      : "bg-white text-stone-600 border-stone-200 hover:border-stone-300"
+                  }`}>
+                  {t(`categories.${catKey}` as any)}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -120,11 +143,10 @@ export default function FAQPage() {
               <div className="text-center py-12 p-8 rounded-3xl bg-stone-50 border border-stone-200">
                 <HelpCircle className="w-10 h-10 text-stone-400 mx-auto mb-3" />
                 <h3 className="font-bold text-stone-800 text-lg">
-                  No matching questions found
+                  {t("support.noMatchingTitle")}
                 </h3>
                 <p className="text-stone-500 text-sm mt-1">
-                  Try searching with different keywords or clear the search
-                  filter.
+                  {t("support.noMatchingDesc")}
                 </p>
                 <button
                   type="button"
@@ -132,8 +154,8 @@ export default function FAQPage() {
                     setSearchQuery("");
                     setSelectedCategory("all");
                   }}
-                  className="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">
-                  Reset Filter
+                  className="mt-4 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-[#b01e25] transition-colors">
+                  {t("support.resetFilter")}
                 </button>
               </div>
             ) : (
@@ -163,11 +185,9 @@ export default function FAQPage() {
                             0{idx + 1}
                           </span>
                           <div>
-                            {faq.category && (
-                              <span className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1 block">
-                                {faq.category}
-                              </span>
-                            )}
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-primary mb-1 block">
+                              {faq.categoryName}
+                            </span>
                             <h3 className="font-extrabold text-stone-900 text-base sm:text-lg leading-snug">
                               {faq.question}
                             </h3>
@@ -205,27 +225,25 @@ export default function FAQPage() {
                 <div className="lg:col-span-7">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
                     <MessageCircle className="w-3.5 h-3.5" />
-                    <span>Direct Trade Support</span>
+                    <span>{t("support.badge")}</span>
                   </div>
 
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
-                    Have more questions about orders or wholesale supply?
+                    {t("support.heading")}
                   </h3>
 
                   <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
-                    Our central distribution team in Cremona is ready to assist
-                    your store or supermarket with custom tiered quotes, catalog
-                    availability, and scheduled logistics.
+                    {t("support.description")}
                   </p>
 
                   <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-medium text-stone-600">
                     <div className="flex items-center gap-2 bg-stone-50 px-3 py-1.5 rounded-full border border-stone-200/70">
                       <MapPin className="w-3.5 h-3.5 text-primary" />
-                      <span>Cremona (Lombardy) Hub</span>
+                      <span>{t("support.hubLocation")}</span>
                     </div>
                     <div className="flex items-center gap-2 bg-stone-50 px-3 py-1.5 rounded-full border border-stone-200/70">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>Mon – Sat: 08:30 – 19:30</span>
+                      <span>{t("support.workingHours")}</span>
                     </div>
                   </div>
                 </div>
@@ -240,7 +258,7 @@ export default function FAQPage() {
                       </div>
                       <div className="text-left">
                         <span className="block text-[11px] font-medium text-white/80 uppercase tracking-wider">
-                          Call Cremona Store
+                          {t("support.callCremona")}
                         </span>
                         <span className="block text-sm sm:text-base font-bold">
                           +39 0372 432787
@@ -259,7 +277,7 @@ export default function FAQPage() {
                       </div>
                       <div className="text-left min-w-0">
                         <span className="block text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
-                          Email Inquiries
+                          {t("support.emailInquiries")}
                         </span>
                         <span className="block text-xs sm:text-sm font-bold text-stone-900 truncate">
                           shellyindianfoods.sas@gmail.com

@@ -1,64 +1,62 @@
 import { DistributedBrand, BrandCertification } from "@/types/brand.types";
 
-export const DISTRIBUTED_BRANDS: DistributedBrand[] = [
+export const getDistributedBrands = (
+  t: (key: string) => string,
+): DistributedBrand[] => [
   {
     id: "tata-tea",
-    name: "Tata Tea",
-    tagline: "India's #1 Packaged Tea Heritage",
+    name: t("items.tata-tea.name"),
+    tagline: t("items.tata-tea.tagline"),
     logo: "/brands/tata-tea.png",
-    alt: "Tata Tea - Premium Indian Tea",
-    description:
-      "Rich aroma and signature blends crafted from selected leaf estates across Assam & Darjeeling.",
-    category: "Tata Tea",
+    alt: t("items.tata-tea.alt"),
+    description: t("items.tata-tea.description"),
+    category: t("items.tata-tea.category"),
     accentColor: "from-emerald-500/20 via-emerald-500/5 to-transparent",
     href: "/catalogue?category=tata-tea",
   },
   {
     id: "tata-salt",
-    name: "Tata Salt",
-    tagline: "Desh Ka Namak — Guaranteed Purity",
+    name: t("items.tata-salt.name"),
+    tagline: t("items.tata-salt.tagline"),
     logo: "/brands/tata-salt.png",
-    alt: "Tata Salt - Desh Ka Namak",
-    description:
-      "Pioneer of vacuum-evaporated iodised salt, unmatched in pristine purity and consistent taste.",
-    category: "Tata Salt",
+    alt: t("items.tata-salt.alt"),
+    description: t("items.tata-salt.description"),
+    category: t("items.tata-salt.category"),
     accentColor: "from-blue-500/20 via-blue-500/5 to-transparent",
     href: "/catalogue?category=tata-salt",
   },
   {
     id: "tata-sampann-legumes",
-    name: "Tata Sampann Legumes",
-    tagline: "100% Wholesome Unpolished Legumes",
+    name: t("items.tata-sampann-legumes.name"),
+    tagline: t("items.tata-sampann-legumes.tagline"),
     logo: "/brands/tata-sampann.png",
-    alt: "Tata Sampann Legumes - Pure Dals & Pulses",
-    description:
-      "Unpolished natural dals and pulses retaining wholesome plant protein, natural nutrients, and authentic taste.",
-    category: "Tata Sampann Legumes",
+    alt: t("items.tata-sampann-legumes.alt"),
+    description: t("items.tata-sampann-legumes.description"),
+    category: t("items.tata-sampann-legumes.category"),
     accentColor: "from-amber-500/20 via-amber-500/5 to-transparent",
     href: "/catalogue?category=tata-sampann-legumes",
   },
 ];
 
-export const BRAND_CERTIFICATIONS: BrandCertification[] = [
+export const getBrandCertifications = (
+  t: (key: string) => string,
+): BrandCertification[] => [
   {
     id: "cert-registered-structure",
-    badge: "GLOBAL",
-    title: "Internationally Registered Structure",
-    description:
-      "Certified logistics & trade entity registered across the European Union.",
+    badge: t("certifications.cert-registered-structure.badge"),
+    title: t("certifications.cert-registered-structure.title"),
+    description: t("certifications.cert-registered-structure.description"),
   },
   {
     id: "cert-brcgs",
-    badge: "GRADE A",
-    title: "BRCGS Food Safety Grade A Certification",
-    description:
-      "Gold standard compliance for quality, safety, and rigorous audit protocols.",
+    badge: t("certifications.cert-brcgs.badge"),
+    title: t("certifications.cert-brcgs.title"),
+    description: t("certifications.cert-brcgs.description"),
   },
   {
     id: "cert-iso-haccp",
-    badge: "ISO 22000",
-    title: "International Standards ISO 22000 & HACCP",
-    description:
-      "End-to-end hazard prevention from overseas source to Italian warehouse shelves.",
+    badge: t("certifications.cert-iso-haccp.badge"),
+    title: t("certifications.cert-iso-haccp.title"),
+    description: t("certifications.cert-iso-haccp.description"),
   },
 ];

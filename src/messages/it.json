@@ -227,6 +227,24 @@
     "noDeliveredOrders": "Nessun ordine consegnato",
     "inProcessEmptyDesc": "Le tue richieste d'ordine all'ingrosso attive appariranno qui.",
     "deliveredEmptyDesc": "Gli ordini completati e consegnati appariranno qui.",
+    "statuses": {
+      "PAYMENT_PENDING": {
+        "label": "In Attesa di Pagamento",
+        "description": "In attesa della conferma del pagamento prima che l'ordine possa essere elaborato."
+      },
+      "IN_PROCESS": {
+        "label": "In Lavorazione",
+        "description": "La tua richiesta d'ordine all'ingrosso è stata ricevuta ed è in preparazione dal nostro team."
+      },
+      "DELIVERED": {
+        "label": "Consegnato",
+        "description": "Questo ordine è stato completato e consegnato all'indirizzo di destinazione."
+      },
+      "CANCELLED": {
+        "label": "Annullato",
+        "description": "Questo ordine è stato annullato."
+      }
+    },
     "card": {
       "placedOn": "Effettuato il {date}",
       "totalItems": "Articoli Totali",
@@ -261,6 +279,403 @@
       "qty": "Q.tà: {qty}",
       "inProcessDesc": "La tua richiesta d'ordine all'ingrosso è stata ricevuta ed è in preparazione dal nostro team.",
       "deliveredDesc": "Questo ordine è stato completato e consegnato all'indirizzo di destinazione."
+    }
+  },
+  "hero": {
+    "prevSlide": "Slide precedente",
+    "nextSlide": "Slide successiva",
+    "goToSlide": "Vai alla slide {number}",
+    "slide1": {
+      "title": "Distributore Esclusivo Tata in Italia",
+      "description": "Autentico tè Tata Tea, legumi Tata Sampann e sale Tata Salt direttamente dall'importatore autorizzato.",
+      "ctaText": "Scopri la Gamma Tata"
+    },
+    "slide2": {
+      "title": "Oltre 25 Anni di Esperienza nella Distribuzione",
+      "description": "Forniamo oltre 500 supermercati e grossisti in tutta Italia con più di 100 container isotermici all'anno.",
+      "ctaText": "Esplora il Catalogo"
+    },
+    "slide3": {
+      "title": "Certificazioni BRCGS Grado A & ISO 22000",
+      "description": "Prodotti base indiani 100% testati per lotto con etichettatura conforme UE e supporto commerciale dedicato.",
+      "ctaText": "Inizia gli Ordini B2B"
+    }
+  },
+  "heroBannerVideo": {
+    "authorizedImporter": "Importatore Autorizzato Tata",
+    "certifiedFood": "Certificato Alimentare UE",
+    "mainHeadingPart1": "Gli Essenziali Autentici Tata",
+    "mainHeadingPart2": "Direttamente ai Supermercati Italiani",
+    "subtitle": "Supportiamo oltre 500 distributori alimentari e punti vendita in tutta Italia con autentico Tata Tea, legumi integrali Tata Sampann e sale Tata Salt.",
+    "feature1Title": "Spedizione Diretta da Cremona",
+    "feature1Subtitle": "Hub a temperatura controllata",
+    "feature2Title": "Autentico Chai Indiano",
+    "feature2Subtitle": "Tata Tea Gold & Premium",
+    "exploreCatalogue": "Esplora il Catalogo",
+    "tradeLogin": "Accedi al Portale B2B",
+    "videoBadge": "Infusione Tradizionale del Tè",
+    "videoTag": "Tata Tea Premium",
+    "videoHighlight": "Il Rituale Quotidiano del Mattino",
+    "videoTitle": "Chai Indiano Ricco & Aromatico",
+    "videoDesc": "Importatore diretto per catene di supermercati e distributori di alimenti indiani in Italia."
+  },
+  "distributedBrands": {
+    "badge": "Affidabilità e Capillarità di Distribuzione in Tutta Italia",
+    "headingMain": "Marchi distribuiti",
+    "headingHighlight": "in tutta Italia",
+    "pillNationwide": "Flotta Nazionale",
+    "pillWholesale": "Ingrosso Diretto",
+    "pillGenuine": "100% Autentico",
+    "active": "Attivo",
+    "officialPartner": "Partner Ufficiale del Marchio",
+    "portfolioDetails": "Dettagli del Portfolio di Distribuzione",
+    "bulkCartons": "Cartoni All'Ingrosso",
+    "italianInvoicing": "Fatturazione Diretta Italiana",
+    "exploreBrand": "Esplora {name}",
+    "items": {
+      "tata-tea": {
+        "name": "Tata Tea",
+        "tagline": "La Tradizione del Tè Confezionato N. 1 in India",
+        "alt": "Tata Tea - Tè Indiano Pregiato",
+        "description": "Aroma intenso e miscele uniche create da piantagioni selezionate di Assam e Darjeeling.",
+        "category": "Tata Tea"
+      },
+      "tata-salt": {
+        "name": "Tata Salt",
+        "tagline": "Desh Ka Namak — Purezza Garantita",
+        "alt": "Tata Salt - Desh Ka Namak",
+        "description": "Pioniere del sale iodato evaporato sottovuoto, ineguagliabile per purezza naturale e sapore costante.",
+        "category": "Tata Salt"
+      },
+      "tata-sampann-legumes": {
+        "name": "Tata Sampann Legumi",
+        "tagline": "Legumi Integrali e Genuini al 100%",
+        "alt": "Tata Sampann Legumi - Dal e Legumi Puri",
+        "description": "Dal e legumi naturali non raffinati che preservano proteine vegetali, nutrienti essenziali e sapore autentico.",
+        "category": "Tata Sampann Legumi"
+      }
+    },
+    "certifications": {
+      "cert-registered-structure": {
+        "badge": "GLOBALE",
+        "title": "Struttura Registrata a Livello Internazionale",
+        "description": "Entità commerciale e logistica certificata e registrata in tutta l'Unione Europea."
+      },
+      "cert-brcgs": {
+        "badge": "GRADO A",
+        "title": "Certificazione Sicurezza Alimentare BRCGS Grado A",
+        "description": "Standard di eccellenza per qualità, sicurezza e severi protocolli di audit."
+      },
+      "cert-iso-haccp": {
+        "badge": "ISO 22000",
+        "title": "Standard Internazionali ISO 22000 & HACCP",
+        "description": "Prevenzione dei rischi end-to-end dall'origine estera agli scaffali del magazzino in Italia."
+      }
+    }
+  },
+  "qualityAssurance": {
+    "badge": "Protocollo di Garanzia Qualità",
+    "title": "Il Nostro Processo di Filiera in 4 Fasi",
+    "description": "Dall'approvvigionamento diretto nei campi alla consegna porta a porta nei punti vendita, ogni fase è controllata per sicurezza alimentare, conformità dei codici a barre e integrità della catena del freddo.",
+    "stepLabel": "FASE {number}",
+    "steps": {
+      "step-1": {
+        "title": "Approvvigionamento Diretto e Lavorazione",
+        "tag": "100% Tracciabile",
+        "description": "Collaboriamo con oltre 100 unità di lavorazione selezionate e cooperative agricole, con distribuzione capillare in Lombardia, Lazio, Campania e Sicilia.",
+        "badge": "Fase Verificata"
+      },
+      "step-2": {
+        "title": "Stoccaggio Portuale a Temperatura Controllata",
+        "tag": "Climatizzato",
+        "description": "Stoccaggio multi-zona a temperatura controllata presso i porti di origine per prevenire il deterioramento da umidità e infestazioni.",
+        "badge": "Fase Verificata"
+      },
+      "step-3": {
+        "title": "Controllo Qualità Multi-Ente e Conformità Normativa",
+        "tag": "Standard FDA & UE",
+        "description": "Test al 100% su ciascun lotto per residui di pesticidi, metalli pesanti, contaminazione microbiologica e conformità etichette FDA/UE.",
+        "badge": "Fase Verificata"
+      },
+      "step-4": {
+        "title": "Consegna Diretta ai Grossisti",
+        "tag": "Porta a Porta",
+        "description": "Consegna con mezzi dotati di sponde idrauliche, direttamente presso le piattaforme logistiche di grossisti e supermercati.",
+        "badge": "Fase Verificata"
+      }
+    }
+  },
+  "featuresSection": {
+    "nationwideTitle": "Consegne in Tutta Italia",
+    "nationwideDesc": "Consegna porta a porta a temperatura controllata per supermercati e grossisti in tutta Italia.",
+    "authorizedTitle": "Importatore Autorizzato Tata",
+    "authorizedDesc": "Tata Tea, legumi Tata Sampann e Tata Salt 100% autentici con certificazione di conformità UE.",
+    "heritageTitle": "Oltre 25 Anni di Esperienza B2B",
+    "heritageDesc": "Collaborazione affidabile dal 1998 con fasce di volume su misura e assistenza account dedicata."
+  },
+  "categoriesSection": {
+    "badge": "Catalogo Generale all'Ingrosso",
+    "headingMain": "Principali Categorie",
+    "headingHighlight": "di Prodotti Indiani",
+    "description": "Scopri i prodotti di largo consumo più richiesti, distribuiti direttamente in tutta Italia con freschezza d'origine garantita e conformità normativa.",
+    "certifiedPill": "Fornitura 100% Certificata per l'Italia",
+    "viewAllProducts": "Vedi Tutti i Prodotti",
+    "exploreCategory": "Esplora Categoria",
+    "b2bSupplyBadge": "Fornitura B2B Completa",
+    "b2bCalloutTitle": "Cerchi bancali misti personalizzati o ordini programmati per container?",
+    "b2bCalloutDesc": "Il nostro polo logistico diretto a Reggio Emilia coordina consegne e pianificazioni in tutta Italia.",
+    "browseCatalogue": "Sfoglia il Catalogo Completo"
+  },
+  "trustStorySection": {
+    "badge": "Solidità Aziendale e Tradizione",
+    "headingPrefix": "Un quarto di secolo di eccellenza nel commercio all'ingrosso",
+    "headingHighlight": "in tutta Italia.",
+    "description": "Lavoriamo a stretto contatto con marchi leader nel mondo per offrirti tè, legumi e prodotti di drogheria che conservano l'aroma autentico, proprio come in India. Trovare i legumi migliori, dal fornitore giusto, confezionati a regola d'arte e a un prezzo equo è la sfida più grande: ed è esattamente ciò a cui ci dedichiamo con passione da oltre 25 anni.",
+    "exploreCatalog": "Esplora il Catalogo B2B",
+    "tradeAccess": "Accesso Area Operatori",
+    "verifiedMetric": "Dato Certificato",
+    "pillars": {
+      "directImport": "Linee di Importazione Diretta",
+      "panItalian": "Consegne Capillari in Italia",
+      "brcgs": "Audit BRCGS Grado A",
+      "iso22000": "Certificazione ISO 22000"
+    },
+    "stats": {
+      "containers": {
+        "title": "Volume Container Annuo",
+        "desc": "Spedizioni in container refrigerati e controllati direttamente dall'India",
+        "badge": "SPEDIZIONI"
+      },
+      "experience": {
+        "title": "Anni di Esperienza",
+        "desc": "Pionieri nell'importazione e nella vendita all'ingrosso di cibo indiano in Italia",
+        "badge": "DAL 1998"
+      },
+      "partners": {
+        "title": "Partner Commerciali",
+        "desc": "Grossisti della distribuzione e catene della grande distribuzione",
+        "badge": "NETWORK"
+      },
+      "products": {
+        "title": "Referenze B2B Attive",
+        "desc": "Articoli autentici tra alimentari indiani, spezie e linee alimentari",
+        "badge": "CATALOGO"
+      }
+    }
+  },
+  "testimonialsSection": {
+    "badge": "Recensioni dei Nostri Clienti",
+    "title": "Cosa Dicono i Nostri Clienti",
+    "description": "Le testimonianze dirette di appassionati di cucina, responsabili di supermercati e amanti del cibo indiano autentico in tutta Italia.",
+    "prevAria": "Recensione precedente",
+    "nextAria": "Recensione successiva",
+    "verifiedFeedback": "Recensione Verificata",
+    "storyCounter": "Storia {current} di {total}",
+    "items": {
+      "test-1": {
+        "highlight": "Il Tata Tea ha esattamente lo stesso sapore di quello a casa in India",
+        "quote": "Compro il mio chai e i legumi da Shelly Indian Foods da anni. Il Tata Tea Premium ha lo stesso identico sapore di quello che preparava mia madre in India, e le consegne in tutta Italia sono sempre state rapide e puntuali. È raro trovare un'affidabilità così autentica.",
+        "author": "Rakesh S.",
+        "location": "Milano, Lombardia",
+        "role": "Cliente Ingrosso Abituale",
+        "verifiedOrder": "Tata Tea Premium & Legumi"
+      },
+      "test-2": {
+        "highlight": "Tutto è selezionato con cura, non semplicemente importato all'ingrosso",
+        "quote": "Non sono indiana, ma amo cucinare con questi ingredienti e il personale mi ha guidato nella scelta del dal giusto per il mio primo dal makhani. Ogni prodotto è accuratamente selezionato, non solo importato all'ingrosso. Ora è il mio punto di riferimento per i sapori autentici.",
+        "author": "Chiara B.",
+        "location": "Cremona, Lombardia",
+        "role": "Appassionata di Cucina & Cliente Retail",
+        "verifiedOrder": "Spezie Intere & Kit Dal Makhani"
+      },
+      "test-3": {
+        "highlight": "Nessuna importazione casuale: autentica attenzione alla qualità",
+        "quote": "Ho ordinato online Tata Tea Gold e una confezione di rajma, ed entrambi sono arrivati rapidamente e imballati con cura. Ciò che apprezzo di più è che nulla sembra un'importazione casuale; si nota la vera cura per i marchi trattati. Ordinerò sicuramente di nuovo.",
+        "author": "Anjali D.",
+        "location": "Roma, Italia",
+        "role": "Ordine Verificato B2B & Privati",
+        "verifiedOrder": "Tata Tea Gold & Rajma Pregiato"
+      }
+    }
+  },
+  "login": {
+    "welcomeBack": "Bentornato",
+    "signInTitle": "Accedi",
+    "subtitle": "Accedi al tuo listino all'ingrosso e allo storico ordini.",
+    "emailLabel": "Inserisci l'email aziendale",
+    "emailPlaceholder": "tuo@azienda.it",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "showPasswordAria": "Mostra password",
+    "hidePasswordAria": "Nascondi password",
+    "signInButton": "Accedi",
+    "signingInButton": "Accesso in corso...",
+    "noAccountPrompt": "Non hai ancora un account?",
+    "signUpLink": "Registrati",
+    "backToStore": "Torna al negozio"
+  },
+  "signup": {
+    "newCustomer": "Nuovo Cliente",
+    "createAccountTitle": "Crea un Account Operatore",
+    "subtitle": "Registrati per accedere ai listini esclusivi all'ingrosso.",
+    "fullNameLabel": "Nome Completo",
+    "fullNamePlaceholder": "es. Marco Rossi",
+    "businessNameLabel": "Ragione Sociale",
+    "businessNamePlaceholder": "es. Alimentari Italia Srl",
+    "emailLabel": "Inserisci l'email aziendale",
+    "emailPlaceholder": "ordini@azienda.it",
+    "mobileNumberLabel": "Numero di Cellulare",
+    "mobileNumberPlaceholder": "es. +39 389 0220807",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "showPasswordAria": "Mostra password",
+    "hidePasswordAria": "Nascondi password",
+    "signUpButton": "Registrati",
+    "submittingButton": "Registrazione in corso...",
+    "alreadyHaveAccount": "Hai già un account?",
+    "signInLink": "Accedi",
+    "backToStore": "Torna al negozio"
+  },
+  "authLayout": {
+    "badge": "Shelly Indian Foods",
+    "titleLine1": "Cibo Indiano Autentico.",
+    "titleLine2": "Diretto alla Tua Attività in Italia.",
+    "description": "Distributore esclusivo dei prodotti Tata Consumer Products in Italia. Listini all'ingrosso dedicati, confezioni da 1kg per legumi e logistica affidabile su tutto il territorio nazionale da Cremona.",
+    "benefit1Title": "Importatore Autorizzato Tata",
+    "benefit1Desc": "Tata Tea, legumi Sampann e Tata Salt 100% autentici con etichettatura certificata UE",
+    "benefit2Title": "Prezzi per Grossisti & Supermercati",
+    "benefit2Desc": "Margini su misura calibrati sull'alto volume di rotazione alimentare",
+    "benefit3Title": "Distribuzione in Tutta Italia",
+    "benefit3Desc": "Consegne a temperatura controllata direttamente al tuo punto vendita o deposito",
+    "copyright": "© {year} Shelly Indian Foods S.r.l. · Cremona, Italia"
+  },
+  "toasts": {
+    "loginSuccess": "Accesso effettuato con successo.",
+    "loginFailed": "Accesso non riuscito. Verifica le tue credenziali.",
+    "signupSuccess": "Registrazione completata! Il tuo account è in attesa di approvazione.",
+    "signupFailed": "Registrazione non riuscita. Riprova.",
+    "logoutSuccess": "Disconnessione effettuata con successo!",
+    "logoutFailed": "Disconnessione non riuscita.",
+    "addressAdded": "Indirizzo aggiunto con successo.",
+    "addressAddFailed": "Impossibile aggiungere l'indirizzo.",
+    "addressUpdated": "Indirizzo aggiornato con successo.",
+    "addressUpdateFailed": "Impossibile aggiornare l'indirizzo.",
+    "addressRemoved": "Indirizzo rimosso con successo.",
+    "addressRemoveFailed": "Impossibile rimuovere l'indirizzo.",
+    "orderFailed": "Impossibile completare l'ordine.",
+    "cartUpdateFailed": "Impossibile aggiornare il carrello.",
+    "cartRemoveFailed": "Impossibile rimuovere l'articolo.",
+    "orderNotificationDefault": "Notifica Ordine",
+    "viewOrders": "Visualizza Ordini"
+  },
+  "productsSection": {
+    "title": "I Più Richiesti all'Ingrosso",
+    "viewAll": "Vedi tutti"
+  },
+  "productDetail": {
+    "back": "Indietro",
+    "sku": "SKU: {sku}",
+    "inStock": "Disponibile",
+    "outOfStock": "Esaurito",
+    "description": "Descrizione",
+    "noDescription": "Nessuna descrizione dettagliata disponibile per questo prodotto.",
+    "selectedVariant": "Variante Selezionata ({weight})",
+    "relatedTitle": "Prodotti Correlati",
+    "relatedSubtitle": "Articoli complementari consigliati per il tuo assortimento",
+    "viewImageAria": "Visualizza immagine prodotto {number}",
+    "notFound": "Prodotto non trovato"
+  },
+  "aboutPage": {
+    "badge": "Tradizione & Missione",
+    "title": "Chi Siamo",
+    "heroTagline": "Attività di Famiglia dal 1998",
+    "storyHeading": "Distributore Esclusivo di Tata Consumer Products in Italia",
+    "p1": "Shelly Indian Foods è il distributore esclusivo di Tata Consumer Products in Italia ed è da sempre il punto di riferimento a Cremona per alimentari autentici e forniture all'ingrosso.",
+    "p2": "Quello che è nato come un piccolo negozio a conduzione familiare aperto da Avtar e Shelly Grover, e oggi guidato dal figlio Tajinder, è diventato uno dei partner più affidabili del territorio per grossisti e dettaglianti che acquistano prodotti alimentari indiani originali dal 1998.",
+    "p3": "Ogni prodotto sui nostri scaffali, da una confezione di Tata Tea Premium a un chilo di dal rajma non raffinato, è qualcosa che porteremmo con orgoglio nella nostra cucina.",
+    "exploreCatalog": "Esplora il Catalogo",
+    "faqsButton": "Domande Frequenti",
+    "heritageCard": {
+      "badge": "Tradizione",
+      "title": "Famiglia Avtar & Shelly Grover",
+      "subtitle": "Fondata a Cremona, Lombardia dal 1998"
+    },
+    "stats": {
+      "stat1Number": "Oltre 25 Anni",
+      "stat1Desc": "Attività familiare ininterrotta da Cremona in tutte le regioni italiane.",
+      "stat2Number": "Oltre 100 Container",
+      "stat2Desc": "Importazione marittima diretta a temperatura controllata ogni anno.",
+      "stat3Number": "Oltre 500 Partner",
+      "stat3Desc": "Grossisti, negozi etnici e catene di supermercati su tutto il territorio.",
+      "stat4Number": "BRCGS Grado A",
+      "stat4Desc": "Severa conformità alimentare ISO 22000 & HACCP e tracciabilità dei lotti."
+    },
+    "purposeBadge": "Obiettivi & Valori",
+    "visionMissionTitle": "La Nostra Visione & Missione",
+    "vision": {
+      "title": "La Nostra Visione",
+      "desc": "Continuare a crescere ed espanderci come punto di riferimento fidato per i prodotti alimentari indiani autentici in tutta Italia, avvicinando il gusto autentico dell'India a ogni casa, negozio e attività. Il nostro obiettivo è costruire un solido ponte tra i grandi marchi indiani e la crescente comunità in Italia, rendendo i prodotti di qualità sempre più accessibili.",
+      "tag": "Sviluppo a Lungo Termine"
+    },
+    "mission": {
+      "title": "La Nostra Missione",
+      "desc": "In Shelly Indian Foods, la nostra missione è garantire la disponibilità di generi alimentari indiani garantiti in tutta Italia con puntualità, cura e costanza. In qualità di distributore esclusivo di Tata Consumer Products in Italia, assicuriamo a grossisti e clienti l'accesso a prodotti autentici di cui fidarsi, costruendo collaborazioni commerciali durature.",
+      "tag": "Collaborazioni all'Ingrosso Affidabili"
+    },
+    "showroom": {
+      "badge": "Sede & Showroom di Cremona",
+      "title": "Vieni a trovarci nella nostra sede principale a Cremona",
+      "address": "Via Giuseppina, 149, 26100 Cremona CR, Italia • Al servizio degli operatori dal lunedì al sabato.",
+      "phone": "+39 0372 432787",
+      "emailTeam": "Scrivi al Team"
+    }
+  },
+  "faqPage": {
+    "badge": "Assistenza & Chiarimenti",
+    "title": "Domande Frequenti",
+    "subtitle": "Tutto quello che c'è da sapere sui nostri prodotti indiani originali, la rete di distribuzione in Italia, le forniture all'ingrosso e gli standard di sicurezza alimentare.",
+    "searchPlaceholder": "Cerca tra le domande (es. Tata Tea, negozio Cremona, spedizioni)...",
+    "allCategory": "Tutte le Categorie",
+    "noQuestionsMatch": "Nessuna domanda corrisponde alla tua ricerca.",
+    "categories": {
+      "authenticityProducts": "Autenticità & Prodotti",
+      "ordersDelivery": "Ordini & Spedizioni",
+      "b2bWholesale": "B2B & Vendita all'Ingrosso",
+      "companyHeritage": "Azienda & Tradizione"
+    },
+    "items": {
+      "faq1": {
+        "question": "I prodotti di Shelly Indian Foods sono autentici e originali?",
+        "answer": "Sì. Importiamo direttamente dall'India e trattiamo esclusivamente marchi certificati e originali come Tata Tea, Tata Salt e Tata Sampann, per garantirti il vero sapore e la qualità della tradizione indiana, senza compromessi."
+      },
+      "faq2": {
+        "question": "Dove si trova il vostro punto vendita e posso ordinare cibo indiano online?",
+        "answer": "Il nostro punto vendita fisico si trova a Cremona, in Via Giuseppina 149. Puoi anche ordinare tutti i prodotti online attraverso il nostro portale, con spedizioni rapide in tutta Italia."
+      },
+      "faq3": {
+        "question": "Fornite grossisti e catene di supermercati?",
+        "answer": "Sì, collaboriamo con grossisti e supermercati in tutta Italia, offrendo forniture alimentari all'ingrosso continuative con listini scaglionati su misura per partnership a lungo termine."
+      },
+      "faq4": {
+        "question": "Quali prodotti alimentari indiani posso acquistare da Shelly Indian Foods?",
+        "answer": "Trattiamo un vasto assortimento di autentici tè indiani (Tata Tea Premium, Gold, Agni), dal e legumi integrali Tata Sampann, Tata Salt, spezie tradizionali e ingredienti di base dei migliori marchi indiani."
+      },
+      "faq5": {
+        "question": "Da quanti anni Shelly Indian Foods opera sul mercato?",
+        "answer": "Siamo al servizio dei clienti a Cremona e in tutta Italia dal 1998, con oltre 25 anni di esperienza nell'importazione diretta di tè e generi alimentari indiani."
+      }
+    },
+    "support": {
+      "badge": "Supporto Commerciale Diretto",
+      "heading": "Hai altre domande su ordini o forniture all'ingrosso?",
+      "description": "Il nostro team di distribuzione a Cremona è pronto ad assistere il tuo negozio o supermercato con preventivi scaglionati, disponibilità a catalogo e logistica programmata.",
+      "hubLocation": "Hub di Cremona (Lombardia)",
+      "workingHours": "Lun – Sab: 08:30 – 19:30",
+      "callCremona": "Chiama il Punto Vendita",
+      "emailInquiries": "Richieste via Email",
+      "noMatchingTitle": "Nessuna domanda trovata",
+      "noMatchingDesc": "Prova a cercare con parole chiave diverse o azzera i filtri di ricerca.",
+      "resetFilter": "Reimposta Filtri"
     }
   }
 }

@@ -18,6 +18,7 @@ import {
   useRemoveFromCartMutation,
   useClearCartMutation,
 } from "@/services/cart/cart.hook";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 function normalizeCartItem(item: any): CartItem | null {
@@ -70,6 +71,7 @@ function normalizeCartItem(item: any): CartItem | null {
 }
 
 export function useCart(): CartContextValue {
+  const t = useTranslations("toasts");
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const user = useSelector((state: RootState) => state?.auth?.user);
@@ -110,8 +112,7 @@ export function useCart(): CartContextValue {
       };
 
       const handleError = (error: any) => {
-        const message =
-          error?.response?.data?.message || "Failed to update cart";
+        const message = error?.response?.data?.message || t("cartUpdateFailed");
         toast.error(message);
       };
 
@@ -264,7 +265,7 @@ export function useCart(): CartContextValue {
             },
             onError: (error: any) => {
               const message =
-                error?.response?.data?.message || "Failed to remove item";
+                error?.response?.data?.message || t("cartRemoveFailed");
               toast.error(message);
             },
           },

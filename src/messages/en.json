@@ -227,6 +227,24 @@
     "noDeliveredOrders": "No delivered orders",
     "inProcessEmptyDesc": "Active wholesale order requests will appear here.",
     "deliveredEmptyDesc": "Completed delivered orders will appear here.",
+    "statuses": {
+      "PAYMENT_PENDING": {
+        "label": "Payment Pending",
+        "description": "Awaiting payment confirmation before your order can be processed."
+      },
+      "IN_PROCESS": {
+        "label": "In Process",
+        "description": "Your wholesale order request has been received and is being prepared by our fulfillment team."
+      },
+      "DELIVERED": {
+        "label": "Delivered",
+        "description": "This order has been fulfilled and delivered to the destination address."
+      },
+      "CANCELLED": {
+        "label": "Cancelled",
+        "description": "This order has been cancelled."
+      }
+    },
     "card": {
       "placedOn": "Placed {date}",
       "totalItems": "Total Items",
@@ -261,6 +279,403 @@
       "qty": "Qty: {qty}",
       "inProcessDesc": "Your wholesale order request has been received and is being prepared by our fulfillment team.",
       "deliveredDesc": "This order has been fulfilled and delivered to the destination address."
+    }
+  },
+  "hero": {
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "goToSlide": "Go to slide {number}",
+    "slide1": {
+      "title": "Exclusive Tata Distributor in Italy",
+      "description": "Authentic Tata Tea, Tata Sampann Legumes, and Tata Salt direct from the authorized importer.",
+      "ctaText": "Browse Tata Range"
+    },
+    "slide2": {
+      "title": "25+ Years of Distribution Heritage",
+      "description": "Supplying 500+ supermarkets and wholesalers across Italy with 100+ annual temperature-controlled containers.",
+      "ctaText": "Explore Catalogue"
+    },
+    "slide3": {
+      "title": "BRCGS Grade A & ISO 22000 Certified",
+      "description": "100% batch-tested authentic Indian staples with EU compliant labelling and dedicated trade support.",
+      "ctaText": "Start B2B Ordering"
+    }
+  },
+  "heroBannerVideo": {
+    "authorizedImporter": "Authorized Tata Importer",
+    "certifiedFood": "EU Food Certified",
+    "mainHeadingPart1": "Authentic Tata Essentials",
+    "mainHeadingPart2": "Direct to Italian Supermarkets",
+    "subtitle": "Empowering 500+ food distributors and retail stores across Italy with genuine Tata Tea, Tata Sampann unrefined pulses, and Tata Salt.",
+    "feature1Title": "Direct from Cremona",
+    "feature1Subtitle": "Temperature-controlled hub",
+    "feature2Title": "Original Indian Chai",
+    "feature2Subtitle": "Tata Tea Gold & Premium",
+    "exploreCatalogue": "Explore Catalogue",
+    "tradeLogin": "Trade Account Login",
+    "videoBadge": "Authentic Tea Brewing",
+    "videoTag": "Tata Tea Premium",
+    "videoHighlight": "Iconic Morning Ritual",
+    "videoTitle": "Rich & Aromatic Indian Chai",
+    "videoDesc": "Direct importer for supermarket chains and Indian food distributors in Italy."
+  },
+  "distributedBrands": {
+    "badge": "Scale and Trust in Distribution throughout Italy",
+    "headingMain": "Brands we distribute",
+    "headingHighlight": "throughout Italy",
+    "pillNationwide": "Nationwide Fleet",
+    "pillWholesale": "Direct Wholesale",
+    "pillGenuine": "100% Genuine",
+    "active": "Active",
+    "officialPartner": "Official Brand Partner",
+    "portfolioDetails": "Distribution Portfolio Details",
+    "bulkCartons": "Bulk Cartons",
+    "italianInvoicing": "Direct Italian Invoicing",
+    "exploreBrand": "Explore {name}",
+    "items": {
+      "tata-tea": {
+        "name": "Tata Tea",
+        "tagline": "India's #1 Packaged Tea Heritage",
+        "alt": "Tata Tea - Premium Indian Tea",
+        "description": "Rich aroma and signature blends crafted from selected leaf estates across Assam & Darjeeling.",
+        "category": "Tata Tea"
+      },
+      "tata-salt": {
+        "name": "Tata Salt",
+        "tagline": "Desh Ka Namak — Guaranteed Purity",
+        "alt": "Tata Salt - Desh Ka Namak",
+        "description": "Pioneer of vacuum-evaporated iodised salt, unmatched in pristine purity and consistent taste.",
+        "category": "Tata Salt"
+      },
+      "tata-sampann-legumes": {
+        "name": "Tata Sampann Legumes",
+        "tagline": "100% Wholesome Unpolished Legumes",
+        "alt": "Tata Sampann Legumes - Pure Dals & Pulses",
+        "description": "Unpolished natural dals and pulses retaining wholesome plant protein, natural nutrients, and authentic taste.",
+        "category": "Tata Sampann Legumes"
+      }
+    },
+    "certifications": {
+      "cert-registered-structure": {
+        "badge": "GLOBAL",
+        "title": "Internationally Registered Structure",
+        "description": "Certified logistics & trade entity registered across the European Union."
+      },
+      "cert-brcgs": {
+        "badge": "GRADE A",
+        "title": "BRCGS Food Safety Grade A Certification",
+        "description": "Gold standard compliance for quality, safety, and rigorous audit protocols."
+      },
+      "cert-iso-haccp": {
+        "badge": "ISO 22000",
+        "title": "International Standards ISO 22000 & HACCP",
+        "description": "End-to-end hazard prevention from overseas source to Italian warehouse shelves."
+      }
+    }
+  },
+  "qualityAssurance": {
+    "badge": "Quality Assurance Protocol",
+    "title": "Our 4-Step Supply Chain Process",
+    "description": "From direct farm sourcing to door-to-door delivery to stores, every step is checked for food safety, barcode compliance, and cold chain integrity.",
+    "stepLabel": "STEP {number}",
+    "steps": {
+      "step-1": {
+        "title": "Direct Procurement and Processing",
+        "tag": "100% Traceable",
+        "description": "We collaborate with over 100 selected processing units and agricultural cooperatives, with distribution in Lombardy, Lazio, Campania, and Sicily.",
+        "badge": "Verified Phase"
+      },
+      "step-2": {
+        "title": "Dry and Refrigerated Port Storage",
+        "tag": "Air-conditioned",
+        "description": "Multi-zone, temperature-controlled storage at ports of origin to prevent moisture deterioration and pest infestations.",
+        "badge": "Verified Phase"
+      },
+      "step-3": {
+        "title": "Multi-Agency Quality Control and Compliance",
+        "tag": "FDA & EU Standards",
+        "description": "100% testing of every batch for pesticide residues, heavy metals, microbiological contamination and compliance with FDA/EU labels.",
+        "badge": "Verified Phase"
+      },
+      "step-4": {
+        "title": "Direct delivery to wholesalers",
+        "tag": "Door to Door",
+        "description": "Delivery with vehicles equipped with hydraulic tail lifts, directly to the distribution centers of wholesalers and supermarkets.",
+        "badge": "Verified Phase"
+      }
+    }
+  },
+  "featuresSection": {
+    "nationwideTitle": "Nationwide Italy Delivery",
+    "nationwideDesc": "Door-to-door temperature-controlled delivery for supermarkets & wholesalers across Italy.",
+    "authorizedTitle": "Authorized Tata Importer",
+    "authorizedDesc": "100% genuine Tata Tea, Tata Sampann pulses, and Tata Salt with certified EU compliance.",
+    "heritageTitle": "25+ Years of B2B Heritage",
+    "heritageDesc": "Trusted partnership since 1998 with tailored volume tiers and dedicated account support."
+  },
+  "categoriesSection": {
+    "badge": "Wholesale Master Catalog",
+    "headingMain": "Premier Indian",
+    "headingHighlight": "Product Categories",
+    "description": "Explore authentic high-demand FMCG staples distributed directly across Italy with genuine factory freshness and compliance.",
+    "certifiedPill": "100% Certified Italian Supply",
+    "viewAllProducts": "View All Products",
+    "exploreCategory": "Explore Category",
+    "b2bSupplyBadge": "Comprehensive B2B Supply",
+    "b2bCalloutTitle": "Looking for custom pallet mixes or scheduled container orders?",
+    "b2bCalloutDesc": "Our direct logistics hub in Reggio Emilia coordinates delivery schedules across Italy.",
+    "browseCatalogue": "Browse Full Catalogue"
+  },
+  "trustStorySection": {
+    "badge": "Corporate Scale & Heritage",
+    "headingPrefix": "A quarter of a century of excellence in wholesale trade",
+    "headingHighlight": "throughout Italy.",
+    "description": "We work directly with world-renowned brands to offer you teas, legumes, and pantry staples that retain their authentic flavor, just like those found in India. Finding the right lentils, sourced from the right supplier, packaged correctly, and offered at a fair price is the most complex challenge: and this is precisely what we've been focusing on for over 25 years.",
+    "exploreCatalog": "Explore B2B Catalog",
+    "tradeAccess": "Trade Account Access",
+    "verifiedMetric": "Verified Metric",
+    "pillars": {
+      "directImport": "Direct Import Lines",
+      "panItalian": "Pan-Italian Delivery",
+      "brcgs": "BRCGS Grade A Audit",
+      "iso22000": "ISO 22000 Certified"
+    },
+    "stats": {
+      "containers": {
+        "title": "Annual Container Volume",
+        "desc": "Temperature-controlled container shipments direct from Indian origins",
+        "badge": "FREIGHT"
+      },
+      "experience": {
+        "title": "Years of Experience",
+        "desc": "Pioneering authentic food import and wholesale trade across Italy",
+        "badge": "SINCE 1998"
+      },
+      "partners": {
+        "title": "Partners",
+        "desc": "Distribution Wholesalers and Supermarket retail chains",
+        "badge": "NETWORK"
+      },
+      "products": {
+        "title": "Active B2B Products",
+        "desc": "Authentic SKUs of Indian food staples, spices and grocery lines",
+        "badge": "CATALOG"
+      }
+    }
+  },
+  "testimonialsSection": {
+    "badge": "Real Customer Feedback",
+    "title": "What Our Customers Say",
+    "description": "Hear directly from culinary enthusiasts, supermarket managers, and authentic Indian food lovers across Italy.",
+    "prevAria": "Previous review",
+    "nextAria": "Next review",
+    "verifiedFeedback": "Verified Feedback",
+    "storyCounter": "Story {current} of {total}",
+    "items": {
+      "test-1": {
+        "highlight": "The Tata Tea tastes exactly like the one from home in India",
+        "quote": "I've been buying my chai and dal from Shelly Indian Foods for years now. The Tata Tea Premium tastes exactly like the one my mother used to make in India, and deliveries throughout Italy have always been fast and reliable. It's rare to find such an authentic store.",
+        "author": "Rakesh S.",
+        "location": "Milan, Lombardy",
+        "role": "Regular Wholesale Buyer",
+        "verifiedOrder": "Tata Tea Premium & Pulses"
+      },
+      "test-2": {
+        "highlight": "Everything is carefully chosen, not just imported in bulk",
+        "quote": "I'm not Indian, but I love cooking with these ingredients, and the staff guided me in choosing the right dal for my first dal makhani. Everything seemed carefully chosen, not just imported in bulk. Now it's my go-to shop for that authentic flavor.",
+        "author": "Chiara B.",
+        "location": "Cremona, Lombardy",
+        "role": "Home Chef & Retail Customer",
+        "verifiedOrder": "Whole Spices & Dal Makhani Kit"
+      },
+      "test-3": {
+        "highlight": "Nothing feels like a random import — genuine quality care",
+        "quote": "I ordered Tata Tea Gold and a bag of rajma online, and both arrived quickly and well-packaged. What I appreciate most is that nothing seems like a random import; you can tell they really care about the brands they carry. I will definitely order again.",
+        "author": "Anjali D.",
+        "location": "Rome, Italy",
+        "role": "Verified B2B & Retail Order",
+        "verifiedOrder": "Tata Tea Gold & Rajma Premium"
+      }
+    }
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "signInTitle": "Sign In",
+    "subtitle": "Access your wholesale pricing and order history.",
+    "emailLabel": "Enter your business email",
+    "emailPlaceholder": "you@company.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "showPasswordAria": "Show password",
+    "hidePasswordAria": "Hide password",
+    "signInButton": "Sign In",
+    "signingInButton": "Signing in...",
+    "noAccountPrompt": "Don't have an account?",
+    "signUpLink": "Sign up",
+    "backToStore": "Back to store"
+  },
+  "signup": {
+    "newCustomer": "New Customer",
+    "createAccountTitle": "Create Trade Account",
+    "subtitle": "Register to unlock exclusive wholesale catalogue rates.",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "e.g. Marco Rossi",
+    "businessNameLabel": "Business Name",
+    "businessNamePlaceholder": "e.g. Alimentari Italia Srl",
+    "emailLabel": "Enter your business email",
+    "emailPlaceholder": "orders@company.it",
+    "mobileNumberLabel": "Mobile Number",
+    "mobileNumberPlaceholder": "e.g. +39 389 0220807",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "showPasswordAria": "Show password",
+    "hidePasswordAria": "Hide password",
+    "signUpButton": "Sign Up",
+    "submittingButton": "Submitting...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "backToStore": "Back to store"
+  },
+  "authLayout": {
+    "badge": "Shelly Indian Foods",
+    "titleLine1": "Authentic Indian Foods.",
+    "titleLine2": "Direct to Your Business in Italy.",
+    "description": "Exclusive distributor of Tata Consumer Products in Italy. Trade-tier pricing, 1kg wholesale pulse packs, and reliable nationwide logistics from Cremona.",
+    "benefit1Title": "Authorized Tata Importer",
+    "benefit1Desc": "100% authentic Tata Tea, Sampann pulses & Tata Salt with certified EU labels",
+    "benefit2Title": "Wholesale & Supermarket Pricing",
+    "benefit2Desc": "Tiered pricing margins tailored for high grocery turnover",
+    "benefit3Title": "Nationwide Italy Distribution",
+    "benefit3Desc": "Temperature-controlled delivery direct to your store or warehouse",
+    "copyright": "© {year} Shelly Indian Foods S.r.l. · Cremona, Italy"
+  },
+  "toasts": {
+    "loginSuccess": "Logged in successfully.",
+    "loginFailed": "Sign in failed. Please check your credentials.",
+    "signupSuccess": "Registration successful! Your account is pending admin approval.",
+    "signupFailed": "Registration failed. Please try again.",
+    "logoutSuccess": "Successfully logged out!",
+    "logoutFailed": "Logout failed.",
+    "addressAdded": "Address added successfully.",
+    "addressAddFailed": "Failed to add address.",
+    "addressUpdated": "Address updated successfully.",
+    "addressUpdateFailed": "Failed to update address.",
+    "addressRemoved": "Address removed successfully.",
+    "addressRemoveFailed": "Failed to remove address.",
+    "orderFailed": "Failed to place order.",
+    "cartUpdateFailed": "Failed to update cart.",
+    "cartRemoveFailed": "Failed to remove item.",
+    "orderNotificationDefault": "Order Notification",
+    "viewOrders": "View Orders"
+  },
+  "productsSection": {
+    "title": "Popular wholesale picks",
+    "viewAll": "View all"
+  },
+  "productDetail": {
+    "back": "Back",
+    "sku": "SKU: {sku}",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "description": "Description",
+    "noDescription": "No detailed description available for this product.",
+    "selectedVariant": "Selected Variant ({weight})",
+    "relatedTitle": "Related Products",
+    "relatedSubtitle": "Complementary items recommended for your store inventory",
+    "viewImageAria": "View product image {number}",
+    "notFound": "Product not found"
+  },
+  "aboutPage": {
+    "badge": "Heritage & Mission",
+    "title": "Who We Are",
+    "heroTagline": "Family Owned Business Since 1998",
+    "storyHeading": "Exclusive Distributor of Tata Consumer Products in Italy",
+    "p1": "Shelly Indian Foods is the exclusive distributor of Tata Consumer Products in Italy and has been the go-to address in Cremona for authentic groceries and wholesale supply.",
+    "p2": "What began as a small family-run shop opened by Avtar and Shelly Grover, and now run by their son Tajinder, has grown into one of the region's most reliable sources for wholesalers and retailers purchasing authentic Indian food products from trusted distributors since 1998.",
+    "p3": "Every product on our shelves, from a box of Tata Tea Premium to a kilo of unpolished rajma dal, is something we'd happily use in our own kitchen.",
+    "exploreCatalog": "Explore Catalog",
+    "faqsButton": "Frequently Asked Questions",
+    "heritageCard": {
+      "badge": "Heritage",
+      "title": "Avtar & Shelly Grover Family",
+      "subtitle": "Founded in Cremona, Lombardy since 1998"
+    },
+    "stats": {
+      "stat1Number": "25+ Years",
+      "stat1Desc": "Continuous family operations from Cremona across all Italian regions.",
+      "stat2Number": "100+ Containers",
+      "stat2Desc": "Direct temperature-controlled sea freight import per year.",
+      "stat3Number": "500+ Partners",
+      "stat3Desc": "Wholesalers, ethnic stores, and supermarkets nationwide.",
+      "stat4Number": "BRCGS Grade A",
+      "stat4Desc": "Strict ISO 22000 & HACCP food compliance and batch traceability."
+    },
+    "purposeBadge": "Purpose & Direction",
+    "visionMissionTitle": "Our Vision & Mission",
+    "vision": {
+      "title": "Our Vision",
+      "desc": "To continue to grow and expand as a trusted name for authentic Indian food products throughout Italy, bringing the familiar taste of India closer to every home, store, and business. Our goal is to build a strong bridge between trusted Indian food brands and the growing Indian and South Asian community in Italy, while making quality products easier to find and access.",
+      "tag": "Long-Term Expansion"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "desc": "At Shelly Indian Foods, our mission is to make trusted Indian food products available throughout Italy with reliability, care, and consistency. As the exclusive distributor of Tata Consumer Products in Italy, we ensure wholesalers and customers have access to authentic products they know and trust, from tea to salt to legumes, building reliable and long-lasting distribution relationships.",
+      "tag": "Reliable Wholesale Partnerships"
+    },
+    "showroom": {
+      "badge": "Cremona Showroom & Headquarters",
+      "title": "Visit our flagship location in Cremona",
+      "address": "Via Giuseppina, 149, 26100 Cremona CR, Italy • Serving partners Monday to Saturday.",
+      "phone": "+39 0372 432787",
+      "emailTeam": "Email Team"
+    }
+  },
+  "faqPage": {
+    "badge": "Help & Clarifications",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our authentic Indian products, Italian distribution network, wholesale operations, and food safety standards.",
+    "searchPlaceholder": "Search questions (e.g. Tata Tea, Cremona store, delivery)...",
+    "allCategory": "All Categories",
+    "noQuestionsMatch": "No questions matched your search.",
+    "categories": {
+      "authenticityProducts": "Authenticity & Products",
+      "ordersDelivery": "Orders & Delivery",
+      "b2bWholesale": "B2B & Wholesale",
+      "companyHeritage": "Company & Heritage"
+    },
+    "items": {
+      "faq1": {
+        "question": "Are Shelly Indian Foods products authentic and original?",
+        "answer": "Yes. We import directly from India and only carry certified and original brands like Tata Tea, Tata Salt, and Tata Sampann, to guarantee you the true flavor and quality of Indian cuisine, not a substitute."
+      },
+      "faq2": {
+        "question": "Where is your store located and can I order Indian food online?",
+        "answer": "Our physical store is located in Cremona, at Via Giuseppina 149. You can also order Indian food products online through our shop, with delivery throughout Italy."
+      },
+      "faq3": {
+        "question": "Do you supply wholesalers and supermarkets?",
+        "answer": "Yes, we work with wholesalers and supermarkets throughout Italy, offering a reliable wholesale supply of Indian food products and consistent quality for long-term partnerships with tiered volume pricing."
+      },
+      "faq4": {
+        "question": "What kind of Indian products can I buy from Shelly Indian Foods?",
+        "answer": "We carry a wide range of authentic Indian teas (Tata Tea Premium, Gold, Agni), Tata Dal & unpolished pulses (Tata Sampann), Tata Salt, spices, and pantry essentials from trusted brands — everything you need for true Indian cuisine."
+      },
+      "faq5": {
+        "question": "How long has Shelly Indian Foods been serving customers?",
+        "answer": "We have been serving customers in Cremona and throughout Italy since 1998, with over 25 years of importing authentic Indian tea and food products."
+      }
+    },
+    "support": {
+      "badge": "Direct Trade Support",
+      "heading": "Have more questions about orders or wholesale supply?",
+      "description": "Our central distribution team in Cremona is ready to assist your store or supermarket with custom tiered quotes, catalog availability, and scheduled logistics.",
+      "hubLocation": "Cremona (Lombardy) Hub",
+      "workingHours": "Mon – Sat: 08:30 – 19:30",
+      "callCremona": "Call Cremona Store",
+      "emailInquiries": "Email Inquiries",
+      "noMatchingTitle": "No matching questions found",
+      "noMatchingDesc": "Try searching with different keywords or clear the search filter.",
+      "resetFilter": "Reset Filter"
     }
   }
 }

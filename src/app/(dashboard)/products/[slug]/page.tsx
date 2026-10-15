@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { ProductDetail } from "@/components/product-detail";
 import { ErrorView } from "@/components/common/ErrorView";
@@ -8,6 +9,7 @@ import { useProductDetail } from "@/services/product/product.hook";
 import { ProductDetailSkeleton } from "@/components/skeleton/product-detail-skeleton";
 
 export default function ProductPage() {
+  const t = useTranslations("productDetail");
   const { slug } = useParams<{ slug: string }>();
 
   const { data, isLoading, isError, error, refetch } = useProductDetail(slug);
@@ -28,9 +30,7 @@ export default function ProductPage() {
         <PortalHeader />
         <main className="mx-auto max-w-3xl px-5 py-20">
           <ErrorView
-            message={
-              (error as any)?.response?.data?.message ?? "Product not found"
-            }
+            message={(error as any)?.response?.data?.message ?? t("notFound")}
             onRetry={refetch}
           />
         </main>

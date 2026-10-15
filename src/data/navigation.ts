@@ -30,6 +30,7 @@ export const HEADER_UTILITIES = {
 };
 
 export interface MobileNavItem {
+  id: string;
   href: string;
   label: string;
   icon: LucideIcon;
@@ -49,12 +50,14 @@ export const getMobileNavItems = ({
   t: (key: any) => string;
 }): MobileNavItem[] => [
   {
+    id: "home",
     href: ROUTES.HOME,
     label: t("home"),
     icon: Home,
     isActive: pathname === ROUTES.HOME,
   },
   {
+    id: "catalogue",
     href: ROUTES.CATALOGUE,
     label: t("catalogue"),
     icon: LayoutGrid,
@@ -62,6 +65,7 @@ export const getMobileNavItems = ({
       pathname === ROUTES.CATALOGUE || pathname.startsWith("/products/"),
   },
   {
+    id: "cart",
     href: ROUTES.CART,
     label: t("cart"),
     icon: ShoppingBasket,
@@ -69,12 +73,14 @@ export const getMobileNavItems = ({
     isActive: pathname === ROUTES.CART || pathname === ROUTES.CHECKOUT,
   },
   {
+    id: "orders",
     href: user ? ROUTES.ORDERS : ROUTES.LOGIN,
     label: t("orders"),
     icon: PackageCheck,
     isActive: pathname === ROUTES.ORDERS,
   },
   {
+    id: "account",
     href: user ? ROUTES.PROFILE : ROUTES.LOGIN,
     label: user ? t("profile") : t("signIn"),
     icon: user ? User : LogIn,

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowRight,
   ArrowUpRight,
-  Sparkles,
   ShieldCheck,
   ChevronRight,
   Layers,
@@ -20,6 +20,7 @@ export function CategoriesSection({
   categories = [],
   isLoading = false,
 }: CategoriesSectionProps & { isLoading?: boolean }) {
+  const t = useTranslations("categoriesSection");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   if (isLoading) {
@@ -46,31 +47,29 @@ export function CategoriesSection({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 md:mb-16">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
-              <Sparkles className="size-3.5 text-primary" />
-              <span>Wholesale Master Catalog</span>
+              <span>{t("badge")}</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15]">
-              Premier Indian <br className="hidden sm:inline" />
+              {t("headingMain")} <br className="hidden sm:inline" />
               <span className="text-primary bg-clip-text">
-                Product Categories
+                {t("headingHighlight")}
               </span>
             </h2>
             <p className="text-sm md:text-base text-stone-600 mt-3 max-w-xl leading-relaxed">
-              Explore authentic high-demand FMCG staples distributed directly
-              across Italy with genuine factory freshness and compliance.
+              {t("description")}
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-stone-700 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-stone-200/80 shadow-xs">
               <ShieldCheck className="size-4 text-emerald-600" />
-              <span>100% Certified Italian Supply</span>
+              <span>{t("certifiedPill")}</span>
             </div>
 
             <Link
               href={ROUTES.CATALOGUE}
               className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-stone-900 hover:bg-primary text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all duration-200 group">
-              <span>View All Products</span>
+              <span>{t("viewAllProducts")}</span>
               <ChevronRight className="size-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -133,7 +132,7 @@ export function CategoriesSection({
                     <Link
                       href={targetHref}
                       className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-900 hover:bg-primary text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md transition-all duration-200 group/btn">
-                      <span>Explore Category</span>
+                      <span>{t("exploreCategory")}</span>
                       <ArrowUpRight className="size-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                     </Link>
                   </div>
@@ -149,21 +148,20 @@ export function CategoriesSection({
           <div className="space-y-1 text-center md:text-left">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider">
               <Layers className="size-3.5" />
-              <span>Comprehensive B2B Supply</span>
+              <span>{t("b2bSupplyBadge")}</span>
             </div>
             <h4 className="text-lg sm:text-xl font-bold">
-              Looking for custom pallet mixes or scheduled container orders?
+              {t("b2bCalloutTitle")}
             </h4>
             <p className="text-xs sm:text-sm text-stone-300">
-              Our direct logistics hub in Reggio Emilia coordinates delivery
-              schedules across Italy.
+              {t("b2bCalloutDesc")}
             </p>
           </div>
 
           <Link
             href={ROUTES.CATALOGUE}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white hover:bg-amber-400 text-stone-900 hover:text-stone-950 font-extrabold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-lg shrink-0">
-            <span>Browse Full Catalogue</span>
+            <span>{t("browseCatalogue")}</span>
             <ArrowRight className="size-4" />
           </Link>
         </div>

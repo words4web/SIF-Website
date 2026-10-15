@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowRight,
   Sparkles,
@@ -12,16 +13,21 @@ import {
   Truck,
   Building2,
 } from "lucide-react";
-import { DISTRIBUTED_BRANDS, BRAND_CERTIFICATIONS } from "@/data/brands";
+import { getDistributedBrands, getBrandCertifications } from "@/data/brands";
 
 export function DistributedBrandsSection() {
+  const t = useTranslations("distributedBrands");
+
+  const distributedBrands = useMemo(() => getDistributedBrands(t), [t]);
+  const brandCertifications = useMemo(() => getBrandCertifications(t), [t]);
+
   const [selectedBrandId, setSelectedBrandId] = useState<string>(
-    DISTRIBUTED_BRANDS[0]?.id || "",
+    distributedBrands[0]?.id || "",
   );
 
   const activeBrand =
-    DISTRIBUTED_BRANDS.find((b) => b.id === selectedBrandId) ||
-    DISTRIBUTED_BRANDS[0];
+    distributedBrands.find((b) => b.id === selectedBrandId) ||
+    distributedBrands[0];
 
   return (
     <section className="relative py-12 md:py-20 lg:py-24 bg-gradient-to-b from-[#faf8f5] via-white to-[#faf8f5] border-y border-stone-200/80 overflow-hidden">
@@ -42,40 +48,40 @@ export function DistributedBrandsSection() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 md:px-3.5 md:py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] md:text-xs font-semibold uppercase tracking-wider mb-3 md:mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-              <span>Scale and Trust in Distribution throughout Italy</span>
+              <span>{t("badge")}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900 leading-tight">
-              Brands we distribute <br className="hidden sm:inline" />
-              <span className="text-primary">throughout Italy</span>
+              {t("headingMain")} <br className="hidden sm:inline" />
+              <span className="text-primary">{t("headingHighlight")}</span>
             </h2>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 md:gap-4 text-xs md:text-sm text-stone-600 font-medium">
             <div className="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-stone-200/80 shadow-xs">
               <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
-              <span>Nationwide Fleet</span>
+              <span>{t("pillNationwide")}</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-stone-200/80 shadow-xs">
               <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#cb242c]" />
-              <span>Direct Wholesale</span>
+              <span>{t("pillWholesale")}</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border border-stone-200/80 shadow-xs">
               <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
-              <span>100% Genuine</span>
+              <span>{t("pillGenuine")}</span>
             </div>
           </div>
         </div>
 
         <div className="lg:hidden mb-4">
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
-            {DISTRIBUTED_BRANDS.map((brand, idx) => {
+            {distributedBrands.map((brand, idx) => {
               const isSelected = brand.id === activeBrand.id;
               return (
                 <button
                   key={brand.id}
                   type="button"
                   onClick={() => setSelectedBrandId(brand.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap snap-start border transition-all ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap snap-start border transition-all cursor-pointer ${
                     isSelected
                       ? "bg-primary text-white border-primary shadow-sm shadow-primary/30"
                       : "bg-white text-stone-700 border-stone-200 hover:border-stone-300"
@@ -97,7 +103,7 @@ export function DistributedBrandsSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-stretch mb-10 md:mb-16">
           <div className="hidden lg:flex lg:col-span-5 flex-col gap-3.5 justify-center">
-            {DISTRIBUTED_BRANDS.map((brand, idx) => {
+            {distributedBrands.map((brand, idx) => {
               const isSelected = brand.id === activeBrand.id;
               return (
                 <div
@@ -132,7 +138,7 @@ export function DistributedBrandsSection() {
                         </span>
                         {isSelected && (
                           <span className="text-[10px] uppercase font-bold text-white bg-primary px-2.5 py-0.5 rounded-full shadow-xs">
-                            Active
+                            {t("active")}
                           </span>
                         )}
                       </div>
@@ -182,7 +188,7 @@ export function DistributedBrandsSection() {
                 <div className="flex-grow text-center sm:text-left w-full sm:w-auto">
                   <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 mb-1.5 sm:mb-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    Official Brand Partner
+                    {t("officialPartner")}
                   </span>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-stone-900">
                     {activeBrand.name}
@@ -195,7 +201,7 @@ export function DistributedBrandsSection() {
 
               <div className="relative z-10 py-4 sm:py-6">
                 <h4 className="text-[11px] sm:text-xs uppercase font-bold text-stone-400 tracking-wider mb-1.5 sm:mb-2">
-                  Distribution Portfolio Details
+                  {t("portfolioDetails")}
                 </h4>
                 <p className="text-xs sm:text-sm md:text-base text-stone-700 leading-relaxed max-w-xl">
                   {activeBrand.description}
@@ -206,16 +212,16 @@ export function DistributedBrandsSection() {
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-stone-500 font-medium">
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    Bulk Cartons
+                    {t("bulkCartons")}
                   </span>
                   <span>&bull;</span>
-                  <span>Direct Italian Invoicing</span>
+                  <span>{t("italianInvoicing")}</span>
                 </div>
 
                 <Link
-                  href={activeBrand.href || "/catalog"}
+                  href={activeBrand.href || "/catalogue"}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl bg-primary hover:bg-[#b01e25] text-white font-bold text-xs sm:text-sm shadow-md shadow-primary/25 hover:shadow-lg transition-all hover:gap-3">
-                  <span>Explore {activeBrand.name}</span>
+                  <span>{t("exploreBrand", { name: activeBrand.name })}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -224,7 +230,7 @@ export function DistributedBrandsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 md:gap-5 pt-6 md:pt-8 border-t border-stone-200/80">
-          {BRAND_CERTIFICATIONS.map((cert) => (
+          {brandCertifications.map((cert) => (
             <div
               key={cert.id}
               className="relative p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl bg-white border border-stone-200/80 hover:border-primary/40 hover:shadow-md transition-all group">
@@ -249,3 +255,5 @@ export function DistributedBrandsSection() {
     </section>
   );
 }
+
+export default DistributedBrandsSection;

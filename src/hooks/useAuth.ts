@@ -5,6 +5,7 @@ import { setUnreadCount } from "@/lib/store/notificationSlice";
 import { AuthUser } from "@/types/auth/auth.types";
 import { useCallback, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { authService } from "@/services/auth/auth.service";
 import { clearCart } from "@/lib/store/cartSlice";
 import { toast } from "sonner";
@@ -44,6 +45,7 @@ export const useProfile = (options?: { enabled?: boolean }) => {
 };
 
 export function useAuth() {
+  const t = useTranslations("toasts");
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -61,10 +63,10 @@ export function useAuth() {
   const signOut = useCallback(async () => {
     try {
       await authService.logout();
-      toast.success("Successfully logged out!");
+      toast.success(t("logoutSuccess"));
     } catch (err: any) {
       console.error("Logout failed:", err);
-      toast.error(err.response?.data?.message || "Logout failed.");
+      toast.error(err.response?.data?.message || t("logoutFailed"));
     } finally {
       dispatch(clearAuth());
       dispatch(clearCart());

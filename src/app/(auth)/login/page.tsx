@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
 import { LoginDetailsForm } from "@/components/auth/LoginDetailsForm";
+import { ROUTES } from "@/constants/routes";
 
 export default function LoginPage() {
+  const t = useTranslations("login");
   const { handleSubmit, loading } = useAuthFlow({
     isLogin: true,
   });
@@ -15,7 +18,7 @@ export default function LoginPage() {
     <div className="w-full max-w-md relative">
       <div className="rounded-2xl sm:rounded-3xl border border-border/80 bg-card/95 p-5 sm:p-8 lg:p-9 shadow-xl shadow-stone-900/5 backdrop-blur-md">
         <div className="flex items-center justify-between pb-5 sm:pb-6 border-b border-border/60">
-          <Link href="/" className="inline-block">
+          <Link href={ROUTES.HOME} className="inline-block">
             <Image
               src="/logo.png"
               alt="Shelly Indian Foods Logo"
@@ -33,17 +36,17 @@ export default function LoginPage() {
 
         <div className="mt-8 pt-6 border-t border-border/60 flex flex-col items-center gap-3">
           <Link
-            href="/signup"
+            href={ROUTES.SIGNUP}
             className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">
-            Don&apos;t have an account?{" "}
+            {t("noAccountPrompt")}{" "}
             <span className="text-primary font-bold underline decoration-primary/40 underline-offset-4">
-              Sign up
+              {t("signUpLink")}
             </span>
           </Link>
           <Link
-            href="/"
+            href={ROUTES.HOME}
             className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground/80 hover:text-foreground transition-colors">
-            <ArrowLeft className="size-3.5" /> Back to store
+            <ArrowLeft className="size-3.5" /> {t("backToStore")}
           </Link>
         </div>
       </div>

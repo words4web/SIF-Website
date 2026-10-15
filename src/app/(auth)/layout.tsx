@@ -1,10 +1,14 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("authLayout");
+  const year = new Date().getFullYear();
+
   return (
     <div className="min-h-screen lg:h-screen w-full flex bg-muted/40 overflow-y-auto lg:overflow-hidden">
       <div className="flex-1 grid lg:grid-cols-2 min-h-screen lg:h-full w-full">
@@ -17,22 +21,18 @@ export default function AuthLayout({
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 backdrop-blur-md border border-white/15">
               <span className="size-2 rounded-full bg-primary" />
               <span className="text-xs font-bold uppercase tracking-[.2em] text-white/90">
-                Shelly Indian Foods
+                {t("badge")}
               </span>
             </div>
           </div>
 
           <div className="relative z-10 max-w-lg space-y-6 my-auto py-8">
             <h1 className="font-serif text-3xl xl:text-5xl font-extrabold leading-tight tracking-tight text-white drop-shadow-sm">
-              Authentic Indian Foods. <br />
-              <span className="text-white/80">
-                Direct to Your Business in Italy.
-              </span>
+              {t("titleLine1")} <br />
+              <span className="text-white/80">{t("titleLine2")}</span>
             </h1>
             <p className="text-sm xl:text-base text-white/70 leading-relaxed font-normal">
-              Exclusive distributor of Tata Consumer Products in Italy.
-              Trade-tier pricing, 1kg wholesale pulse packs, and reliable
-              nationwide logistics from Cremona.
+              {t("description")}
             </p>
 
             <div className="space-y-3.5 pt-6 border-t border-white/15">
@@ -42,11 +42,10 @@ export default function AuthLayout({
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-sm">
-                    Authorized Tata Importer
+                    {t("benefit1Title")}
                   </h3>
                   <p className="text-xs text-white/60 mt-0.5">
-                    100% authentic Tata Tea, Sampann pulses &amp; Tata Salt with
-                    certified EU labels
+                    {t("benefit1Desc")}
                   </p>
                 </div>
               </div>
@@ -56,10 +55,10 @@ export default function AuthLayout({
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-sm">
-                    Wholesale &amp; Supermarket Pricing
+                    {t("benefit2Title")}
                   </h3>
                   <p className="text-xs text-white/60 mt-0.5">
-                    Tiered pricing margins tailored for high grocery turnover
+                    {t("benefit2Desc")}
                   </p>
                 </div>
               </div>
@@ -69,11 +68,10 @@ export default function AuthLayout({
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-sm">
-                    Nationwide Italy Distribution
+                    {t("benefit3Title")}
                   </h3>
                   <p className="text-xs text-white/60 mt-0.5">
-                    Temperature-controlled delivery direct to your store or
-                    warehouse
+                    {t("benefit3Desc")}
                   </p>
                 </div>
               </div>
@@ -81,8 +79,7 @@ export default function AuthLayout({
           </div>
 
           <div className="relative z-10 pt-4 text-xs text-white/50 font-medium">
-            © {new Date().getFullYear()} Shelly Indian Foods S.r.l. · Cremona,
-            Italy
+            {t("copyright", { year })}
           </div>
         </div>
 

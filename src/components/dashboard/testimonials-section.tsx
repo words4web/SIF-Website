@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import {
   Quote,
   ChevronLeft,
@@ -10,10 +11,12 @@ import {
   MapPin,
   ShoppingBag,
 } from "lucide-react";
-import { TESTIMONIALS_DATA } from "@/data/testimonials";
+import { getTestimonialsData } from "@/data/testimonials";
 
 export function TestimonialsSection() {
-  const { badge, title, description, testimonials } = TESTIMONIALS_DATA;
+  const t = useTranslations("testimonialsSection");
+  const testimonialsData = useMemo(() => getTestimonialsData(t), [t]);
+  const { badge, title, description, testimonials } = testimonialsData;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeTestimonial = testimonials[activeIndex] || testimonials[0];
@@ -64,14 +67,14 @@ export function TestimonialsSection() {
             <button
               type="button"
               onClick={handlePrev}
-              aria-label="Previous review"
+              aria-label={t("prevAria")}
               className="w-10 h-10 rounded-full border border-stone-200 bg-white text-stone-700 hover:bg-primary hover:text-white hover:border-primary shadow-xs transition-all flex items-center justify-center active:scale-95">
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
               onClick={handleNext}
-              aria-label="Next review"
+              aria-label={t("nextAria")}
               className="w-10 h-10 rounded-full border border-stone-200 bg-white text-stone-700 hover:bg-primary hover:text-white hover:border-primary shadow-xs transition-all flex items-center justify-center active:scale-95">
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -141,7 +144,7 @@ export function TestimonialsSection() {
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-6 border-b border-stone-100">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 text-stone-800 text-xs font-bold">
                     <BadgeCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Verified Feedback</span>
+                    <span>{t("verifiedFeedback")}</span>
                   </div>
 
                   {activeTestimonial.verifiedOrder && (
@@ -185,7 +188,10 @@ export function TestimonialsSection() {
 
                 <div className="flex items-center gap-2 self-start sm:self-auto">
                   <span className="text-xs text-stone-400 font-medium">
-                    Story {activeIndex + 1} of {total}
+                    {t("storyCounter", {
+                      current: activeIndex + 1,
+                      total,
+                    })}
                   </span>
                 </div>
               </div>
@@ -196,3 +202,5 @@ export function TestimonialsSection() {
     </section>
   );
 }
+
+export default TestimonialsSection;

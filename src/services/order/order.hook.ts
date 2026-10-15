@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { orderService, CreateOrderPayload } from "./order.service";
 
@@ -10,6 +11,8 @@ export const useCreateOrder = (options?: {
   onSuccess?: (data: any) => void;
   onError?: (error: any) => void;
 }) => {
+  const t = useTranslations("toasts");
+
   return useMutation({
     mutationFn: ({ idempotencyKey, ...payload }: CreateOrderMutationParams) =>
       orderService.create(payload, { idempotencyKey }),
@@ -17,7 +20,7 @@ export const useCreateOrder = (options?: {
       options?.onSuccess?.(data);
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Failed to place order.");
+      toast.error(error.response?.data?.message || t("orderFailed"));
       options?.onError?.(error);
     },
   });

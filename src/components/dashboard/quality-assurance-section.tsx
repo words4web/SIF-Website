@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+import { useTranslations } from "next-intl";
 import {
   Sprout,
   Warehouse,
@@ -8,7 +10,7 @@ import {
   CheckCircle2,
   ArrowRight,
 } from "lucide-react";
-import { SUPPLY_CHAIN_DATA } from "@/data/supply-chain";
+import { getSupplyChainData } from "@/data/supply-chain";
 
 const STEP_ICONS = {
   Sprout,
@@ -18,7 +20,9 @@ const STEP_ICONS = {
 };
 
 export function QualityAssuranceSection() {
-  const { badge, title, description, steps } = SUPPLY_CHAIN_DATA;
+  const t = useTranslations("qualityAssurance");
+  const supplyChainData = useMemo(() => getSupplyChainData(t), [t]);
+  const { badge, title, description, steps } = supplyChainData;
 
   return (
     <section className="relative py-12 sm:py-16 md:py-24 bg-gradient-to-b from-white via-[#faf8f5] to-white border-y border-stone-200/80 overflow-hidden">
@@ -53,7 +57,7 @@ export function QualityAssuranceSection() {
           <div className="hidden lg:block absolute top-1/2 left-8 right-8 h-0.5 bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 -translate-y-8 pointer-events-none" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-7">
-            {steps.map((step, idx) => {
+            {steps.map((step) => {
               const Icon = STEP_ICONS[step.iconName];
               return (
                 <div
@@ -68,7 +72,7 @@ export function QualityAssuranceSection() {
                       </div>
 
                       <span className="text-[10px] sm:text-xs font-black tracking-widest text-primary/90 bg-primary/5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg border border-primary/15">
-                        STEP {step.stepNumber}
+                        {t("stepLabel", { number: step.stepNumber })}
                       </span>
                     </div>
 
@@ -104,3 +108,5 @@ export function QualityAssuranceSection() {
     </section>
   );
 }
+
+export default QualityAssuranceSection;

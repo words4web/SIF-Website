@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowRight,
   BadgeCheck,
@@ -11,8 +12,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
 
 export function HeroBannerVideo() {
+  const t = useTranslations("heroBannerVideo");
+
   return (
     <section className="relative overflow-hidden py-8 sm:py-16 lg:py-20 bg-gradient-to-b from-background via-muted/20 to-background border-b border-border/50">
       <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
@@ -25,25 +29,21 @@ export function HeroBannerVideo() {
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 sm:px-4 py-1 text-[11px] sm:text-xs font-bold text-accent-foreground shadow-xs">
                   <BadgeCheck className="size-3.5 sm:size-4 text-primary" />
-                  <span>Authorized Tata Importer</span>
+                  <span>{t("authorizedImporter")}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-muted/50 px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-semibold text-muted-foreground">
                   <ShieldCheck className="size-3.5 sm:size-4 text-primary" />
-                  <span>EU Food Certified</span>
+                  <span>{t("certifiedFood")}</span>
                 </span>
               </div>
 
               <div className="space-y-2 sm:space-y-3">
                 <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-extrabold leading-[1.2] sm:leading-[1.16] tracking-tight text-foreground">
-                  Authentic Tata Essentials <br className="hidden sm:inline" />
-                  <span className="text-primary">
-                    Direct to Italian Supermarkets
-                  </span>
+                  {t("mainHeadingPart1")} <br className="hidden sm:inline" />
+                  <span className="text-primary">{t("mainHeadingPart2")}</span>
                 </h2>
                 <p className="text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground max-w-lg">
-                  Empowering 500+ food distributors and retail stores across
-                  Italy with genuine Tata Tea, Tata Sampann unrefined pulses,
-                  and Tata Salt.
+                  {t("subtitle")}
                 </p>
               </div>
 
@@ -54,10 +54,10 @@ export function HeroBannerVideo() {
                   </div>
                   <div className="min-w-0">
                     <span className="block text-xs font-bold text-foreground truncate">
-                      Direct from Cremona
+                      {t("feature1Title")}
                     </span>
                     <span className="block text-[10px] sm:text-[11px] text-muted-foreground truncate">
-                      Temperature-controlled hub
+                      {t("feature1Subtitle")}
                     </span>
                   </div>
                 </div>
@@ -68,10 +68,10 @@ export function HeroBannerVideo() {
                   </div>
                   <div className="min-w-0">
                     <span className="block text-xs font-bold text-foreground truncate">
-                      Original Indian Chai
+                      {t("feature2Title")}
                     </span>
                     <span className="block text-[10px] sm:text-[11px] text-muted-foreground truncate">
-                      Tata Tea Gold &amp; Premium
+                      {t("feature2Subtitle")}
                     </span>
                   </div>
                 </div>
@@ -83,9 +83,9 @@ export function HeroBannerVideo() {
                   size="lg"
                   className="rounded-xl px-5 sm:px-6 py-5 sm:py-6 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all w-full sm:w-auto">
                   <Link
-                    href="/catalogue"
+                    href={ROUTES.CATALOGUE}
                     className="flex items-center justify-center gap-2">
-                    <span>Explore Catalogue</span>
+                    <span>{t("exploreCatalogue")}</span>
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
@@ -95,9 +95,9 @@ export function HeroBannerVideo() {
                   size="lg"
                   className="rounded-xl px-5 sm:px-6 py-5 sm:py-6 font-bold text-xs sm:text-sm border-border/80 hover:bg-muted transition-all w-full sm:w-auto">
                   <Link
-                    href="/login"
+                    href={ROUTES.LOGIN}
                     className="flex items-center justify-center">
-                    <span>Trade Account Login</span>
+                    <span>{t("tradeLogin")}</span>
                   </Link>
                 </Button>
               </div>
@@ -118,10 +118,10 @@ export function HeroBannerVideo() {
                   <div className="flex items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-[11px] font-bold text-white backdrop-blur-md border border-white/15 shadow-sm">
                       <Flame className="size-3 sm:size-3.5 text-accent animate-pulse" />
-                      <span>Authentic Tea Brewing</span>
+                      <span>{t("videoBadge")}</span>
                     </span>
                     <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white bg-primary px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg shadow-sm">
-                      Tata Tea Premium
+                      {t("videoTag")}
                     </span>
                   </div>
 
@@ -129,14 +129,13 @@ export function HeroBannerVideo() {
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5 text-accent text-[11px] sm:text-xs font-bold mb-0.5 sm:mb-1">
                         <Sparkles className="size-3 sm:size-3.5 shrink-0" />
-                        <span>Iconic Morning Ritual</span>
+                        <span>{t("videoHighlight")}</span>
                       </div>
                       <h4 className="font-serif text-sm sm:text-lg lg:text-xl font-bold text-white tracking-tight truncate">
-                        Rich &amp; Aromatic Indian Chai
+                        {t("videoTitle")}
                       </h4>
                       <p className="text-[11px] sm:text-xs text-white/80 mt-0.5 max-w-sm hidden sm:block">
-                        Direct importer for supermarket chains and Indian food
-                        distributors in Italy.
+                        {t("videoDesc")}
                       </p>
                     </div>
                     <div className="flex size-9 sm:size-11 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-md">

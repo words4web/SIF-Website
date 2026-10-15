@@ -56,28 +56,20 @@ export default function OrderDetailPage() {
   const statusInfo =
     order?.status && ORDER_STATUS_CONFIG[order.status]
       ? ORDER_STATUS_CONFIG[order.status]
-      : {
-          label: order?.status || "Unknown",
-          badgeClass: "bg-secondary text-secondary-foreground border-border",
-          icon: Clock,
-          description: t("statusUpdateProgress"),
-        };
+      : null;
 
-  const statusLabel =
-    order?.status === "IN_PROCESS"
-      ? tOrders("inProcessTab")
-      : order?.status === "DELIVERED"
-        ? tOrders("deliveredTab")
-        : statusInfo.label;
+  const statusLabel = statusInfo
+    ? tOrders(statusInfo.labelKey)
+    : order?.status || "Unknown";
 
-  const statusDescription =
-    order?.status === "IN_PROCESS"
-      ? t("inProcessDesc")
-      : order?.status === "DELIVERED"
-        ? t("deliveredDesc")
-        : statusInfo.description;
+  const statusDescription = statusInfo
+    ? tOrders(statusInfo.descriptionKey)
+    : t("statusUpdateProgress");
 
-  const StatusIcon = statusInfo.icon;
+  const StatusIcon = statusInfo?.icon || Clock;
+  const badgeClass =
+    statusInfo?.badgeClass ||
+    "bg-secondary text-secondary-foreground border-border";
   const totalItems = order?.items?.length || 0;
 
   return (
@@ -132,7 +124,7 @@ export default function OrderDetailPage() {
                       {t("orderTitle", { id: order.orderId })}
                     </h1>
                     <span
-                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-xs font-bold ${statusInfo.badgeClass}`}>
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-xs font-bold ${badgeClass}`}>
                       <StatusIcon className="size-3.5" />
                       {statusLabel}
                     </span>

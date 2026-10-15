@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { onForegroundMessage } from "@/lib/firebase";
@@ -15,6 +16,7 @@ import { useFcmLifecycle } from "@/hooks/useFcmLifecycle";
 export function NotificationListener() {
   const { user, ready } = useAuth();
   const isAuthenticated = ready && !!user;
+  const t = useTranslations("toasts");
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -31,7 +33,7 @@ export function NotificationListener() {
         const notification = payload?.notification ?? {};
         const data = payload?.data ?? {};
         const title =
-          notification?.title ?? data?.title ?? "Order Notification";
+          notification?.title ?? data?.title ?? t("orderNotificationDefault");
         const body = notification?.body ?? data?.body ?? "";
         const orderId = data?.orderId;
 
@@ -40,7 +42,7 @@ export function NotificationListener() {
           duration: 6000,
           action: orderId
             ? {
-                label: "View Orders",
+                label: t("viewOrders"),
                 onClick: () => router.push(ROUTES.ORDERS),
               }
             : undefined,

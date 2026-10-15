@@ -4,86 +4,91 @@ import {
   CorporateStoryData,
 } from "@/types/corporate.types";
 
-export const CORPORATE_STATS: CorporateStat[] = [
+export const getCorporateStats = (
+  t: (key: string) => string,
+): CorporateStat[] => [
   {
     number: "100",
     suffix: "+",
-    title: "Annual Container Volume",
-    desc: "Temperature-controlled container shipments direct from Indian origins",
+    title: t("stats.containers.title"),
+    desc: t("stats.containers.desc"),
     iconName: "Ship",
     accentBorder: "group-hover:border-primary/50",
     glowColor: "from-primary/10 via-primary/5 to-transparent",
     iconBg: "bg-primary/10 text-primary border-primary/20",
-    badge: "FREIGHT",
+    badge: t("stats.containers.badge"),
   },
   {
     number: "25",
     suffix: "+",
-    title: "Years of Experience",
-    desc: "Pioneering authentic food import and wholesale trade across Italy",
+    title: t("stats.experience.title"),
+    desc: t("stats.experience.desc"),
     iconName: "CalendarDays",
     accentBorder: "group-hover:border-amber-400/50",
     glowColor: "from-[#ffd230]/20 via-[#ffd230]/5 to-transparent",
     iconBg: "bg-amber-50 text-amber-700 border-amber-200",
-    badge: "SINCE 1998",
+    badge: t("stats.experience.badge"),
   },
   {
     number: "500",
     suffix: "+",
-    title: "Partners",
-    desc: "Distribution Wholesalers and Supermarket retail chains",
+    title: t("stats.partners.title"),
+    desc: t("stats.partners.desc"),
     iconName: "Building",
     accentBorder: "group-hover:border-blue-500/50",
     glowColor: "from-blue-500/15 via-blue-500/5 to-transparent",
     iconBg: "bg-blue-50 text-blue-700 border-blue-200",
-    badge: "NETWORK",
+    badge: t("stats.partners.badge"),
   },
   {
     number: "500",
     suffix: "+",
-    title: "Active B2B Products",
-    desc: "Authentic SKUs of Indian food staples, spices and grocery lines",
+    title: t("stats.products.title"),
+    desc: t("stats.products.desc"),
     iconName: "Layers",
     accentBorder: "group-hover:border-emerald-500/50",
     glowColor: "from-emerald-500/15 via-emerald-500/5 to-transparent",
     iconBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    badge: "CATALOG",
+    badge: t("stats.products.badge"),
   },
 ];
 
-export const CORPORATE_PILLARS: CorporatePillar[] = [
+export const getCorporatePillars = (
+  t: (key: string) => string,
+): CorporatePillar[] => [
   {
-    title: "Direct Import Lines",
+    title: t("pillars.directImport"),
     iconName: "Anchor",
     iconBg: "bg-primary/10 text-primary",
     textColor: "text-stone-800",
   },
   {
-    title: "Pan-Italian Delivery",
+    title: t("pillars.panItalian"),
     iconName: "Compass",
     iconBg: "bg-amber-500/10 text-amber-700",
     textColor: "text-stone-800",
   },
   {
-    title: "BRCGS Grade A Audit",
+    title: t("pillars.brcgs"),
     iconName: "ShieldCheck",
     iconBg: "bg-emerald-500/10 text-emerald-700",
     textColor: "text-stone-800",
   },
   {
-    title: "ISO 22000 Certified",
+    title: t("pillars.iso22000"),
     iconName: "FileCheck2",
     iconBg: "bg-blue-500/10 text-blue-700",
     textColor: "text-stone-800",
   },
 ];
 
-export const CORPORATE_STORY_DATA: CorporateStoryData = {
-  badge: "Corporate Scale & Heritage",
-  headingPrefix: "A quarter of a century of excellence in wholesale trade",
-  headingHighlight: "throughout Italy.",
-  description:
-    "We work directly with world-renowned brands to offer you teas, legumes, and pantry staples that retain their authentic flavor, just like those found in India. Finding the right lentils, sourced from the right supplier, packaged correctly, and offered at a fair price is the most complex challenge: and this is precisely what we've been focusing on for over 25 years.",
-  pillars: CORPORATE_PILLARS,
-  stats: CORPORATE_STATS,
-};
+export const getCorporateStoryData = (
+  t: (key: string) => string,
+): CorporateStoryData => ({
+  badge: t("badge"),
+  headingPrefix: t("headingPrefix"),
+  headingHighlight: t("headingHighlight"),
+  description: t("description"),
+  pillars: getCorporatePillars(t),
+  stats: getCorporateStats(t),
+});

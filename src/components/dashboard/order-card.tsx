@@ -5,13 +5,9 @@ import { useTranslations, useLocale } from "next-intl";
 import { OrderCardProps } from "@/types/order.types";
 import { formatPounds } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
+import { ORDER_STATUS_CONFIG } from "@/constants/order";
 import { Button } from "@/components/ui/button";
 import { Eye, Package, Calendar, Receipt, CreditCard } from "lucide-react";
-
-const STATUS_COLORS: Record<string, string> = {
-  IN_PROCESS: "bg-amber-500/10 text-amber-600 border-amber-500/20",
-  DELIVERED: "bg-primary/10 text-primary border-primary/20",
-};
 
 export function OrderCard({ order }: OrderCardProps) {
   const t = useTranslations("orders");
@@ -31,12 +27,10 @@ export function OrderCard({ order }: OrderCardProps) {
       )
     : "";
 
-  const statusLabel =
-    order?.status === "IN_PROCESS"
-      ? t("inProcessTab")
-      : order?.status === "DELIVERED"
-        ? t("deliveredTab")
-        : order?.status;
+  const statusConfig = order?.status ? ORDER_STATUS_CONFIG[order.status] : null;
+  const statusLabel = statusConfig
+    ? t(statusConfig.labelKey)
+    : order?.status || "";
 
   return (
     <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-xs hover:shadow-md hover:border-primary/30 transition-all">
@@ -47,7 +41,7 @@ export function OrderCard({ order }: OrderCardProps) {
           </span>
           <span
             className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-bold ${
-              STATUS_COLORS[order?.status] ||
+              statusConfig?.badgeClass ||
               "bg-secondary text-secondary-foreground"
             }`}>
             {statusLabel}

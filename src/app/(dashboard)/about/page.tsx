@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Eye,
   Target,
@@ -19,18 +20,12 @@ import {
 import { PortalHeader } from "@/components/portal-header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { ABOUT_US_DATA } from "@/data/about";
+import { ROUTES } from "@/constants/routes";
 
 export default function AboutPage() {
-  const {
-    badge,
-    title,
-    heroImage,
-    storyHeading,
-    storyParagraphs,
-    vision,
-    mission,
-  } = ABOUT_US_DATA;
+  const t = useTranslations("aboutPage");
+
+  const storyParagraphs = [t("p1"), t("p2"), t("p3")];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -54,15 +49,15 @@ export default function AboutPage() {
               <div className="lg:col-span-7">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
                   <Building2 className="w-3.5 h-3.5" />
-                  <span>{badge}</span>
+                  <span>{t("badge")}</span>
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.15]">
-                  {title}
+                  {t("title")}
                 </h1>
 
                 <p className="mt-3 text-lg sm:text-xl font-bold text-primary">
-                  {storyHeading}
+                  {t("storyHeading")}
                 </p>
 
                 <div className="mt-6 space-y-4 text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
@@ -76,8 +71,10 @@ export default function AboutPage() {
                     asChild
                     size="lg"
                     className="rounded-xl font-bold bg-primary hover:bg-[#b01e25] text-white shadow-md shadow-primary/25">
-                    <Link href="/catalog" className="flex items-center gap-2">
-                      <span>Explore Catalog</span>
+                    <Link
+                      href={ROUTES.CATALOGUE}
+                      className="flex items-center gap-2">
+                      <span>{t("exploreCatalog")}</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
@@ -86,7 +83,7 @@ export default function AboutPage() {
                     variant="outline"
                     size="lg"
                     className="rounded-xl font-bold border-stone-300 text-stone-700 hover:bg-stone-50">
-                    <Link href="/faq">Frequently Asked Questions</Link>
+                    <Link href="/faq">{t("faqsButton")}</Link>
                   </Button>
                 </div>
               </div>
@@ -95,8 +92,8 @@ export default function AboutPage() {
                 <div className="relative rounded-3xl p-3 bg-white border border-stone-200/90 shadow-2xl overflow-hidden group">
                   <div className="relative w-full rounded-2xl overflow-hidden shadow-inner aspect-[4/3]">
                     <Image
-                      src={heroImage}
-                      alt="Shelly Indian Foods - Family Owned Business"
+                      src="/Abouts-us.jpg"
+                      alt={t("heroTagline")}
                       fill
                       priority
                       className="object-cover object-[right_center] transition-transform duration-500 group-hover:scale-105"
@@ -107,13 +104,13 @@ export default function AboutPage() {
                   <div className="p-4 sm:p-5 flex items-center justify-between gap-4">
                     <div>
                       <span className="text-[11px] font-bold text-primary uppercase tracking-wider">
-                        Heritage
+                        {t("heritageCard.badge")}
                       </span>
                       <h4 className="font-extrabold text-stone-900 text-base">
-                        Avtar &amp; Shelly Grover Family
+                        {t("heritageCard.title")}
                       </h4>
                       <p className="text-xs text-stone-500 mt-0.5">
-                        Founded in Cremona, Lombardy since 1998
+                        {t("heritageCard.subtitle")}
                       </p>
                     </div>
 
@@ -131,11 +128,10 @@ export default function AboutPage() {
                   <Award className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black text-stone-900">
-                  25+ Years
+                  {t("stats.stat1Number")}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  Continuous family operations from Cremona across all Italian
-                  regions.
+                  {t("stats.stat1Desc")}
                 </p>
               </div>
 
@@ -144,10 +140,10 @@ export default function AboutPage() {
                   <Truck className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black text-stone-900">
-                  100+ Containers
+                  {t("stats.stat2Number")}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  Direct temperature-controlled sea freight import per year.
+                  {t("stats.stat2Desc")}
                 </p>
               </div>
 
@@ -156,10 +152,10 @@ export default function AboutPage() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black text-stone-900">
-                  500+ Partners
+                  {t("stats.stat3Number")}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  Wholesalers, ethnic stores, and supermarkets nationwide.
+                  {t("stats.stat3Desc")}
                 </p>
               </div>
 
@@ -168,11 +164,10 @@ export default function AboutPage() {
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black text-stone-900">
-                  BRCGS Grade A
+                  {t("stats.stat4Number")}
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  Strict ISO 22000 &amp; HACCP food compliance and batch
-                  traceability.
+                  {t("stats.stat4Desc")}
                 </p>
               </div>
             </div>
@@ -184,10 +179,10 @@ export default function AboutPage() {
             <div className="text-center max-w-3xl mx-auto mb-14 md:mb-18">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
                 <Target className="w-3.5 h-3.5" />
-                <span>Purpose &amp; Direction</span>
+                <span>{t("purposeBadge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900 leading-tight">
-                Our Vision &amp; Mission
+                {t("visionMissionTitle")}
               </h2>
             </div>
 
@@ -199,14 +194,14 @@ export default function AboutPage() {
                     <Eye className="w-7 h-7" />
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 group-hover:text-primary transition-colors">
-                    {vision.title}
+                    {t("vision.title")}
                   </h3>
                   <p className="mt-4 text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
-                    {vision.description}
+                    {t("vision.desc")}
                   </p>
                 </div>
                 <div className="mt-8 pt-4 border-t border-stone-200/60 flex items-center gap-2 text-xs font-bold text-primary">
-                  <span>Long-Term Expansion</span>
+                  <span>{t("vision.tag")}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
@@ -218,14 +213,14 @@ export default function AboutPage() {
                     <Target className="w-7 h-7" />
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 group-hover:text-primary transition-colors">
-                    {mission.title}
+                    {t("mission.title")}
                   </h3>
                   <p className="mt-4 text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
-                    {mission.description}
+                    {t("mission.desc")}
                   </p>
                 </div>
                 <div className="mt-8 pt-4 border-t border-stone-200/60 flex items-center gap-2 text-xs font-bold text-primary">
-                  <span>Reliable Wholesale Partnerships</span>
+                  <span>{t("mission.tag")}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
@@ -235,14 +230,13 @@ export default function AboutPage() {
               <div>
                 <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary mb-2">
                   <MapPin className="w-4 h-4" />
-                  <span>Cremona Showroom &amp; Headquarters</span>
+                  <span>{t("showroom.badge")}</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900">
-                  Visit our flagship location in Cremona
+                  {t("showroom.title")}
                 </h3>
                 <p className="text-stone-600 text-sm mt-1 max-w-xl">
-                  Via Giuseppina, 149, 26100 Cremona CR, Italy &bull; Serving
-                  partners Monday to Saturday.
+                  {t("showroom.address")}
                 </p>
               </div>
 
@@ -251,13 +245,13 @@ export default function AboutPage() {
                   href="tel:+390372432787"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary hover:bg-[#b01e25] text-white font-bold text-sm shadow-md transition-all">
                   <Phone className="w-4 h-4" />
-                  <span>+39 0372 432787</span>
+                  <span>{t("showroom.phone")}</span>
                 </Link>
                 <Link
                   href="mailto:shellyindianfoods.sas@gmail.com"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white border border-stone-200 hover:bg-stone-50 text-stone-800 font-bold text-sm transition-all">
                   <Mail className="w-4 h-4" />
-                  <span>Email Team</span>
+                  <span>{t("showroom.emailTeam")}</span>
                 </Link>
               </div>
             </div>
