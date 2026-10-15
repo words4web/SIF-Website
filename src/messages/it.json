@@ -205,5 +205,18 @@
     "totalPaid": "Totale Pagato / Dovuto",
     "continueShopping": "Continua gli acquisti",
     "viewOrderHistory": "Visualizza Cronologia Ordini"
+  },
+  "notificationsPage": {
+    "badge": "Avvisi e Aggiornamenti",
+    "title": "Notifiche",
+    "subtitle": "Rimani aggiornato sui tuoi ordini all'ingrosso e sugli aggiornamenti dell'account.",
+    "emptyTitle": "Nessuna notifica per ora",
+    "emptyDesc": "Riceverai qui le notifiche sulle variazioni di stato dei tuoi ordini e sugli aggiornamenti di sistema.",
+    "viewOrder": "Visualizza Ordine",
+    "browseCatalogue": "Sfoglia il catalogo",
+    "markAsRead": "Segna come già letto",
+    "pageIndicator": "Pagina {page} di {totalPages}",
+    "previous": "Precedente",
+    "next": "Successivo"
   }
 }

@@ -205,5 +205,18 @@
     "totalPaid": "Total Paid / Due",
     "continueShopping": "Continue Shopping",
     "viewOrderHistory": "View Order History"
+  },
+  "notificationsPage": {
+    "badge": "Alerts & Updates",
+    "title": "Notifications",
+    "subtitle": "Stay updated with your wholesale orders and account updates.",
+    "emptyTitle": "No notifications yet",
+    "emptyDesc": "We'll notify you here about status changes for your order requests and system updates.",
+    "viewOrder": "View Order",
+    "browseCatalogue": "Browse Catalog",
+    "markAsRead": "Mark as read",
+    "pageIndicator": "Page {page} of {totalPages}",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

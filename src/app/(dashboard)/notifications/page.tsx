@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/hooks/useAuth";
@@ -23,10 +24,13 @@ import {
 } from "lucide-react";
 import { NotificationSkeleton } from "@/components/skeleton/notification-skeleton";
 import { NotificationItem } from "@/types/notification.types";
+import { ROUTES } from "@/constants/routes";
 
-const LIMIT = 10;
+const LIMIT = 20;
 
 export default function NotificationsPage() {
+  const t = useTranslations("notificationsPage");
+  const locale = useLocale();
   const dispatch = useDispatch();
   const { user, ready } = useAuth();
   const [page, setPage] = useState(1);
@@ -66,19 +70,17 @@ export default function NotificationsPage() {
       <main className="flex-grow mx-auto w-full max-w-5xl px-5 pt-8 pb-16 lg:px-8">
         <div className="border-b border-border/70 pb-6">
           <p className="text-sm font-bold uppercase tracking-[.14em] text-primary">
-            Alerts & Updates
+            {t("badge")}
           </p>
           <div className="mt-2 flex items-center justify-between gap-4">
             <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-              Notifications
+              {t("title")}
             </h1>
             <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary shrink-0">
               <Bell className="size-6" />
             </div>
           </div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Stay updated with your wholesale orders and account updates.
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         {showLoading ? (
@@ -91,11 +93,10 @@ export default function NotificationsPage() {
               <Inbox className="size-7" />
             </div>
             <h2 className="mt-4 font-serif text-xl font-bold text-foreground">
-              No notifications yet
+              {t("emptyTitle")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              We&apos;ll notify you here about status changes for your order
-              requests and system updates.
+              {t("emptyDesc")}
             </p>
           </div>
         ) : (
@@ -127,7 +128,7 @@ export default function NotificationsPage() {
                     <span className="text-xs font-medium text-muted-foreground shrink-0 pt-0.5">
                       {item?.createdAt
                         ? new Date(item.createdAt).toLocaleDateString(
-                            undefined,
+                            locale === "it" ? "it-IT" : "en-GB",
                             {
                               month: "short",
                               day: "numeric",
@@ -146,28 +147,28 @@ export default function NotificationsPage() {
                     <div className="flex items-center gap-2">
                       {item?.metadata?.orderId ? (
                         <Link
-                          href={`/orders/${item?.metadata?.orderId}`}
+                          href={ROUTES.ORDER_DETAIL(item?.metadata?.orderId)}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleMarkAsRead(item);
                           }}
                           className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-background px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:bg-secondary">
                           <Eye className="size-3.5 text-primary" />
-                          View Order
+                          {t("viewOrder")}
                           {item?.metadata?.publicOrderId
                             ? ` (${item?.metadata?.publicOrderId})`
                             : ""}
                         </Link>
                       ) : item?.type === "ACCOUNT_ACTIVATED" ? (
                         <Link
-                          href="/products"
+                          href={ROUTES.CATALOGUE}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleMarkAsRead(item);
                           }}
                           className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-background px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:bg-secondary">
                           <ShoppingBag className="size-3.5 text-primary" />
-                          Browse Catalog
+                          {t("browseCatalogue")}
                         </Link>
                       ) : null}
                     </div>
@@ -180,7 +181,7 @@ export default function NotificationsPage() {
                           handleMarkAsRead(item);
                         }}
                         className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline cursor-pointer">
-                        <CheckCircle className="size-3.5" /> Mark as read
+                        <CheckCircle className="size-3.5" /> {t("markAsRead")}
                       </button>
                     )}
                   </div>
@@ -191,7 +192,10 @@ export default function NotificationsPage() {
             {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between border-t border-border pt-6 mt-8">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Page {pagination.page} of {pagination.totalPages}
+                  {t("pageIndicator", {
+                    page: pagination.page,
+                    totalPages: pagination.totalPages,
+                  })}
                 </span>
                 <div className="flex items-center gap-2">
                   <Button
@@ -200,7 +204,7 @@ export default function NotificationsPage() {
                     disabled={!pagination.hasPrevPage || isFetching}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     className="h-9 gap-1.5 px-4 text-xs font-semibold">
-                    <ChevronLeft className="size-4" /> Previous
+                    <ChevronLeft className="size-4" /> {t("previous")}
                   </Button>
                   <Button
                     variant="outline"
@@ -208,7 +212,7 @@ export default function NotificationsPage() {
                     disabled={!pagination.hasNextPage || isFetching}
                     onClick={() => setPage((p) => p + 1)}
                     className="h-9 gap-1.5 px-4 text-xs font-semibold">
-                    Next <ChevronRight className="size-4" />
+                    {t("next")} <ChevronRight className="size-4" />
                   </Button>
                 </div>
               </div>
