@@ -1,0 +1,39 @@
+{
+  "navigation": {
+    "home": "Home",
+    "catalogue": "Catalogo",
+    "orders": "Ordini",
+    "cart": "Carrello",
+    "profile": "Profilo",
+    "signIn": "Accedi",
+    "searchAria": "Cerca nel catalogo",
+    "notificationsAria": "Notifiche {count}",
+    "basketAria": "Carrello con {count} articoli",
+    "accountAria": "Profilo account per {name}",
+    "language": "Lingua"
+  },
+  "footer": {
+    "subtitle": "Distributore Esclusivo Tata in Italia",
+    "description": "Importatore B2B autorizzato e distributore all'ingrosso di prodotti Tata Consumer Products, autentico tè indiano, legumi e generi alimentari di prima necessità in tutta Italia dal 1998.",
+    "quickLinksTitle": "Collegamenti Rapidi",
+    "distributedBrandsTitle": "Marchi Distribuiti",
+    "contactsTitle": "Contatti & Sede",
+    "links": {
+      "home": "Home",
+      "whoWeAre": "Chi Siamo",
+      "catalogue": "Catalogo",
+      "orders": "Ordini",
+      "faqs": "Domande Frequenti"
+    },
+    "brands": {
+      "tataTea": "Tata Tea Premium & Gold",
+      "tataSalt": "Tata Salt (Desh Ka Namak)",
+      "tataSampann": "Tata Sampann Legumi & Spezie",
+      "viewAllSkus": "Visualizza Tutti i 500+ Prodotti"
+    },
+    "certificationsBadge": "Certificazioni BRCGS Grade A & ISO 22000",
+    "distributorBadge": "Distributore Esclusivo Tata • Italia",
+    "designedBy": "Progettato con passione da",
+    "copyright": "Copyright © {year} {companyName} | {designedBy}"
+  }
+}

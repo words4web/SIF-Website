@@ -2,9 +2,6 @@ import { FooterData } from "@/types/footer.types";
 
 export const FOOTER_DATA: FooterData = {
   companyName: "Shelly Indian Foods",
-  subtitle: "Exclusive Tata Distributor in Italy",
-  description:
-    "Authorized B2B importer and wholesale distributor of Tata Consumer Products, authentic Indian tea, legumes, and pantry staples throughout Italy since 1998.",
   socials: [
     {
       name: "Facebook",
@@ -21,22 +18,6 @@ export const FOOTER_DATA: FooterData = {
       href: "https://www.linkedin.com/company/shelly-indian-foods/",
       icon: "linkedin",
     },
-  ],
-  quickLinks: [
-    { label: "Home", href: "/" },
-    { label: "Who We Are", href: "/about" },
-    { label: "Catalogue", href: "/catalogue" },
-    { label: "Orders", href: "/orders" },
-    { label: "FAQs", href: "/faq" },
-  ],
-  brandLinks: [
-    { label: "Tata Tea Premium & Gold", href: "/catalog?search=tata+tea" },
-    { label: "Tata Salt (Desh Ka Namak)", href: "/catalog?search=tata+salt" },
-    {
-      label: "Tata Sampann Pulses & Spices",
-      href: "/catalog?search=tata+sampann",
-    },
-    { label: "View All 500+ SKUs", href: "/catalog" },
   ],
   contacts: [
     {
@@ -61,10 +42,7 @@ export const FOOTER_DATA: FooterData = {
       href: "mailto:shellyindianfoods.sas@gmail.com",
     },
   ],
-  certificationsBadge: "BRCGS Grade A & ISO 22000",
-  distributorBadge: "Exclusive Tata Distributor • Italy",
   attribution: {
-    text: "Copyright © 2026 Shelly Indian Foods | Designed with love by",
     creditName: "Words4Web",
     creditUrl: "https://words4web.com/",
   },

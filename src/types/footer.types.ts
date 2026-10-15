@@ -1,9 +1,3 @@
-export interface FooterLink {
-  label: string;
-  href: string;
-  isExternal?: boolean;
-}
-
 export interface FooterSocialLink {
   name: string;
   href: string;
@@ -19,16 +13,9 @@ export interface FooterContactItem {
 
 export interface FooterData {
   companyName: string;
-  subtitle: string;
-  description: string;
   socials: FooterSocialLink[];
-  quickLinks: FooterLink[];
-  brandLinks: FooterLink[];
   contacts: FooterContactItem[];
-  certificationsBadge: string;
-  distributorBadge: string;
   attribution: {
-    text: string;
     creditName: string;
     creditUrl: string;
   };

@@ -6,13 +6,16 @@ import { usePathname } from "next/navigation";
 import { Bell, Search, ShoppingBasket } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
 import { RootState } from "@/lib/store";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { ROUTES } from "@/constants/routes";
-import { NAVIGATION_ITEMS, HEADER_UTILITIES } from "@/data/navigation";
+import { HEADER_UTILITIES } from "@/data/navigation";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
 
 export function DesktopHeader() {
+  const t = useTranslations("navigation");
   const pathname = usePathname();
   const { user } = useAuth();
   const { itemCount } = useCart();
@@ -29,6 +32,12 @@ export function DesktopHeader() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const navItems = [
+    { href: ROUTES.HOME, label: t("home") },
+    { href: ROUTES.CATALOGUE, label: t("catalogue") },
+    { href: ROUTES.ORDERS, label: t("orders") },
+  ];
 
   return (
     <header
@@ -55,29 +64,31 @@ export function DesktopHeader() {
         <nav
           className="flex items-center gap-1.5 lg:gap-2"
           aria-label="Primary navigation">
-          {NAVIGATION_ITEMS?.filter(
-            (item) => item?.href !== ROUTES.ORDERS || !!user,
-          )?.map((item) => {
-            const isActive = pathname === item?.href;
-            return (
-              <Link
-                key={item?.href}
-                href={item?.href}
-                className={`rounded-xl px-4 lg:px-5 py-2 text-sm lg:text-base font-bold transition-all ${
-                  isActive
-                    ? "bg-secondary text-primary shadow-xs"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}>
-                {item.label}
-              </Link>
-            );
-          })}
+          {navItems
+            ?.filter((item) => item?.href !== ROUTES.ORDERS || !!user)
+            ?.map((item) => {
+              const isActive = pathname === item?.href;
+              return (
+                <Link
+                  key={item?.href}
+                  href={item?.href}
+                  className={`rounded-xl px-4 lg:px-5 py-2 text-sm lg:text-base font-bold transition-all ${
+                    isActive
+                      ? "bg-secondary text-primary shadow-xs"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}>
+                  {item.label}
+                </Link>
+              );
+            })}
         </nav>
 
         <div className="flex items-center gap-2.5 lg:gap-3">
+          <LanguageSwitcher />
+
           <Link
             href={HEADER_UTILITIES.search.href}
-            aria-label={HEADER_UTILITIES.search.ariaLabel}
+            aria-label={t("searchAria")}
             className="flex size-11 lg:size-12 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
             <Search className="size-5 lg:size-6" />
           </Link>
@@ -87,9 +98,9 @@ export function DesktopHeader() {
               <Link
                 href={ROUTES.NOTIFICATIONS}
                 className="relative flex size-11 lg:size-12 items-center justify-center rounded-xl bg-muted/50 text-foreground hover:bg-muted cursor-pointer transition-colors"
-                aria-label={`Notifications ${
-                  unreadCount > 0 ? `(${unreadCount} unread)` : ""
-                }`}>
+                aria-label={t("notificationsAria", {
+                  count: unreadCount > 0 ? `(${unreadCount} unread)` : "",
+                })}>
                 <Bell className="size-5 lg:size-6" />
                 {unreadCount > 0 && (
                   <span className="absolute -right-1 -top-1 flex min-w-5 h-5 items-center justify-center rounded-full bg-accent px-1.5 text-[11px] font-extrabold text-accent-foreground shadow-xs z-10 animate-in zoom-in-50">
@@ -101,7 +112,7 @@ export function DesktopHeader() {
               <Link
                 href={HEADER_UTILITIES.cart.href}
                 className="relative flex size-11 lg:size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-                aria-label={`Basket with ${itemCount} items`}>
+                aria-label={t("basketAria", { count: itemCount })}>
                 <ShoppingBasket className="size-5 lg:size-6" />
                 {itemCount > 0 && (
                   <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-accent text-[11px] font-extrabold text-accent-foreground shadow-xs">
@@ -115,7 +126,7 @@ export function DesktopHeader() {
           {user ? (
             <Link
               href={HEADER_UTILITIES.auth.profileHref}
-              aria-label={`Account profile for ${user?.name || "Customer"}`}
+              aria-label={t("accountAria", { name: user?.name || "Customer" })}
               title={user?.name || "Account"}
               className="relative flex size-11 lg:size-12 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold text-base lg:text-lg tracking-normal uppercase shadow-xs transition-all hover:scale-105 hover:shadow-md active:scale-95">
               {user?.name
@@ -130,9 +141,9 @@ export function DesktopHeader() {
           ) : (
             <Link
               href={HEADER_UTILITIES.auth.loginHref}
-              aria-label="Sign in"
+              aria-label={t("signIn")}
               className="flex items-center rounded-xl px-4 py-2 text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-xs hover:-translate-y-0.5 transition-all">
-              <span>Sign In</span>
+              <span>{t("signIn")}</span>
             </Link>
           )}
         </div>

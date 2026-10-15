@@ -1,0 +1,39 @@
+{
+  "navigation": {
+    "home": "Home",
+    "catalogue": "Catalogue",
+    "orders": "Orders",
+    "cart": "Cart",
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "searchAria": "Search catalogue",
+    "notificationsAria": "Notifications {count}",
+    "basketAria": "Basket with {count} items",
+    "accountAria": "Account profile for {name}",
+    "language": "Language"
+  },
+  "footer": {
+    "subtitle": "Exclusive Tata Distributor in Italy",
+    "description": "Authorized B2B importer and wholesale distributor of Tata Consumer Products, authentic Indian tea, legumes, and pantry staples throughout Italy since 1998.",
+    "quickLinksTitle": "Quick Links",
+    "distributedBrandsTitle": "Distributed Brands",
+    "contactsTitle": "Contacts & Hub",
+    "links": {
+      "home": "Home",
+      "whoWeAre": "Who We Are",
+      "catalogue": "Catalogue",
+      "orders": "Orders",
+      "faqs": "FAQs"
+    },
+    "brands": {
+      "tataTea": "Tata Tea Premium & Gold",
+      "tataSalt": "Tata Salt (Desh Ka Namak)",
+      "tataSampann": "Tata Sampann Pulses & Spices",
+      "viewAllSkus": "View All 500+ SKUs"
+    },
+    "certificationsBadge": "BRCGS Grade A & ISO 22000",
+    "distributorBadge": "Exclusive Tata Distributor • Italy",
+    "designedBy": "Designed with love by",
+    "copyright": "Copyright © {year} {companyName} | {designedBy}"
+  }
+}

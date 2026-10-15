@@ -1,6 +1,8 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Lexend, Lato } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { ReduxProvider } from "@/providers/redux-provider";
 import { QueryProvider } from "@/providers/query-provider";
 import { Toaster } from "sonner";
@@ -33,22 +35,27 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`bg-background ${lexend.variable} ${lato.variable}`}>
       <body className="font-sans antialiased">
-        <ReduxProvider>
-          <QueryProvider>
-            <NotificationListener />
-            {children}
-          </QueryProvider>
-        </ReduxProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ReduxProvider>
+            <QueryProvider>
+              <NotificationListener />
+              {children}
+            </QueryProvider>
+          </ReduxProvider>
+        </NextIntlClientProvider>
         <Toaster position="top-right" richColors />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

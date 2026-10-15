@@ -41,40 +41,42 @@ export const getMobileNavItems = ({
   pathname,
   user,
   itemCount,
+  t,
 }: {
   pathname: string;
   user: any;
   itemCount: number;
+  t: (key: any) => string;
 }): MobileNavItem[] => [
   {
     href: ROUTES.HOME,
-    label: "Home",
+    label: t("home"),
     icon: Home,
     isActive: pathname === ROUTES.HOME,
   },
   {
     href: ROUTES.CATALOGUE,
-    label: "Catalogue",
+    label: t("catalogue"),
     icon: LayoutGrid,
     isActive:
       pathname === ROUTES.CATALOGUE || pathname.startsWith("/products/"),
   },
   {
     href: ROUTES.CART,
-    label: "Cart",
+    label: t("cart"),
     icon: ShoppingBasket,
     badge: itemCount > 0 ? (itemCount > 99 ? "99+" : itemCount) : null,
     isActive: pathname === ROUTES.CART || pathname === ROUTES.CHECKOUT,
   },
   {
     href: user ? ROUTES.ORDERS : ROUTES.LOGIN,
-    label: "Orders",
+    label: t("orders"),
     icon: PackageCheck,
     isActive: pathname === ROUTES.ORDERS,
   },
   {
     href: user ? ROUTES.PROFILE : ROUTES.LOGIN,
-    label: user ? "Profile" : "Sign In",
+    label: user ? t("profile") : t("signIn"),
     icon: user ? User : LogIn,
     isActive:
       pathname === ROUTES.PROFILE ||

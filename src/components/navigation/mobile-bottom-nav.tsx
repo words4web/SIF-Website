@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { getMobileNavItems } from "@/data/navigation";
 
 export function MobileBottomNav() {
+  const t = useTranslations("navigation");
   const pathname = usePathname();
   const { user } = useAuth();
   const { itemCount } = useCart();
 
-  const navItems = getMobileNavItems({ pathname, user, itemCount });
+  const navItems = getMobileNavItems({ pathname, user, itemCount, t });
 
   return (
     <nav
@@ -21,11 +23,11 @@ export function MobileBottomNav() {
         {navItems?.map((item) => {
           const Icon = item?.icon;
           const active = item?.isActive;
-          const isProfileTab = item?.label === "Profile" && !!user;
+          const isProfileTab = item?.label === t("profile") && !!user;
 
           return (
             <Link
-              key={item?.label}
+              key={item?.href}
               href={item?.href}
               className={`relative flex flex-1 flex-col items-center justify-center py-1 px-1 transition-all duration-200 active:scale-95 ${
                 active

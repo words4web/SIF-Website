@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { FOOTER_DATA } from "@/data/footer";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -55,19 +58,27 @@ const SOCIAL_ICONS = {
 };
 
 export function Footer() {
+  const t = useTranslations("footer");
   const currentYear = new Date().getFullYear();
-  const {
-    companyName,
-    subtitle,
-    description,
-    socials,
-    quickLinks,
-    brandLinks,
-    contacts,
-    certificationsBadge,
-    distributorBadge,
-    attribution,
-  } = FOOTER_DATA;
+  const { companyName, socials, contacts, attribution } = FOOTER_DATA;
+
+  const quickLinks = [
+    { label: t("links.home"), href: "/" },
+    { label: t("links.whoWeAre"), href: "/about" },
+    { label: t("links.catalogue"), href: "/catalogue" },
+    { label: t("links.orders"), href: "/orders" },
+    { label: t("links.faqs"), href: "/faq" },
+  ];
+
+  const brandLinks = [
+    { label: t("brands.tataTea"), href: "/catalogue?search=tata+tea" },
+    { label: t("brands.tataSalt"), href: "/catalogue?search=tata+salt" },
+    {
+      label: t("brands.tataSampann"),
+      href: "/catalogue?search=tata+sampann",
+    },
+    { label: t("brands.viewAllSkus"), href: "/catalogue" },
+  ];
 
   return (
     <footer className="mt-20 border-t border-stone-200/90 bg-[#faf8f5] text-stone-700">
@@ -88,13 +99,13 @@ export function Footer() {
                   {companyName}
                 </span>
                 <span className="block text-[11px] font-semibold text-primary">
-                  {subtitle}
+                  {t("subtitle")}
                 </span>
               </div>
             </Link>
 
             <p className="text-xs sm:text-sm text-stone-600 leading-relaxed max-w-sm">
-              {description}
+              {t("description")}
             </p>
 
             <div className="flex items-center gap-2.5 mt-2">
@@ -117,7 +128,7 @@ export function Footer() {
 
           <div className="lg:col-span-2 sm:col-span-1">
             <h3 className="text-xs font-bold tracking-wider uppercase text-stone-900 mb-4">
-              Quick Links
+              {t("quickLinksTitle")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm">
               {quickLinks.map((item) => (
@@ -134,7 +145,7 @@ export function Footer() {
 
           <div className="lg:col-span-3 sm:col-span-1">
             <h3 className="text-xs font-bold tracking-wider uppercase text-stone-900 mb-4">
-              Distributed Brands
+              {t("distributedBrandsTitle")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm">
               {brandLinks.map((brand, idx) => {
@@ -159,7 +170,7 @@ export function Footer() {
 
           <div className="lg:col-span-3">
             <h3 className="text-xs font-bold tracking-wider uppercase text-stone-900 mb-4">
-              Contacts &amp; Hub
+              {t("contactsTitle")}
             </h3>
             <ul className="space-y-3 text-xs sm:text-sm text-stone-600">
               {contacts.map((c, idx) => {
@@ -201,7 +212,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-stone-200/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500">
           <p className="text-center md:text-left leading-relaxed">
-            Copyright &copy; {currentYear} {companyName} | Designed with love by{" "}
+            Copyright &copy; {currentYear} {companyName} | {t("designedBy")}{" "}
             <a
               href={attribution.creditUrl}
               target="_blank"
@@ -214,9 +225,9 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-stone-600">
             <span className="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200/60">
               <ShieldCheck className="w-3.5 h-3.5" />
-              {certificationsBadge}
+              {t("certificationsBadge")}
             </span>
-            <span>{distributorBadge}</span>
+            <span>{t("distributorBadge")}</span>
           </div>
         </div>
       </div>
