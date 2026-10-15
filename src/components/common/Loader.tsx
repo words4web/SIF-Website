@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { LoaderProps } from "@/types/common.types";
 
 export function Loader({ className = "", size = "md" }: LoaderProps) {
+  const t = useTranslations("common");
+
   const sizeClasses = {
     sm: "size-5 border-2",
     md: "size-8 border-3",
@@ -15,7 +19,7 @@ export function Loader({ className = "", size = "md" }: LoaderProps) {
       <div
         className={`animate-spin rounded-full border-primary border-t-transparent ${sizeClasses[size]}`}
       />
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only">{t("loading")}</span>
     </div>
   );
 }

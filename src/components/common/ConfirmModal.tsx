@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useRef, useEffect } from "react";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 interface ConfirmModalProps {
@@ -19,11 +22,14 @@ export function ConfirmModal({
   onConfirm,
   title,
   description,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText,
+  cancelText,
   variant = "default",
 }: ConfirmModalProps) {
+  const t = useTranslations("common");
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const resolvedConfirmText = confirmText ?? t("confirm");
+  const resolvedCancelText = cancelText ?? t("cancel");
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -97,7 +103,7 @@ export function ConfirmModal({
 
         <div className="mt-2 flex items-center justify-end gap-3">
           <Button variant="outline" onClick={onClose}>
-            {cancelText}
+            {resolvedCancelText}
           </Button>
           <Button
             variant={variant === "destructive" ? "destructive" : "default"}
@@ -105,7 +111,7 @@ export function ConfirmModal({
               onConfirm();
               onClose();
             }}>
-            {confirmText}
+            {resolvedConfirmText}
           </Button>
         </div>
       </div>

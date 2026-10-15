@@ -125,7 +125,8 @@
     "addToCart": "Aggiungi al carrello",
     "addedToCart": "Aggiunto al carrello",
     "added": "Aggiunto",
-    "add": "Aggiungi"
+    "add": "Aggiungi",
+    "productFallback": "Prodotto"
   },
   "catalogue": {
     "searchPlaceholder": "Cerca prodotti, confezioni o categorie",
@@ -201,6 +202,8 @@
     "totalItems": "Articoli Totali",
     "itemCount": "{count} {count, plural, one {articolo} other {articoli}}",
     "subtotal": "Subtotale",
+    "shippingCharge": "Spese di Spedizione",
+    "shippingChargeWithWeight": "Spese di Spedizione ({weight} kg)",
     "free": "GRATIS",
     "totalPaid": "Totale Pagato / Dovuto",
     "continueShopping": "Continua gli acquisti",
@@ -677,5 +680,13 @@
       "noMatchingDesc": "Prova a cercare con parole chiave diverse o azzera i filtri di ricerca.",
       "resetFilter": "Reimposta Filtri"
     }
+  },
+  "common": {
+    "errorTitle": "Si è verificato un errore",
+    "tryAgain": "Riprova",
+    "loading": "Caricamento in corso...",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "close": "Chiudi"
   }
 }

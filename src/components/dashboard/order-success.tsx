@@ -122,23 +122,38 @@ export function OrderSuccess({ order }: OrderSuccessProps) {
                 </span>
               </div>
               {order?.charges && order?.charges?.length > 0
-                ? order?.charges?.map((charge, idx) => (
-                    <div
-                      key={idx}
-                      className="flex justify-between items-center text-muted-foreground">
-                      <span>{charge?.name}</span>
-                      <span
-                        className={
-                          charge?.amount === 0
-                            ? "text-emerald-600 dark:text-emerald-400 font-bold"
-                            : "font-semibold text-foreground"
-                        }>
-                        {charge?.amount === 0
-                          ? t("free")
-                          : formatPounds(charge?.amount)}
-                      </span>
-                    </div>
-                  ))
+                ? order?.charges?.map((charge, idx) => {
+                    const isShipping = charge?.type === "SHIPPING";
+                    const hasWeight =
+                      typeof order?.totalWeightKg === "number" &&
+                      order.totalWeightKg > 0;
+                    const weightVal = order?.totalWeightKg ?? 0;
+                    const chargeName = isShipping
+                      ? hasWeight
+                        ? t("shippingChargeWithWeight", {
+                            weight: weightVal,
+                          })
+                        : t("shippingCharge")
+                      : charge?.name;
+
+                    return (
+                      <div
+                        key={idx}
+                        className="flex justify-between items-center text-muted-foreground">
+                        <span>{chargeName}</span>
+                        <span
+                          className={
+                            charge?.amount === 0
+                              ? "text-emerald-600 dark:text-emerald-400 font-bold"
+                              : "font-semibold text-foreground"
+                          }>
+                          {charge?.amount === 0
+                            ? t("free")
+                            : formatPounds(charge?.amount)}
+                        </span>
+                      </div>
+                    );
+                  })
                 : null}
             </div>
 

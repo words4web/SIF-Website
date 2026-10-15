@@ -38,7 +38,7 @@ export function CartItemCard({
           className="shrink-0 hover:opacity-90 transition-opacity">
           <ProductImage
             src={imgUrl}
-            alt={product?.name || "Product"}
+            alt={product?.name || t("productFallback")}
             size="md"
           />
         </Link>

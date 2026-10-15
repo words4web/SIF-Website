@@ -125,7 +125,8 @@
     "addToCart": "Add to cart",
     "addedToCart": "Added to cart",
     "added": "Added",
-    "add": "Add"
+    "add": "Add",
+    "productFallback": "Product"
   },
   "catalogue": {
     "searchPlaceholder": "Search products, packs, or categories",
@@ -201,6 +202,8 @@
     "totalItems": "Total Items",
     "itemCount": "{count} {count, plural, one {item} other {items}}",
     "subtotal": "Subtotal",
+    "shippingCharge": "Shipping Charges",
+    "shippingChargeWithWeight": "Shipping Charges ({weight} kg)",
     "free": "FREE",
     "totalPaid": "Total Paid / Due",
     "continueShopping": "Continue Shopping",
@@ -677,5 +680,13 @@
       "noMatchingDesc": "Try searching with different keywords or clear the search filter.",
       "resetFilter": "Reset Filter"
     }
+  },
+  "common": {
+    "errorTitle": "Something went wrong",
+    "tryAgain": "Try Again",
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close"
   }
 }
