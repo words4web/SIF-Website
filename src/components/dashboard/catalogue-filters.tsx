@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CatalogueFiltersProps } from "@/types/category/category.types";
 import { CategorySkeleton } from "@/components/skeleton/category-skeleton";
 
@@ -12,6 +13,8 @@ export function CatalogueFilters({
   categories,
   isLoadingCategories = false,
 }: CatalogueFiltersProps & { isLoadingCategories?: boolean }) {
+  const t = useTranslations("catalogue");
+
   return (
     <div className="mt-4 sm:mt-7 flex flex-col gap-3 sm:gap-4">
       <div className="relative w-full">
@@ -19,16 +22,16 @@ export function CatalogueFilters({
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search products, packs, or categories"
+          placeholder={t("searchPlaceholder")}
           className="h-11 sm:h-14 w-full rounded-xl sm:rounded-2xl border border-input bg-card pl-10 sm:pl-12 pr-10 sm:pr-12 text-sm sm:text-base shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-          aria-label="Search products"
+          aria-label={t("searchAria")}
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
             className="absolute right-3.5 sm:right-4 top-1/2 -translate-y-1/2 text-xs sm:text-sm font-bold text-primary hover:underline cursor-pointer">
-            Clear
+            {t("clearSearch")}
           </button>
         )}
       </div>
@@ -39,7 +42,7 @@ export function CatalogueFilters({
         ) : (
           <div
             className="flex min-w-0 flex-1 gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 sm:pb-2 scrollbar-none sm:scrollbar-thin scrollbar-thumb-muted-foreground/20 hover:scrollbar-thumb-muted-foreground/30 scrollbar-track-transparent scrollbar-thumb-rounded-full"
-            aria-label="Product categories">
+            aria-label={t("categoriesAria")}>
             {categories?.map((category) => {
               const isSelected =
                 selectedCategory === category?.slug ||

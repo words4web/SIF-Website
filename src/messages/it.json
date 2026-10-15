@@ -126,5 +126,20 @@
     "addedToCart": "Aggiunto al carrello",
     "added": "Aggiunto",
     "add": "Aggiungi"
+  },
+  "catalogue": {
+    "searchPlaceholder": "Cerca prodotti, confezioni o categorie",
+    "searchAria": "Cerca prodotti",
+    "clearSearch": "Cancella",
+    "categoriesAria": "Categorie prodotti",
+    "allCategories": "Tutte le Categorie",
+    "inStock": "Disponibile",
+    "outOfStock": "Esaurito",
+    "availableVariants": "Varianti disponibili:",
+    "noDescription": "Nessuna descrizione dettagliata disponibile per questo prodotto.",
+    "noProductsFound": "Nessun prodotto trovato",
+    "nothingMatched": "Nessun risultato corrispondente a “{query}”.",
+    "tryDifferentCategory": "Prova a selezionare una categoria diversa.",
+    "loadError": "Impossibile caricare il catalogo. Controlla la tua connessione."
   }
 }

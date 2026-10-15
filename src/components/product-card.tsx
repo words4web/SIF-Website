@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { Product } from "@/types/product/product.types";
 import { formatWeight } from "@/lib/format";
 import { ProductVisual } from "@/components/product-visual";
@@ -8,6 +9,7 @@ import { ROUTES } from "@/constants/routes";
 import { CartControl } from "@/components/cart/cart-control";
 
 export function ProductCard({ product }: { product: Product }) {
+  const t = useTranslations("catalogue");
   const router = useRouter();
   const productHref = ROUTES.PRODUCT_DETAIL(product?.slug);
 
@@ -42,11 +44,11 @@ export function ProductCard({ product }: { product: Product }) {
                 {product?.stockStatus === "OUT_OF_STOCK" ||
                 (typeof product?.stock === "number" && product?.stock <= 0) ? (
                   <span className="inline-flex items-center text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
-                    Out of Stock
+                    {t("outOfStock")}
                   </span>
                 ) : (
                   <span className="inline-flex items-center text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-1.5 py-0.5 rounded">
-                    In Stock
+                    {t("inStock")}
                   </span>
                 )}
               </div>
@@ -63,7 +65,7 @@ export function ProductCard({ product }: { product: Product }) {
                   {product?.name}
                 </h3>
                 <p className="text-[11px] sm:text-xs font-semibold text-muted-foreground mt-0.5">
-                  Available variants:
+                  {t("availableVariants")}{" "}
                   {variants?.map((v) => formatWeight(v?.weight))?.join(", ")}
                 </p>
               </div>
@@ -72,7 +74,7 @@ export function ProductCard({ product }: { product: Product }) {
                   product.description
                 ) : (
                   <span className="italic text-muted-foreground/70">
-                    No detailed description available for this product.
+                    {t("noDescription")}
                   </span>
                 )}
               </div>
@@ -99,11 +101,13 @@ export function ProductGrid({ products }: { products: Product[] }) {
 }
 
 export function EmptyProducts({ query }: { query?: string }) {
+  const t = useTranslations("catalogue");
+
   return (
     <div className="rounded-2xl border border-dashed p-12 text-center">
-      <p className="font-serif text-xl font-bold">No products found</p>
+      <p className="font-serif text-xl font-bold">{t("noProductsFound")}</p>
       <p className="mt-2 text-sm text-muted-foreground">
-        {query ? `Nothing matched “${query}”.` : "Try a different category."}
+        {query ? t("nothingMatched", { query }) : t("tryDifferentCategory")}
       </p>
     </div>
   );

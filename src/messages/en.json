@@ -126,5 +126,20 @@
     "addedToCart": "Added to cart",
     "added": "Added",
     "add": "Add"
+  },
+  "catalogue": {
+    "searchPlaceholder": "Search products, packs, or categories",
+    "searchAria": "Search products",
+    "clearSearch": "Clear",
+    "categoriesAria": "Product categories",
+    "allCategories": "All Categories",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "availableVariants": "Available variants:",
+    "noDescription": "No detailed description available for this product.",
+    "noProductsFound": "No products found",
+    "nothingMatched": "Nothing matched “{query}”.",
+    "tryDifferentCategory": "Try a different category.",
+    "loadError": "Failed to load catalogue. Please check your connection."
   }
 }

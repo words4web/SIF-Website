@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { EmptyProducts, ProductGrid } from "@/components/product-card";
 import { ProductGridSkeleton } from "@/components/skeleton/product-skeleton";
@@ -12,6 +13,7 @@ import { CategoryItem } from "@/types/category/category.types";
 import { useCatalogueFilters } from "@/hooks/useCatalogueFilters";
 
 export default function CataloguePage() {
+  const t = useTranslations("catalogue");
   const {
     data: categoriesData,
     isLoading: isLoadingCategories,
@@ -140,7 +142,7 @@ export default function CataloguePage() {
             message={
               (categoriesError as any)?.response?.data?.message ??
               (productsError as any)?.response?.data?.message ??
-              "Failed to load catalogue. Please check your connection."
+              t("loadError")
             }
             onRetry={() => {
               refetchCategories();
