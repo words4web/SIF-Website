@@ -6,6 +6,7 @@ import { ROUTES } from "@/constants/routes";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
@@ -20,6 +21,7 @@ import {
 } from "@/lib/idempotency";
 
 export default function CheckoutPage() {
+  const t = useTranslations("checkout");
   const router = useRouter();
   const {
     items,
@@ -48,8 +50,8 @@ export default function CheckoutPage() {
         resetIdempotencyKey();
         const cancelMsg =
           reason === "expired"
-            ? "Payment session expired. Please try placing your order again."
-            : "Payment was cancelled on PayPal.";
+            ? t("errors.paymentExpired")
+            : t("errors.paymentCancelled");
         setError(cancelMsg);
         toast.error(cancelMsg);
         window.history.replaceState({}, "", ROUTES.CHECKOUT);
@@ -58,7 +60,7 @@ export default function CheckoutPage() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [t]);
 
   const createOrderMutation = useCreateOrder({
     onSuccess: (response) => {
@@ -70,9 +72,7 @@ export default function CheckoutPage() {
       }
     },
     onError: (err: any) => {
-      const msg =
-        err.response?.data?.message ||
-        "Failed to place order. Please try again.";
+      const msg = err.response?.data?.message || t("errors.orderFailed");
       setError(msg);
       toast.error(msg);
     },
@@ -85,14 +85,14 @@ export default function CheckoutPage() {
     setError("");
 
     if (!selectedAddressId) {
-      const msg = "Please select a delivery address.";
+      const msg = t("errors.selectAddress");
       setError(msg);
       toast.error(msg);
       return;
     }
 
     if (!items.length) {
-      const msg = "Your basket is empty.";
+      const msg = t("errors.cartEmpty");
       setError(msg);
       toast.error(msg);
       return;
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
         <Link
           href={ROUTES.CART}
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-muted-foreground hover:text-primary transition-colors">
-          <ArrowLeft className="size-3.5 sm:size-4" /> Back to cart
+          <ArrowLeft className="size-3.5 sm:size-4" /> {t("backToCart")}
         </Link>
 
         {!ready ? (
@@ -127,14 +127,14 @@ export default function CheckoutPage() {
               <ShoppingBag className="size-8" />
             </div>
             <h2 className="mt-4 font-serif text-2xl font-bold">
-              Your cart is empty
+              {t("emptyCartTitle")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-sm">
-              You don&apos;t have any items in your shopping cart to checkout.
+              {t("emptyCartDesc")}
             </p>
             <Button asChild className="mt-6" size="lg">
               <Link href={ROUTES.CATALOGUE}>
-                Browse Catalogue <ArrowRight className="size-4 ml-1.5" />
+                {t("browseCatalogue")} <ArrowRight className="size-4 ml-1.5" />
               </Link>
             </Button>
           </div>

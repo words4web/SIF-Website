@@ -141,5 +141,69 @@
     "nothingMatched": "Nothing matched “{query}”.",
     "tryDifferentCategory": "Try a different category.",
     "loadError": "Failed to load catalogue. Please check your connection."
+  },
+  "checkout": {
+    "backToCart": "Back to cart",
+    "emptyCartTitle": "Your cart is empty",
+    "emptyCartDesc": "You don't have any items in your shopping cart to checkout.",
+    "browseCatalogue": "Browse Catalogue",
+    "delivery": {
+      "badge": "Delivery details",
+      "title": "Choose Delivery Address",
+      "subtitle": "No payment is needed here. We'll review your order and confirm delivery with you.",
+      "selectAddressCount": "Select Address ({count} available)",
+      "manageInProfile": "Manage in profile",
+      "selectPlaceholder": "Select delivery address",
+      "selectPlaceholderSub": "Choose an address for this order",
+      "emptyTitle": "No delivery addresses found",
+      "emptyDesc": "Please add a delivery address in your profile before checking out.",
+      "addAddress": "Add Address",
+      "orderNotes": "Order notes",
+      "optional": "(optional)",
+      "notesPlaceholder": "Access instructions, preferred delivery time, etc."
+    },
+    "summary": {
+      "title": "Order Summary",
+      "itemCount": "{count} {count, plural, one {Item} other {Items}}",
+      "productFallback": "Product",
+      "each": "each",
+      "subtotal": "Subtotal",
+      "shippingCharge": "Shipping Charges",
+      "shippingChargeWithWeight": "Shipping Charges ({weight} kg)",
+      "free": "FREE",
+      "estimatedTotal": "Estimated total",
+      "redirecting": "Redirecting to PayPal…",
+      "proceedToPayPal": "Proceed to PayPal"
+    },
+    "errors": {
+      "paymentExpired": "Payment session expired. Please try placing your order again.",
+      "paymentCancelled": "Payment was cancelled on PayPal.",
+      "selectAddress": "Please select a delivery address.",
+      "cartEmpty": "Your basket is empty.",
+      "orderFailed": "Failed to place order. Please try again."
+    }
+  },
+  "orderSuccess": {
+    "loading": "Loading order confirmation…",
+    "notFoundTitle": "Order Not Found",
+    "notFoundDesc": "We couldn't retrieve the confirmation for this order reference.",
+    "orderHistory": "Order History",
+    "browseCatalogue": "Browse Catalogue",
+    "placedBadge": "Order Placed & Processing",
+    "thankYouTitle": "Thank you for your order!",
+    "thankYouSubtitle": "Order reference #{orderId} has been received and is being prepared by our fulfillment team.",
+    "orderIdLabel": "Order ID",
+    "statusLabel": "Status:",
+    "statusInProcess": "In Process",
+    "deliveryDetails": "Delivery Details",
+    "notePrefix": "Note:",
+    "orderSummary": "Order Summary",
+    "totalItems": "Total Items",
+    "itemCount": "{count} {count, plural, one {item} other {items}}",
+    "subtotal": "Subtotal",
+    "free": "FREE",
+    "totalPaid": "Total Paid / Due",
+    "continueShopping": "Continue Shopping",
+    "viewOrderHistory": "View Order History"
   }
 }

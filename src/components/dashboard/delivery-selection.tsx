@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check, ChevronDown, MapPin, Plus } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { DeliverySelectionProps } from "@/types/order.types";
 
@@ -13,6 +14,7 @@ export function DeliverySelection({
   notes,
   onChangeNotes,
 }: DeliverySelectionProps) {
+  const t = useTranslations("checkout.delivery");
   const [isOpen, setIsOpen] = useState(false);
 
   const selectedAddress = addresses?.find(
@@ -23,14 +25,13 @@ export function DeliverySelection({
     <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-7 shadow-sm space-y-6 max-w-full min-w-0">
       <div>
         <p className="text-xs sm:text-sm font-bold uppercase tracking-[.14em] text-primary">
-          Delivery details
+          {t("badge")}
         </p>
         <h2 className="mt-1 font-serif text-2xl sm:text-3xl font-extrabold text-foreground">
-          Choose Delivery Address
+          {t("title")}
         </h2>
         <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-          No payment is needed here. We&apos;ll review your order and confirm
-          delivery with you.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -39,12 +40,12 @@ export function DeliverySelection({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Select Address ({addresses.length} available)
+                {t("selectAddressCount", { count: addresses.length })}
               </label>
               <Link
                 href="/profile"
                 className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                <Plus className="size-3.5" /> Manage in profile
+                <Plus className="size-3.5" /> {t("manageInProfile")}
               </Link>
             </div>
 
@@ -61,12 +62,12 @@ export function DeliverySelection({
                     <p className="text-sm font-bold text-foreground truncate">
                       {selectedAddress
                         ? selectedAddress.fullName
-                        : "Select delivery address"}
+                        : t("selectPlaceholder")}
                     </p>
                     <p className="text-xs text-muted-foreground truncate">
                       {selectedAddress
                         ? `${selectedAddress.streetAddress}, ${selectedAddress.city} (${selectedAddress.postalCode})`
-                        : "Choose an address for this order"}
+                        : t("selectPlaceholderSub")}
                     </p>
                   </div>
                 </div>
@@ -147,14 +148,14 @@ export function DeliverySelection({
           <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-border rounded-xl">
             <MapPin className="size-7 text-muted-foreground" />
             <p className="mt-2 text-sm font-semibold text-muted-foreground">
-              No delivery addresses found
+              {t("emptyTitle")}
             </p>
             <p className="mt-1 text-xs text-muted-foreground mb-4">
-              Please add a delivery address in your profile before checking out.
+              {t("emptyDesc")}
             </p>
             <Button asChild variant="outline" size="sm" className="rounded-xl">
               <Link href="/profile" className="flex items-center gap-1">
-                <Plus className="size-4" /> Add Address
+                <Plus className="size-4" /> {t("addAddress")}
               </Link>
             </Button>
           </div>
@@ -163,14 +164,16 @@ export function DeliverySelection({
 
       <div className="pt-2 border-t border-border/40">
         <label className="text-xs sm:text-sm font-bold text-foreground">
-          Order notes{" "}
-          <span className="font-normal text-muted-foreground">(optional)</span>
+          {t("orderNotes")}{" "}
+          <span className="font-normal text-muted-foreground">
+            {t("optional")}
+          </span>
         </label>
         <textarea
           value={notes}
           onChange={(e) => onChangeNotes(e.target.value)}
           rows={2}
-          placeholder="Access instructions, preferred delivery time, etc."
+          placeholder={t("notesPlaceholder")}
           className="mt-2 w-full rounded-xl border border-input bg-card px-3.5 py-2.5 text-xs sm:text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
       </div>

@@ -141,5 +141,69 @@
     "nothingMatched": "Nessun risultato corrispondente a “{query}”.",
     "tryDifferentCategory": "Prova a selezionare una categoria diversa.",
     "loadError": "Impossibile caricare il catalogo. Controlla la tua connessione."
+  },
+  "checkout": {
+    "backToCart": "Torna al carrello",
+    "emptyCartTitle": "Il tuo carrello è vuoto",
+    "emptyCartDesc": "Non hai articoli nel carrello per procedere al checkout.",
+    "browseCatalogue": "Sfoglia il catalogo",
+    "delivery": {
+      "badge": "Dettagli di consegna",
+      "title": "Scegli l'Indirizzo di Consegna",
+      "subtitle": "Nessun pagamento richiesto qui. Verificheremo il tuo ordine e confermeremo la consegna.",
+      "selectAddressCount": "Seleziona Indirizzo ({count} disponibili)",
+      "manageInProfile": "Gestisci nel profilo",
+      "selectPlaceholder": "Seleziona indirizzo di consegna",
+      "selectPlaceholderSub": "Scegli un indirizzo per questo ordine",
+      "emptyTitle": "Nessun indirizzo di consegna trovato",
+      "emptyDesc": "Aggiungi un indirizzo di consegna nel tuo profilo prima di procedere al checkout.",
+      "addAddress": "Aggiungi Indirizzo",
+      "orderNotes": "Note sull'ordine",
+      "optional": "(opzionale)",
+      "notesPlaceholder": "Istruzioni di accesso, orario di consegna preferito, ecc."
+    },
+    "summary": {
+      "title": "Riepilogo Ordine",
+      "itemCount": "{count} {count, plural, one {Articolo} other {Articoli}}",
+      "productFallback": "Prodotto",
+      "each": "ciascuno",
+      "subtotal": "Subtotale",
+      "shippingCharge": "Spese di Spedizione",
+      "shippingChargeWithWeight": "Spese di Spedizione ({weight} kg)",
+      "free": "GRATIS",
+      "estimatedTotal": "Totale stimato",
+      "redirecting": "Reindirizzamento a PayPal…",
+      "proceedToPayPal": "Procedi su PayPal"
+    },
+    "errors": {
+      "paymentExpired": "Sessione di pagamento scaduta. Riprova a effettuare l'ordine.",
+      "paymentCancelled": "Il pagamento su PayPal è stato annullato.",
+      "selectAddress": "Seleziona un indirizzo di consegna.",
+      "cartEmpty": "Il tuo carrello è vuoto.",
+      "orderFailed": "Impossibile completare l'ordine. Riprova."
+    }
+  },
+  "orderSuccess": {
+    "loading": "Caricamento conferma d'ordine…",
+    "notFoundTitle": "Ordine Non Trovato",
+    "notFoundDesc": "Impossibile recuperare la conferma per questo riferimento d'ordine.",
+    "orderHistory": "Cronologia Ordini",
+    "browseCatalogue": "Sfoglia il catalogo",
+    "placedBadge": "Ordine Ricevuto & In Preparazione",
+    "thankYouTitle": "Grazie per il tuo ordine!",
+    "thankYouSubtitle": "Il riferimento dell'ordine #{orderId} è stato ricevuto ed è in corso di elaborazione dal nostro team.",
+    "orderIdLabel": "ID Ordine",
+    "statusLabel": "Stato:",
+    "statusInProcess": "In Lavorazione",
+    "deliveryDetails": "Dettagli di Consegna",
+    "notePrefix": "Nota:",
+    "orderSummary": "Riepilogo Ordine",
+    "totalItems": "Articoli Totali",
+    "itemCount": "{count} {count, plural, one {articolo} other {articoli}}",
+    "subtotal": "Subtotale",
+    "free": "GRATIS",
+    "totalPaid": "Totale Pagato / Dovuto",
+    "continueShopping": "Continua gli acquisti",
+    "viewOrderHistory": "Visualizza Cronologia Ordini"
   }
 }

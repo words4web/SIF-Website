@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { OrderSuccess } from "@/components/dashboard/order-success";
 import { useOrderDetailQuery } from "@/services/order/order.hook";
@@ -16,6 +17,7 @@ export default function OrderSuccessPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const t = useTranslations("orderSuccess");
   const { id } = use(params);
   const { refetch } = useCart();
   const { data, isLoading, isError } = useOrderDetailQuery(id);
@@ -39,7 +41,7 @@ export default function OrderSuccessPage({
           <div className="flex flex-col items-center justify-center py-24 space-y-4">
             <div className="size-10 rounded-full border-2 border-primary border-t-transparent animate-spin" />
             <p className="text-sm font-medium text-muted-foreground">
-              Loading order confirmation…
+              {t("loading")}
             </p>
           </div>
         ) : isError || !order ? (
@@ -47,19 +49,18 @@ export default function OrderSuccessPage({
             <div className="size-16 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
               <ShoppingBag className="size-8" />
             </div>
-            <h2 className="font-serif text-2xl font-bold">Order Not Found</h2>
-            <p className="text-sm text-muted-foreground">
-              We couldn&apos;t retrieve the confirmation for this order
-              reference.
-            </p>
+            <h2 className="font-serif text-2xl font-bold">
+              {t("notFoundTitle")}
+            </h2>
+            <p className="text-sm text-muted-foreground">{t("notFoundDesc")}</p>
             <div className="flex items-center justify-center gap-3 pt-2">
               <Button asChild variant="outline">
                 <Link href={ROUTES.ORDERS}>
-                  <ArrowLeft className="size-4 mr-1.5" /> Order History
+                  <ArrowLeft className="size-4 mr-1.5" /> {t("orderHistory")}
                 </Link>
               </Button>
               <Button asChild>
-                <Link href={ROUTES.CATALOGUE}>Browse Catalogue</Link>
+                <Link href={ROUTES.CATALOGUE}>{t("browseCatalogue")}</Link>
               </Button>
             </div>
           </div>

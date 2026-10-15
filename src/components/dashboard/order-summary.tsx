@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { formatPrice, formatWeight } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/common/ProductImage";
@@ -15,16 +16,17 @@ export function OrderSummary({
   placing,
   disabled,
 }: OrderSummaryProps) {
+  const t = useTranslations("checkout.summary");
   const estimatedTotal = typeof total === "number" ? total : subtotal;
 
   return (
     <aside className="order-first lg:order-last h-fit rounded-2xl border border-border/80 bg-card p-4 sm:p-6 shadow-sm space-y-4 w-full min-w-0 max-w-full">
       <div className="flex items-center justify-between border-b border-border/60 pb-3">
         <h2 className="font-serif text-lg sm:text-xl font-bold text-foreground">
-          Order Summary
+          {t("title")}
         </h2>
         <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-          {items?.length || 0} {items?.length === 1 ? "Item" : "Items"}
+          {t("itemCount", { count: items?.length || 0 })}
         </span>
       </div>
 
@@ -44,7 +46,7 @@ export function OrderSummary({
                       ? product.images[0]
                       : undefined)
                   }
-                  alt={product?.name || "Product"}
+                  alt={product?.name || t("productFallback")}
                   size="sm"
                 />
                 <span className="absolute bottom-0.5 right-0.5 min-w-5 h-4 px-1 rounded-md bg-foreground/90 text-[10px] font-bold text-background flex items-center justify-center shadow-xs z-10">
@@ -65,7 +67,9 @@ export function OrderSummary({
                     <span className="font-medium truncate">{product.pack}</span>
                   ) : null}
                   {(weight || product?.pack) && <span>•</span>}
-                  <span>{formatPrice(itemUnitPrice)} each</span>
+                  <span>
+                    {formatPrice(itemUnitPrice)} {t("each")}
+                  </span>
                 </p>
               </div>
 
@@ -81,41 +85,45 @@ export function OrderSummary({
 
       <div className="border-t border-border/60 pt-3 space-y-2 text-xs sm:text-sm">
         <div className="flex justify-between text-muted-foreground">
-          <span>Subtotal</span>
+          <span>{t("subtotal")}</span>
           <span className="font-semibold text-foreground">
             {formatPrice(subtotal)}
           </span>
         </div>
 
-        {charges?.map((charge, idx) => (
-          <div
-            key={`${charge?.type}-${idx}`}
-            className="flex justify-between items-center text-muted-foreground">
-            <span>
-              {charge?.name}
-              {typeof totalWeightKg === "number" &&
-              totalWeightKg > 0 &&
-              charge?.type === "SHIPPING"
-                ? ` (${totalWeightKg} kg)`
-                : ""}
-            </span>
-            {Number(charge?.amount) === 0 ? (
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                FREE
-              </span>
-            ) : (
-              <span className="font-semibold text-foreground">
-                {formatPrice(charge?.amount)}
-              </span>
-            )}
-          </div>
-        ))}
+        {charges?.map((charge, idx) => {
+          const isShipping = charge?.type === "SHIPPING";
+          const hasWeight =
+            typeof totalWeightKg === "number" && totalWeightKg > 0;
+          const chargeName = isShipping
+            ? hasWeight
+              ? t("shippingChargeWithWeight", { weight: totalWeightKg })
+              : t("shippingCharge")
+            : charge?.name;
+
+          return (
+            <div
+              key={`${charge?.type}-${idx}`}
+              className="flex justify-between items-center text-muted-foreground">
+              <span>{chargeName}</span>
+              {Number(charge?.amount) === 0 ? (
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                  {t("free")}
+                </span>
+              ) : (
+                <span className="font-semibold text-foreground">
+                  {formatPrice(charge?.amount)}
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="border-t border-border/60 pt-3 flex justify-between items-baseline">
         <div>
           <span className="font-bold text-sm sm:text-base text-foreground block">
-            Estimated total
+            {t("estimatedTotal")}
           </span>
         </div>
         <span className="font-serif text-xl sm:text-2xl font-extrabold text-primary">
@@ -128,7 +136,7 @@ export function OrderSummary({
         className="mt-2 w-full h-11 sm:h-12 rounded-xl font-bold text-sm shadow-md cursor-pointer transition-all hover:shadow-lg"
         size="lg"
         disabled={disabled || placing}>
-        {placing ? "Redirecting to PayPal…" : "Proceed to PayPal"}{" "}
+        {placing ? t("redirecting") : t("proceedToPayPal")}{" "}
         <ArrowRight className="size-4 ml-1.5" />
       </Button>
     </aside>
