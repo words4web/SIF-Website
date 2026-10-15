@@ -35,5 +35,69 @@
     "distributorBadge": "Distributore Esclusivo Tata • Italia",
     "designedBy": "Progettato con passione da",
     "copyright": "Copyright © {year} {companyName} | {designedBy}"
+  },
+  "profile": {
+    "badge": "Il tuo profilo",
+    "greeting": "Ciao, {name}.",
+    "subtitle": "Gestisci le tue credenziali aziendali e i punti di consegna all'ingrosso.",
+    "signOut": "Disconnetti",
+    "accountDetails": "Dettagli Account",
+    "fullName": "Nome Completo",
+    "emailAddress": "Indirizzo Email",
+    "businessName": "Ragione Sociale",
+    "notProvided": "Non fornito",
+    "modal": {
+      "signOutTitle": "Disconnetti",
+      "signOutDescription": "Sei sicuro di voler effettuare la disconnessione dal tuo account?",
+      "signOutConfirm": "Disconnetti",
+      "removeAddressTitle": "Rimuovi Indirizzo",
+      "removeAddressDescription": "Sei sicuro di voler rimuovere questo indirizzo di consegna?",
+      "removeConfirm": "Rimuovi",
+      "cancel": "Annulla",
+      "addAddressTitle": "Aggiungi Indirizzo",
+      "editAddressTitle": "Modifica Indirizzo"
+    },
+    "addressSection": {
+      "title": "Indirizzi di Consegna",
+      "add": "Aggiungi",
+      "editAria": "Modifica indirizzo",
+      "deleteAria": "Elimina indirizzo",
+      "emptyTitle": "Nessun indirizzo salvato",
+      "emptySubtitle": "Aggiungi un indirizzo di consegna per effettuare ordini all'ingrosso."
+    },
+    "addressModal": {
+      "fullNameLabel": "Nome Completo *",
+      "fullNamePlaceholder": "Mario Rossi",
+      "fullNameRequired": "Il nome completo è obbligatorio",
+      "phoneLabel": "Telefono *",
+      "phonePlaceholder": "+393890220807",
+      "phoneRequired": "Il numero di telefono è obbligatorio",
+      "phoneInvalid": "Formato numero di telefono italiano non valido (es. +393890220807 o 0372432787)",
+      "streetAddressLabel": "Indirizzo Civico *",
+      "streetAddressPlaceholder": "Via Giuseppina, 149",
+      "streetAddressRequired": "L'indirizzo civico è obbligatorio",
+      "buildingLabel": "Edificio / Piano",
+      "buildingPlaceholder": "Piano 2, Scala B (opzionale)",
+      "cityLabel": "Città *",
+      "cityPlaceholder": "Cremona",
+      "cityRequired": "La città è obbligatoria",
+      "postalCodeLabel": "CAP *",
+      "postalCodePlaceholder": "26100",
+      "postalCodeRequired": "Il CAP è obbligatorio",
+      "cancel": "Annulla",
+      "save": "Salva Indirizzo",
+      "saving": "Salvataggio…"
+    },
+    "notifications": {
+      "title": "Notifiche Ordini",
+      "notSupportedTitle": "Notifiche",
+      "notSupportedDesc": "Le notifiche non sono supportate dal tuo browser.",
+      "deniedDesc": "Autorizzazione negata nelle impostazioni del browser",
+      "enabledDesc": "Notifiche push attive",
+      "disabledDesc": "Ricevi avvisi istantanei sullo stato degli ordini",
+      "bannerTitle": "Notifiche Bloccate",
+      "bannerDesc": "Le notifiche push sono bloccate nel tuo browser. Abilitale nelle impostazioni del sito per ricevere aggiornamenti istantanei.",
+      "dismissAria": "Chiudi avviso notifiche"
+    }
   }
 }

@@ -35,5 +35,69 @@
     "distributorBadge": "Exclusive Tata Distributor • Italy",
     "designedBy": "Designed with love by",
     "copyright": "Copyright © {year} {companyName} | {designedBy}"
+  },
+  "profile": {
+    "badge": "Your profile",
+    "greeting": "Hello, {name}.",
+    "subtitle": "Manage your wholesale credentials and delivery locations.",
+    "signOut": "Sign out",
+    "accountDetails": "Account Details",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "businessName": "Business Name",
+    "notProvided": "Not provided",
+    "modal": {
+      "signOutTitle": "Sign out",
+      "signOutDescription": "Are you sure you want to sign out of your account?",
+      "signOutConfirm": "Sign out",
+      "removeAddressTitle": "Remove Address",
+      "removeAddressDescription": "Are you sure you want to remove this delivery address?",
+      "removeConfirm": "Remove",
+      "cancel": "Cancel",
+      "addAddressTitle": "Add Address",
+      "editAddressTitle": "Edit Address"
+    },
+    "addressSection": {
+      "title": "Delivery Addresses",
+      "add": "Add",
+      "editAria": "Edit address",
+      "deleteAria": "Delete address",
+      "emptyTitle": "No addresses saved yet",
+      "emptySubtitle": "Add a delivery address to start placing wholesale orders."
+    },
+    "addressModal": {
+      "fullNameLabel": "Full Name *",
+      "fullNamePlaceholder": "John Smith",
+      "fullNameRequired": "Full name is required",
+      "phoneLabel": "Phone *",
+      "phonePlaceholder": "+393890220807",
+      "phoneRequired": "Phone is required",
+      "phoneInvalid": "Invalid Italian phone number format (e.g. +393890220807 or 0372432787)",
+      "streetAddressLabel": "Street Address *",
+      "streetAddressPlaceholder": "123 High Street",
+      "streetAddressRequired": "Street address is required",
+      "buildingLabel": "Building / Apartment",
+      "buildingPlaceholder": "Flat 4B (optional)",
+      "cityLabel": "City *",
+      "cityPlaceholder": "Rome",
+      "cityRequired": "City is required",
+      "postalCodeLabel": "Postal Code *",
+      "postalCodePlaceholder": "00100",
+      "postalCodeRequired": "Postal code is required",
+      "cancel": "Cancel",
+      "save": "Save Address",
+      "saving": "Saving…"
+    },
+    "notifications": {
+      "title": "Order Notifications",
+      "notSupportedTitle": "Notifications",
+      "notSupportedDesc": "Notifications are not supported in your browser.",
+      "deniedDesc": "Permission denied in browser settings",
+      "enabledDesc": "Instant push notifications enabled",
+      "disabledDesc": "Receive push alerts when order status changes",
+      "bannerTitle": "Notifications Blocked",
+      "bannerDesc": "Push notifications are blocked in your browser settings. Enable them in your browser site settings to receive instant order updates.",
+      "dismissAria": "Dismiss notification banner"
+    }
   }
 }

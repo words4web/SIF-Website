@@ -22,6 +22,7 @@ This document provides a comprehensive overview of the **Shelly Indian Foods (SI
 - **Framework**: Next.js 16.3.0 (App Router & Turbopack)
 - **Runtime**: React 19 & React DOM 19
 - **State Management**: Redux Toolkit & Redux Persist (`localStorage` for Auth & Notification state)
+- **Internationalization (i18n)**: `next-intl` (SSR & Client Provider with cookie-persisted `NEXT_LOCALE` routing without URL path prefixes)
 - **Data Fetching & Cache**: TanStack React Query (`@tanstack/react-query`)
 - **API Client**: Axios (configured with token refresh interceptors & error handlers)
 - **Push Notifications & Messaging**: Firebase Web SDK (`firebase/app`, `firebase/messaging`) + Background Service Worker
@@ -59,7 +60,7 @@ frontend/
 │   │   └── layout.tsx                # Root layout configuring QueryClient, Toaster, Redux, & Providers
 │   │
 │   ├── components/                   # React Components
-│   │   ├── common/                   # Shared views (ErrorView, Loader, NotificationListener, ProductImage, ConfirmModal, AddressModal)
+│   │   ├── common/                   # Shared views (ErrorView, Loader, NotificationListener, ProductImage, LanguageSwitcher, ConfirmModal, AddressModal)
 │   │   ├── dashboard/                # Portal & landing page feature components
 │   │   │   ├── address-section.tsx   # Saved delivery addresses management
 │   │   │   ├── blocked-permission-banner.tsx # FCM browser permission alert
@@ -116,6 +117,14 @@ frontend/
 │   │   ├── useCatalogueFilters.ts    # Mutually exclusive URL-synced search and category filter state
 │   │   ├── useDebounce.ts            # Debounce utility for inputs
 │   │   └── useFcmLifecycle.ts        # FCM notification registration & device synchronization
+│   │
+│   ├── i18n/                         # Internationalization Configuration & Request Handler
+│   │   ├── config.ts                 # Supported locales (en, it), default locale, cookie key, and language labels/flags
+│   │   └── request.ts                # Server request configuration reading NEXT_LOCALE cookie & static message maps
+│   │
+│   ├── messages/                     # Translation Dictionaries
+│   │   ├── en.json                   # English message catalog (navigation, footer, common)
+│   │   └── it.json                   # Italian message catalog (navigation, footer, common)
 │   │
 │   ├── lib/                          # Core Libraries & Redux Store
 │   │   ├── axiosInstance.ts          # Axios client with JWT refresh interceptor
@@ -252,6 +261,21 @@ frontend/
   - `LoginPage` and `SignupPage` render inside a floating glass-style elevated container (`rounded-2xl sm:rounded-3xl border border-border/80 bg-card/95 shadow-xl`) with the brand logo header, high-contrast typography, and primary color focus cues.
 - **Color Palette Discipline**:
   - Single primary brand red (`#cb242c`) focus across badges, checkmark pills, focus rings, buttons, and text highlights, eliminating extraneous secondary accent colors for a cleaner, unified presentation.
+
+### 8. Internationalization & Multi-Language Subsystem (`next-intl`)
+
+- **Dual-Locale Architecture (`en` & `it`)**:
+  - Full native support for **English (`en`)** and **Italian (`it`)** serving Italian B2B customers, restaurateurs, and English-speaking wholesale partners.
+- **Cookie-Based Seamless State Management (`NEXT_LOCALE`)**:
+  - Operates without intrusive URL prefix changes (clean URLs like `/catalogue`, `/about`, `/orders`).
+  - The active language choice is persisted for 1 year in `NEXT_LOCALE` (`max-age=31536000; SameSite=Lax`).
+  - Read server-side via `cookies()` in `src/i18n/request.ts` to hydrate `<html lang="...">` and server-rendered components with zero flashes or hydration mismatches.
+- **Language Switcher Component (`LanguageSwitcher`)**:
+  - **Header Trigger Button**: Compact display showing the active flag badge (`🇬🇧` or `🇮🇹`) with an animated chevron arrow.
+  - **Dropdown Menu**: Clean popover list showing the country flag, native language name (*English*, *Italiano*), and active checkmark indicator.
+  - **Full Website Refresh on Selection**: Triggers `window.location.reload()` upon selecting a new locale to immediately update both server-rendered and client-rendered content.
+- **Statically Mapped Dictionaries**:
+  - `src/i18n/request.ts` maps `en.json` and `it.json` directly to guarantee reliable resolution across Next.js 16 Turbopack HMR and production builds.
 
 ---
 

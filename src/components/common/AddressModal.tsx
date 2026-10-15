@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { AddressPayload } from "@/types/address.types";
 
@@ -30,8 +31,9 @@ export function AddressModal({
   onSubmit,
   defaultValues,
   isLoading,
-  title = "Add Address",
+  title,
 }: AddressModalProps) {
+  const t = useTranslations("profile.addressModal");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const {
     register,
@@ -95,7 +97,7 @@ export function AddressModal({
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between gap-4">
           <h3 className="font-serif text-xl font-bold tracking-tight">
-            {title}
+            {title || t("save")}
           </h3>
           <Button
             variant="ghost"
@@ -110,29 +112,28 @@ export function AddressModal({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>Full Name *</label>
+              <label className={labelClass}>{t("fullNameLabel")}</label>
               <input
-                {...register("fullName", { required: "Full name is required" })}
+                {...register("fullName", { required: t("fullNameRequired") })}
                 className={inputClass}
-                placeholder="John Smith"
+                placeholder={t("fullNamePlaceholder")}
               />
               {errors.fullName && (
                 <p className={errorClass}>{errors.fullName.message}</p>
               )}
             </div>
             <div>
-              <label className={labelClass}>Phone *</label>
+              <label className={labelClass}>{t("phoneLabel")}</label>
               <input
                 {...register("phone", {
-                  required: "Phone is required",
+                  required: t("phoneRequired"),
                   pattern: {
                     value: /^(\+39|0039)?\s?([03]\d{7,10})$/,
-                    message:
-                      "Invalid Italian phone number format (e.g. +393890220807 or 0372432787)",
+                    message: t("phoneInvalid"),
                   },
                 })}
                 className={inputClass}
-                placeholder="+393890220807"
+                placeholder={t("phonePlaceholder")}
               />
               {errors.phone && (
                 <p className={errorClass}>{errors.phone.message}</p>
@@ -141,13 +142,13 @@ export function AddressModal({
           </div>
 
           <div>
-            <label className={labelClass}>Street Address *</label>
+            <label className={labelClass}>{t("streetAddressLabel")}</label>
             <input
               {...register("streetAddress", {
-                required: "Street address is required",
+                required: t("streetAddressRequired"),
               })}
               className={inputClass}
-              placeholder="123 High Street"
+              placeholder={t("streetAddressPlaceholder")}
             />
             {errors.streetAddress && (
               <p className={errorClass}>{errors.streetAddress.message}</p>
@@ -155,34 +156,34 @@ export function AddressModal({
           </div>
 
           <div>
-            <label className={labelClass}>Building / Apartment</label>
+            <label className={labelClass}>{t("buildingLabel")}</label>
             <input
               {...register("building")}
               className={inputClass}
-              placeholder="Flat 4B (optional)"
+              placeholder={t("buildingPlaceholder")}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>City *</label>
+              <label className={labelClass}>{t("cityLabel")}</label>
               <input
-                {...register("city", { required: "City is required" })}
+                {...register("city", { required: t("cityRequired") })}
                 className={inputClass}
-                placeholder="London"
+                placeholder={t("cityPlaceholder")}
               />
               {errors.city && (
                 <p className={errorClass}>{errors.city.message}</p>
               )}
             </div>
             <div>
-              <label className={labelClass}>Postal Code *</label>
+              <label className={labelClass}>{t("postalCodeLabel")}</label>
               <input
                 {...register("postalCode", {
-                  required: "Postal code is required",
+                  required: t("postalCodeRequired"),
                 })}
                 className={inputClass}
-                placeholder="SW1A 1AA"
+                placeholder={t("postalCodePlaceholder")}
               />
               {errors.postalCode && (
                 <p className={errorClass}>{errors.postalCode.message}</p>
@@ -196,10 +197,10 @@ export function AddressModal({
               variant="outline"
               onClick={onClose}
               disabled={isLoading}>
-              Cancel
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving…" : "Save Address"}
+              {isLoading ? t("saving") : t("save")}
             </Button>
           </div>
         </form>

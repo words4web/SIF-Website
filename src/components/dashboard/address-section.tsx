@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Plus, Trash2, Pencil } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 import { AddressSectionProps } from "@/types/address.types";
@@ -12,18 +13,20 @@ export function AddressSection({
   onDeleteAddress,
   isDeleting,
 }: AddressSectionProps) {
+  const t = useTranslations("profile.addressSection");
+
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
       <div className="flex items-center justify-between gap-4">
         <h2 className="font-serif text-xl font-bold tracking-tight">
-          Delivery Addresses
+          {t("title")}
         </h2>
         <Button
           variant="outline"
           size="sm"
           onClick={onAddAddress}
           className="rounded-xl flex items-center gap-1.5">
-          <Plus className="size-4" /> Add
+          <Plus className="size-4" /> {t("add")}
         </Button>
       </div>
       <div className="mt-6">
@@ -55,7 +58,7 @@ export function AddressSection({
                     size="icon"
                     className="size-8 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10"
                     onClick={() => onEditAddress(address)}
-                    aria-label="Edit address">
+                    aria-label={t("editAria")}>
                     <Pencil className="size-4" />
                   </Button>
                   <Button
@@ -68,7 +71,7 @@ export function AddressSection({
                       }
                     }}
                     disabled={isDeleting}
-                    aria-label="Delete address">
+                    aria-label={t("deleteAria")}>
                     <Trash2 className="size-4" />
                   </Button>
                 </div>
@@ -79,10 +82,10 @@ export function AddressSection({
           <div className="flex flex-col items-center justify-center py-10 text-center border border-dashed border-border rounded-xl">
             <MapPin className="size-8 text-muted-foreground" />
             <p className="mt-3 text-sm font-semibold text-muted-foreground">
-              No addresses saved yet
+              {t("emptyTitle")}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
-              Add a delivery address to start placing wholesale orders.
+              {t("emptySubtitle")}
             </p>
           </div>
         )}

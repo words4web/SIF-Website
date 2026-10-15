@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { LogOut, Mail, User, Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ import {
 } from "@/services/address/address.hook";
 
 export default function AccountPage() {
+  const t = useTranslations("profile");
   const router = useRouter();
   const { user, ready, signOut } = useAuth();
   const [confirmSignOut, setConfirmSignOut] = useState(false);
@@ -61,24 +62,24 @@ export default function AccountPage() {
         <div className="flex flex-col justify-between gap-5 border-b border-border/70 pb-8 sm:flex-row sm:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-[.14em] text-primary">
-              Your profile
+              {t("badge")}
             </p>
             <h1 className="mt-2 font-serif text-4xl font-extrabold">
-              Hello, {user.name?.split(" ")[0] || "User"}.
+              {t("greeting", { name: user.name?.split(" ")[0] || "User" })}
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Manage your wholesale credentials and delivery locations.
+              {t("subtitle")}
             </p>
           </div>
           <Button variant="outline" onClick={() => setConfirmSignOut(true)}>
-            <LogOut className="size-4 mr-2" /> Sign out
+            <LogOut className="size-4 mr-2" /> {t("signOut")}
           </Button>
         </div>
 
         <div className="mt-8 grid gap-8 md:grid-cols-[1fr_1.2fr]">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <h2 className="font-serif text-xl font-bold tracking-tight">
-              Account Details
+              {t("accountDetails")}
             </h2>
             <div className="mt-6 space-y-4">
               <div className="flex items-center gap-3">
@@ -87,7 +88,7 @@ export default function AccountPage() {
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground">
-                    Full Name
+                    {t("fullName")}
                   </span>
                   <span className="text-sm font-bold">{user?.name}</span>
                 </div>
@@ -99,7 +100,7 @@ export default function AccountPage() {
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground">
-                    Email Address
+                    {t("emailAddress")}
                   </span>
                   <span className="text-sm font-bold">{user?.email}</span>
                 </div>
@@ -111,10 +112,10 @@ export default function AccountPage() {
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground">
-                    Business Name
+                    {t("businessName")}
                   </span>
                   <span className="text-sm font-bold">
-                    {user?.business || "Not provided"}
+                    {user?.business || t("notProvided")}
                   </span>
                 </div>
               </div>
@@ -150,10 +151,10 @@ export default function AccountPage() {
         onConfirm={() => {
           signOut()?.then(() => router.push("/"));
         }}
-        title="Sign out"
-        description="Are you sure you want to sign out of your account?"
-        confirmText="Sign out"
-        cancelText="Cancel"
+        title={t("modal.signOutTitle")}
+        description={t("modal.signOutDescription")}
+        confirmText={t("modal.signOutConfirm")}
+        cancelText={t("modal.cancel")}
         variant="destructive"
       />
 
@@ -165,10 +166,10 @@ export default function AccountPage() {
             deleteAddressMutation.mutate(addressToDelete);
           }
         }}
-        title="Remove Address"
-        description="Are you sure you want to remove this delivery address?"
-        confirmText="Remove"
-        cancelText="Cancel"
+        title={t("modal.removeAddressTitle")}
+        description={t("modal.removeAddressDescription")}
+        confirmText={t("modal.removeConfirm")}
+        cancelText={t("modal.cancel")}
         variant="destructive"
       />
 
@@ -189,7 +190,11 @@ export default function AccountPage() {
           createAddressMutation.isPending || updateAddressMutation.isPending
         }
         defaultValues={editingAddress || undefined}
-        title={editingAddress ? "Edit Address" : "Add Address"}
+        title={
+          editingAddress
+            ? t("modal.editAddressTitle")
+            : t("modal.addAddressTitle")
+        }
       />
     </div>
   );

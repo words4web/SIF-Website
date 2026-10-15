@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Bell, BellOff, Settings } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslations } from "next-intl";
 import { RootState } from "@/lib/store";
 import {
   setPermissionStatus,
@@ -14,6 +15,7 @@ import { STORAGE_KEYS } from "@/constants/storage";
 export function NotificationToggle({
   className = "",
 }: NotificationToggleProps) {
+  const t = useTranslations("profile.notifications");
   const dispatch = useDispatch();
   const { permissionStatus, isToggledOn } = useSelector(
     (state: RootState) => state.notification,
@@ -78,9 +80,11 @@ export function NotificationToggle({
         className={`flex items-center gap-3 rounded-xl border border-border/50 bg-muted/40 px-4 py-3 ${className}`}>
         <BellOff className="size-5 text-muted-foreground shrink-0" />
         <div>
-          <p className="text-sm font-medium text-foreground">Notifications</p>
+          <p className="text-sm font-medium text-foreground">
+            {t("notSupportedTitle")}
+          </p>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Notifications are not supported in your browser.
+            {t("notSupportedDesc")}
           </p>
         </div>
       </div>
@@ -106,14 +110,14 @@ export function NotificationToggle({
           </div>
           <div className="min-w-0">
             <p className="text-sm font-semibold text-foreground">
-              Order Notifications
+              {t("title")}
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">
               {isDenied
-                ? "Permission denied in browser settings"
+                ? t("deniedDesc")
                 : isEnabled
-                  ? "Instant push notifications enabled"
-                  : "Receive push alerts when order status changes"}
+                  ? t("enabledDesc")
+                  : t("disabledDesc")}
             </p>
           </div>
         </div>
