@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { EmptyProducts, ProductGrid } from "@/components/product-card";
 import { ProductGridSkeleton } from "@/components/skeleton/product-skeleton";
@@ -11,9 +11,11 @@ import { useCategories } from "@/services/category/category.hook";
 import { useProducts } from "@/services/product/product.hook";
 import { CategoryItem } from "@/types/category/category.types";
 import { useCatalogueFilters } from "@/hooks/useCatalogueFilters";
+import { resolveLocalized } from "@/lib/format";
 
 export default function CataloguePage() {
   const t = useTranslations("catalogue");
+  const locale = (useLocale() || "en") as "en" | "it";
   const {
     data: categoriesData,
     isLoading: isLoadingCategories,
@@ -23,14 +25,24 @@ export default function CataloguePage() {
   } = useCategories({ limit: 100 });
   const fetchedCategories = categoriesData?.data?.categories || [];
 
-  const categories: CategoryItem[] = fetchedCategories.map((cat: any) => ({
-    id: cat?._id,
-    name: cat?.name,
-    slug: cat?.slug,
-    image: cat?.image || null,
-    tagline: cat?.tagline || null,
-    description: cat?.description || null,
-  }));
+  const categories: CategoryItem[] = fetchedCategories.map((cat: any) => {
+    const resolveLocale = (val: any) => {
+      if (!val) return null;
+      if (typeof val === "object") {
+        return val[locale] || val.en || val.it || null;
+      }
+      return val;
+    };
+
+    return {
+      id: cat?._id,
+      name: resolveLocale(cat?.name) || "",
+      slug: cat?.slug,
+      image: cat?.image || null,
+      tagline: resolveLocale(cat?.tagline),
+      description: resolveLocale(cat?.description),
+    };
+  });
 
   const {
     query,
@@ -56,10 +68,10 @@ export default function CataloguePage() {
 
   const products = fetchedProducts?.map((prod: any) => ({
     id: prod?._id,
-    name: prod?.name,
+    name: resolveLocalized(prod?.name, locale),
     slug: prod?.slug,
     sku: prod?.sku,
-    description: prod?.description || "",
+    description: resolveLocalized(prod?.description, locale) || "",
     variants: Array.isArray(prod?.variants) ? prod?.variants : [],
     pack: prod?.pack || null,
     price:
@@ -79,7 +91,9 @@ export default function CataloguePage() {
         ? prod?.categoryId?._id
         : prod?.categoryId || "",
     categoryName:
-      typeof prod?.categoryId === "object" ? prod?.categoryId?.name : "",
+      typeof prod?.categoryId === "object"
+        ? resolveLocalized(prod?.categoryId?.name, locale)
+        : "",
   }));
 
   return (

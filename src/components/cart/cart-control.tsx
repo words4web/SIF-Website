@@ -10,7 +10,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/lib/utils";
-import { formatPrice, formatWeight } from "@/lib/format";
+import { formatPrice, formatWeight, resolveLocalized } from "@/lib/format";
+import { useLocale } from "next-intl";
 
 interface CartControlProps {
   product: Product;
@@ -34,6 +35,7 @@ export function CartControl({
   showRemoveButton = true,
 }: CartControlProps) {
   const t = useTranslations("cart");
+  const locale = useLocale();
   const router = useRouter();
   const { user } = useAuth();
   const { items, getItemQuantity, addItem, increment, decrement, removeItem } =
@@ -327,7 +329,7 @@ export function CartControl({
         disabled={isStockLimitReached}
         onClick={handleCardAdd}
         className="relative z-10 cursor-pointer h-7 sm:h-8 px-2 sm:px-3 text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-        aria-label={`${justAdded ? t("added") : t("add")} ${product?.name}`}>
+        aria-label={`${justAdded ? t("added") : t("add")} ${resolveLocalized(product?.name, locale)}`}>
         {justAdded ? (
           <Check className="size-3.5 sm:size-4" />
         ) : (

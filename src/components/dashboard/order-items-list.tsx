@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { ExternalLink, Package } from "lucide-react";
 import { ProductImage } from "@/components/common/ProductImage";
-import { formatPrice, formatWeight } from "@/lib/format";
+import { formatPrice, formatWeight, resolveLocalized } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
 import { OrderItem } from "@/types/order.types";
 
 export function OrderItemsList({ items }: { items: OrderItem[] }) {
   const t = useTranslations("orders.detail");
+  const locale = useLocale();
 
   return (
     <div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-xs space-y-4">
@@ -24,7 +25,8 @@ export function OrderItemsList({ items }: { items: OrderItem[] }) {
         {items?.map((item, idx) => {
           const prod =
             typeof item?.productId === "object" ? item?.productId : null;
-          const name = prod?.name || t("productFallback");
+          const name =
+            resolveLocalized(prod?.name, locale) || t("productFallback");
           const pack = prod?.pack ? ` (${prod?.pack})` : "";
           const imgUrl =
             Array.isArray(prod?.images) && prod?.images?.length > 0

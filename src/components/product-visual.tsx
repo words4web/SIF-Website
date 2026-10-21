@@ -58,10 +58,15 @@ export function ProductVisual({
 
   const displayImage = images[imageIndex] || images[0];
 
+  const altText =
+    typeof product?.name === "string"
+      ? product.name
+      : (product?.name as any)?.en || "Product image";
+
   return (
     <ProductImage
       src={displayImage}
-      alt={product?.name || "Product image"}
+      alt={altText}
       size={large ? "xl" : "full"}
       priority={large}
       containerClassName={

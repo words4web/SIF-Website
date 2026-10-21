@@ -1,15 +1,17 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { PortalHeader } from "@/components/portal-header";
 import { ProductDetail } from "@/components/product-detail";
 import { ErrorView } from "@/components/common/ErrorView";
 import { useProductDetail } from "@/services/product/product.hook";
 import { ProductDetailSkeleton } from "@/components/skeleton/product-detail-skeleton";
+import { resolveLocalized } from "@/lib/format";
 
 export default function ProductPage() {
   const t = useTranslations("productDetail");
+  const locale = useLocale();
   const { slug } = useParams<{ slug: string }>();
 
   const { data, isLoading, isError, error, refetch } = useProductDetail(slug);
@@ -40,10 +42,10 @@ export default function ProductPage() {
 
   const product = {
     id: productData?._id,
-    name: productData?.name,
+    name: resolveLocalized(productData?.name, locale),
     slug: productData?.slug,
     sku: productData?.sku,
-    description: productData?.description || "",
+    description: resolveLocalized(productData?.description, locale) || "",
     variants: Array.isArray(productData?.variants) ? productData?.variants : [],
     pack: productData?.pack || null,
     price:
@@ -64,10 +66,14 @@ export default function ProductPage() {
         : productData?.categoryId || "",
     categoryName:
       typeof productData?.categoryId === "object"
-        ? productData?.categoryId?.name
+        ? resolveLocalized(productData?.categoryId?.name, locale)
         : "",
     relatedProducts: Array.isArray(productData?.relatedProducts)
-      ? productData?.relatedProducts
+      ? productData?.relatedProducts.map((rel: any) => ({
+          ...rel,
+          name: resolveLocalized(rel?.name, locale),
+          description: resolveLocalized(rel?.description, locale),
+        }))
       : [],
   };
 

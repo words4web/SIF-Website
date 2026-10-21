@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
 import { CategoryItem } from "@/types/category/category.types";
@@ -13,9 +13,33 @@ export function useCatalogueFilters(categories: CategoryItem[]) {
   const categoryFromUrl = searchParams.get("category");
   const queryFromUrl = searchParams.get("search") || "";
 
-  const debouncedQuery = useDebounce(queryFromUrl, 500);
+  const [localQuery, setLocalQuery] = useState(queryFromUrl);
+  const debouncedQuery = useDebounce(localQuery, 400);
 
-  const isSearching = Boolean(queryFromUrl.trim());
+  useEffect(() => {
+    setLocalQuery(queryFromUrl);
+  }, [queryFromUrl]);
+
+  useEffect(() => {
+    const currentSearch = searchParams.get("search") || "";
+    const trimmed = debouncedQuery.trim();
+
+    if (trimmed !== currentSearch) {
+      const params = new URLSearchParams(searchParams.toString());
+      if (trimmed) {
+        params.set("search", trimmed);
+        params.delete("category");
+      } else {
+        params.delete("search");
+        if (!params.get("category") && categories?.length > 0) {
+          params.set("category", categories[0]?.slug || categories[0]?.id);
+        }
+      }
+      router.replace(`${pathname}?${params.toString()}`);
+    }
+  }, [debouncedQuery, pathname, router, searchParams, categories]);
+
+  const isSearching = Boolean(localQuery.trim());
 
   const activeCategory = isSearching
     ? null
@@ -46,6 +70,7 @@ export function useCatalogueFilters(categories: CategoryItem[]) {
 
   const selectCategory = useCallback(
     (categorySlugOrId: string) => {
+      setLocalQuery("");
       const params = new URLSearchParams();
       params.set("category", categorySlugOrId);
       router.push(`${pathname}?${params.toString()}`);
@@ -53,21 +78,9 @@ export function useCatalogueFilters(categories: CategoryItem[]) {
     [pathname, router],
   );
 
-  const setQuery = useCallback(
-    (newQuery: string) => {
-      const trimmed = newQuery.trim();
-      const params = new URLSearchParams();
-      if (trimmed) {
-        params.set("search", newQuery);
-      } else {
-        if (categories?.length > 0) {
-          params.set("category", categories[0]?.slug || categories[0]?.id);
-        }
-      }
-      router.push(`${pathname}?${params.toString()}`);
-    },
-    [categories, pathname, router],
-  );
+  const setQuery = useCallback((newQuery: string) => {
+    setLocalQuery(newQuery);
+  }, []);
 
   const resetFilters = useCallback(() => {
     const params = new URLSearchParams();
@@ -78,7 +91,7 @@ export function useCatalogueFilters(categories: CategoryItem[]) {
   }, [categories, pathname, router]);
 
   return {
-    query: queryFromUrl,
+    query: localQuery,
     debouncedQuery,
     selectedCategoryIdentifier,
     activeCategory,

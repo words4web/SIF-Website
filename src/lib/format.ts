@@ -27,3 +27,13 @@ export function hueIndex(seed: string): number {
   }
   return hash % 5;
 }
+
+export function resolveLocalized(value: any, locale?: string): string {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "object") {
+    const loc = locale === "it" ? "it" : "en";
+    return value[loc] || value.en || value.it || "";
+  }
+  return String(value);
+}

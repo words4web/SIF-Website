@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { formatPrice, formatWeight } from "@/lib/format";
+import { useTranslations, useLocale } from "next-intl";
+import { formatPrice, formatWeight, resolveLocalized } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { ProductImage } from "@/components/common/ProductImage";
 import { OrderSummaryProps } from "@/types/order.types";
@@ -17,6 +17,7 @@ export function OrderSummary({
   disabled,
 }: OrderSummaryProps) {
   const t = useTranslations("checkout.summary");
+  const locale = useLocale();
   const estimatedTotal = typeof total === "number" ? total : subtotal;
 
   return (
@@ -33,6 +34,8 @@ export function OrderSummary({
       <div className="space-y-2.5 max-h-64 sm:max-h-72 overflow-y-auto pr-2 custom-scrollbar">
         {items?.map(({ product, weight, price, quantity }) => {
           const itemUnitPrice = price ?? product?.price ?? 0;
+          const productName =
+            resolveLocalized(product?.name, locale) || t("productFallback");
           return (
             <div
               key={`${product?.id}-${weight}`}
@@ -46,7 +49,7 @@ export function OrderSummary({
                       ? product.images[0]
                       : undefined)
                   }
-                  alt={product?.name || t("productFallback")}
+                  alt={productName}
                   size="sm"
                 />
                 <span className="absolute bottom-0.5 right-0.5 min-w-5 h-4 px-1 rounded-md bg-foreground/90 text-[10px] font-bold text-background flex items-center justify-center shadow-xs z-10">
@@ -56,7 +59,7 @@ export function OrderSummary({
 
               <div className="min-w-0 flex-1">
                 <h4 className="text-xs sm:text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">
-                  {product?.name}
+                  {productName}
                 </h4>
                 <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
                   {weight ? (

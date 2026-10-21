@@ -11,13 +11,16 @@ import { FeaturesSection } from "@/components/dashboard/features-section";
 import { TrustStorySection } from "@/components/dashboard/trust-story-section";
 import { TestimonialsSection } from "@/components/dashboard/testimonials-section";
 import { Footer } from "@/components/footer";
+import { useLocale } from "next-intl";
 import { useCategories } from "@/services/category/category.hook";
 import { useProducts } from "@/services/product/product.hook";
+import { resolveLocalized } from "@/lib/format";
 
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Page() {
   const { user } = useAuth();
+  const locale = useLocale();
 
   const { data: categoriesData, isLoading: isLoadingCategories } =
     useCategories();
@@ -30,19 +33,19 @@ export default function Page() {
 
   const categories = fetchedCategories?.map((cat: any) => ({
     id: cat?._id,
-    name: cat?.name,
+    name: resolveLocalized(cat?.name, locale),
     slug: cat?.slug,
     image: cat?.image || null,
-    tagline: cat?.tagline || null,
-    description: cat?.description || null,
+    tagline: resolveLocalized(cat?.tagline, locale) || null,
+    description: resolveLocalized(cat?.description, locale) || null,
   }));
 
   const featured = fetchedProducts?.map((prod: any) => ({
     id: prod?._id,
-    name: prod?.name,
+    name: resolveLocalized(prod?.name, locale),
     slug: prod?.slug,
     sku: prod?.sku,
-    description: prod?.description || "",
+    description: resolveLocalized(prod?.description, locale) || "",
     variants: Array.isArray(prod?.variants) ? prod?.variants : [],
     pack: prod?.pack || null,
     price:
@@ -62,7 +65,9 @@ export default function Page() {
         ? prod?.categoryId?._id
         : prod?.categoryId || "",
     categoryName:
-      typeof prod?.categoryId === "object" ? prod?.categoryId?.name : "",
+      typeof prod?.categoryId === "object"
+        ? resolveLocalized(prod?.categoryId?.name, locale)
+        : "",
   }));
 
   return (

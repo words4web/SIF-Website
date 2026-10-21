@@ -1,10 +1,15 @@
+export interface LocalizedString {
+  en: string;
+  it: string;
+}
+
 export interface CategoryRow {
   _id: string;
-  name: string;
+  name: string | LocalizedString;
   slug: string;
   image?: string | null;
-  tagline?: string | null;
-  description?: string | null;
+  tagline?: string | LocalizedString | null;
+  description?: string | LocalizedString | null;
   isActive?: boolean;
 }
 

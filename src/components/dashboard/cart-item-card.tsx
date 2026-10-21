@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ProductImage } from "@/components/common/ProductImage";
 import { CartItem } from "@/types/cart.types";
-import { formatPrice, formatWeight } from "@/lib/format";
+import { formatPrice, formatWeight, resolveLocalized } from "@/lib/format";
 import { ROUTES } from "@/constants/routes";
 import { CartControl } from "@/components/cart/cart-control";
+import { useLocale } from "next-intl";
 
 export function CartItemCard({
   item,
@@ -20,6 +21,7 @@ export function CartItemCard({
   removeItem?: (productId: string, weight: number) => void;
 }) {
   const t = useTranslations("cart");
+  const locale = useLocale();
   const { product, weight, price, quantity } = item;
   const itemUnitPrice = price ?? product?.price ?? 0;
   const itemTotal = itemUnitPrice * quantity;
@@ -30,6 +32,8 @@ export function CartItemCard({
       ? product?.images?.[0]
       : undefined);
 
+  const productName = resolveLocalized(product?.name, locale);
+
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 rounded-xl sm:rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-sm">
       <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 min-w-0 flex-1">
@@ -38,7 +42,7 @@ export function CartItemCard({
           className="shrink-0 hover:opacity-90 transition-opacity">
           <ProductImage
             src={imgUrl}
-            alt={product?.name || t("productFallback")}
+            alt={productName || t("productFallback")}
             size="md"
           />
         </Link>
@@ -47,7 +51,7 @@ export function CartItemCard({
             <Link
               href={ROUTES.PRODUCT_DETAIL(product?.slug)}
               className="font-serif text-base sm:text-lg font-bold hover:text-primary transition-colors line-clamp-2">
-              {product?.name}
+              {productName}
             </Link>
             <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-extrabold border border-primary/20">
               {formatWeight(weight)}

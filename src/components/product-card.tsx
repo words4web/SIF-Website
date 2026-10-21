@@ -1,17 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { Product } from "@/types/product/product.types";
-import { formatWeight } from "@/lib/format";
+import { formatWeight, resolveLocalized } from "@/lib/format";
 import { ProductVisual } from "@/components/product-visual";
 import { ROUTES } from "@/constants/routes";
 import { CartControl } from "@/components/cart/cart-control";
 
 export function ProductCard({ product }: { product: Product }) {
   const t = useTranslations("catalogue");
+  const locale = useLocale();
   const router = useRouter();
   const productHref = ROUTES.PRODUCT_DETAIL(product?.slug);
+
+  const productName = resolveLocalized(product?.name, locale);
+  const productDesc = resolveLocalized(product?.description, locale);
 
   const variants =
     Array.isArray(product?.variants) && product?.variants?.length > 0
@@ -53,7 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
                 )}
               </div>
               <h3 className="line-clamp-2 font-serif text-xs sm:text-[15px] font-extrabold leading-snug text-card-foreground group-hover:text-primary transition-colors">
-                {product?.name}
+                {productName}
               </h3>
             </div>
           </div>
@@ -62,7 +66,7 @@ export function ProductCard({ product }: { product: Product }) {
             <div className="space-y-2 flex-1 min-h-0 flex flex-col">
               <div className="border-b border-border/60 pb-2">
                 <h3 className="font-serif text-xs sm:text-sm font-extrabold leading-snug text-primary line-clamp-2">
-                  {product?.name}
+                  {productName}
                 </h3>
                 <p className="text-[11px] sm:text-xs font-semibold text-muted-foreground mt-0.5">
                   {t("availableVariants")}{" "}
@@ -70,8 +74,8 @@ export function ProductCard({ product }: { product: Product }) {
                 </p>
               </div>
               <div className="flex-1 overflow-y-auto scrollbar-none pr-0.5 text-xs sm:text-sm text-foreground leading-relaxed cursor-pointer font-normal">
-                {product?.description ? (
-                  product.description
+                {productDesc ? (
+                  productDesc
                 ) : (
                   <span className="italic text-muted-foreground/70">
                     {t("noDescription")}

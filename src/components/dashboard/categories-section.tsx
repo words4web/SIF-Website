@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -15,12 +15,14 @@ import { ROUTES } from "@/constants/routes";
 import { CategoryVisual } from "@/components/product-visual";
 import { CategoriesSectionSkeleton } from "@/components/skeleton/category-skeleton";
 import { CategoriesSectionProps } from "@/types/category/category.types";
+import { resolveLocalized } from "@/lib/format";
 
 export function CategoriesSection({
   categories = [],
   isLoading = false,
 }: CategoriesSectionProps & { isLoading?: boolean }) {
   const t = useTranslations("categoriesSection");
+  const locale = useLocale();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   if (isLoading) {
@@ -78,6 +80,9 @@ export function CategoriesSection({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {categories?.map((cat, idx) => {
             const targetHref = ROUTES.CATALOGUE_CATEGORY(cat?.slug || cat?.id);
+            const catName = resolveLocalized(cat?.name, locale);
+            const catTagline = resolveLocalized(cat?.tagline, locale);
+            const catDesc = resolveLocalized(cat?.description, locale);
 
             return (
               <div
@@ -90,7 +95,7 @@ export function CategoriesSection({
                     {cat?.image ? (
                       <Image
                         src={cat?.image}
-                        alt={cat?.name}
+                        alt={catName}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -105,7 +110,7 @@ export function CategoriesSection({
 
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow-md group-hover:text-amber-200 transition-colors">
-                        {cat?.name}
+                        {catName}
                       </h3>
                     </div>
                   </div>
@@ -113,17 +118,17 @@ export function CategoriesSection({
 
                 <div className="p-5 sm:p-6 pt-5 flex-grow flex flex-col justify-between space-y-6">
                   <div className="space-y-3.5">
-                    {cat.tagline && (
+                    {catTagline && (
                       <div className="px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-200/70">
                         <p className="text-xs sm:text-sm font-semibold text-primary italic leading-snug">
-                          &ldquo;{cat.tagline}&rdquo;
+                          &ldquo;{catTagline}&rdquo;
                         </p>
                       </div>
                     )}
 
-                    {cat.description && (
+                    {catDesc && (
                       <p className="text-xs sm:text-sm text-stone-600 leading-relaxed line-clamp-3">
-                        {cat.description}
+                        {catDesc}
                       </p>
                     )}
                   </div>
