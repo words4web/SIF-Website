@@ -23,7 +23,8 @@
       "whoWeAre": "Chi Siamo",
       "catalogue": "Catalogo",
       "orders": "Ordini",
-      "faqs": "Domande Frequenti"
+      "faqs": "Domande Frequenti",
+      "blogs": "Blog"
     },
     "brands": {
       "tataTea": "Tata Tea Premium & Gold",
@@ -680,6 +681,12 @@
       "noMatchingDesc": "Prova a cercare con parole chiave diverse o azzera i filtri di ricerca.",
       "resetFilter": "Reimposta Filtri"
     }
+  },
+  "blogsPage": {
+    "badge": "Approfondimenti e Storie del Settore",
+    "title": "Conoscenza all'Ingrosso & Notizie sul Mercato Alimentare Indiano",
+    "subtitle": "Articoli approfonditi, standard della catena di fornitura e guide pratiche per supermercati, servizi di ristorazione e dettaglianti in tutta Italia.",
+    "readArticle": "Leggi"
   },
   "common": {
     "errorTitle": "Si è verificato un errore",

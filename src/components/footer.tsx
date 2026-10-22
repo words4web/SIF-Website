@@ -68,6 +68,7 @@ export function Footer() {
     { label: t("links.catalogue"), href: "/catalogue" },
     { label: t("links.orders"), href: "/orders" },
     { label: t("links.faqs"), href: "/faq" },
+    { label: t("links.blogs"), href: "/blogs" },
   ];
 
   const brandLinks = [

@@ -46,6 +46,7 @@ frontend/
 │   │   ├── (auth)/                   # Guest authentication views (login, signup)
 │   │   ├── (dashboard)/              # Main application & portal pages
 │   │   │   ├── about/                # About Us page (Grover family heritage, stats pillars, vision/mission, Cremona HQ)
+│   │   │   ├── blogs/                # Blog & market insights listing (`/blogs`) and article reader (`/blogs/[slug]`)
 │   │   │   ├── cart/                 # Cart overview with quantity controls & scrollable item list
 │   │   │   ├── catalogue/            # Category filtering & product search catalogue
 │   │   │   ├── checkout/             # Delivery selection & Order summary checkout flow
@@ -89,6 +90,7 @@ frontend/
 │   │   │   └── mobile-bottom-nav.tsx # Bottom navigation bar (< md) with active tabs & yellow cart badge
 │   │   ├── skeleton/                 # Skeleton loading components (OrderSkeleton, CartSkeleton, CheckoutSkeleton)
 │   │   ├── ui/                       # Low-level primitives (Button, Modal, Input, Dialog, Tooltip)
+│   │   ├── blog-card.tsx             # Standard clickable card for blog posts
 │   │   ├── footer.tsx                # Main footer (brand, quick links, brands, Cremona hub, BRCGS, attribution)
 │   │   ├── portal-header.tsx         # Unified wrapper rendering DesktopHeader, MobileHeader, and MobileBottomNav
 │   │   ├── product-card.tsx          # Dual-sided product card with wholesale details
@@ -101,7 +103,10 @@ frontend/
 │   │   └── storage.ts                # Storage keys (sif_fcm_token, sif_notif_enabled, sif_notif_banner_dismissed)
 │   │
 │   ├── data/                         # Data layer (strictly separated static copy & mock datasets)
+│   │   ├── blogs/                    # Individual blog post data files
+│   │   │   └── why-choose-sif.ts     # "Why Choose Shelly Indian Foods as Your Indian Food Distributor in Italy?"
 │   │   ├── about.ts                  # About Us stats, story copy, values, and Cremona contact details
+│   │   ├── blogs.ts                  # Aggregated blog collection (BLOG_POSTS)
 │   │   ├── brands.ts                 # Distributed brands (Tata Tea, Tata Salt, Tata Sampann) and highlight items
 │   │   ├── corporate-story.ts        # Corporate scale stats, certifications, and heritage pillars
 │   │   ├── faq.ts                    # FAQ categories and Q&A items with answers
@@ -146,6 +151,7 @@ frontend/
 │       ├── about.types.ts            # About Us data interfaces (AboutData, StatPillar, ValueItem, ContactItem)
 │       ├── address.types.ts          # AddressPayload and SavedAddress schemas
 │       ├── auth/                     # Auth payload & response types
+│       ├── blog.types.ts             # BlogPost, BlogContent, BlogReason, BlogFAQ schemas
 │       ├── brand.types.ts            # BrandItem & DistributedBrand interfaces
 │       ├── cart.types.ts             # CartItem, CartResponse schemas
 │       ├── category/                 # CategoryItem definitions
@@ -196,6 +202,11 @@ frontend/
   - Split-screen hero featuring the Grover family photo card (`public/Abouts-us.jpg`), 4 metric pillars (Founded 1998, 500+ SKUs, 100% Authentic, Pan-Italy Logistics), Vision & Mission dual cards, and Cremona HQ contact box.
 - **FAQ Page (`/faq`)**:
   - Searchable Q&A accordion categorized into Ordering & Minimums, Logistics & Delivery, Quality & Certifications, and Account & Invoicing, paired with a direct Cremona support contact card.
+- **Blogs & Industry Insights (`/blogs` and `/blogs/[slug]`)**:
+  - **Listing Page (`/blogs`)**: Clean, mobile-responsive grid of articles with compact header, internationalized via `useTranslations("blogsPage")`.
+  - **Clickable Card Component (`BlogCard`)**: Unified clickable Next.js `<Link>` card displaying responsive 16:9 aspect image banner, publication date, title, excerpt, and author.
+  - **Article Detail Page (`/blogs/[slug]`)**: Server-rendered dynamic detail view (`generateMetadata` & `generateStaticParams` capable) with horizontal-scrollable mobile breadcrumbs, responsive 16:9 hero image, structured body paragraphs, callout section, 16:9 insight illustration, numbered reasons, dark summary card with Cremona contact buttons, FAQ accordion, and back navigation.
+  - **Modular Architecture**: Blog data isolated under `src/data/blogs/*.ts` (e.g. `why-choose-sif.ts`), aggregated via `src/data/blogs.ts`, and typed strictly via `src/types/blog.types.ts`.
 
 ### 4. Mutually Exclusive Catalogue Search & Category Filtering
 
@@ -272,7 +283,7 @@ frontend/
   - Read server-side via `cookies()` in `src/i18n/request.ts` to hydrate `<html lang="...">` and server-rendered components with zero flashes or hydration mismatches.
 - **Language Switcher Component (`LanguageSwitcher`)**:
   - **Header Trigger Button**: Compact display showing the active flag badge (`🇬🇧` or `🇮🇹`) with an animated chevron arrow.
-  - **Dropdown Menu**: Clean popover list showing the country flag, native language name (*English*, *Italiano*), and active checkmark indicator.
+  - **Dropdown Menu**: Clean popover list showing the country flag, native language name (_English_, _Italiano_), and active checkmark indicator.
   - **Full Website Refresh on Selection**: Triggers `window.location.reload()` upon selecting a new locale to immediately update both server-rendered and client-rendered content.
 - **Statically Mapped Dictionaries**:
   - `src/i18n/request.ts` maps `en.json` and `it.json` directly to guarantee reliable resolution across Next.js 16 Turbopack HMR and production builds.

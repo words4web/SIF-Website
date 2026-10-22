@@ -23,7 +23,8 @@
       "whoWeAre": "Who We Are",
       "catalogue": "Catalogue",
       "orders": "Orders",
-      "faqs": "FAQs"
+      "faqs": "FAQs",
+      "blogs": "Blogs"
     },
     "brands": {
       "tataTea": "Tata Tea Premium & Gold",
@@ -680,6 +681,12 @@
       "noMatchingDesc": "Try searching with different keywords or clear the search filter.",
       "resetFilter": "Reset Filter"
     }
+  },
+  "blogsPage": {
+    "badge": "Industry Insights & Stories",
+    "title": "Wholesale Knowledge & Indian Food Market Insights",
+    "subtitle": "In-depth articles, supply chain standards, and practical guides for supermarkets, food service providers, and retailers across Italy.",
+    "readArticle": "Read"
   },
   "common": {
     "errorTitle": "Something went wrong",

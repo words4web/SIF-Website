@@ -12,6 +12,8 @@ export const ROUTES = {
   ORDER_SUCCESS: (id: string) => `/order-success/${id}`,
   NOTIFICATIONS: "/notifications",
   PRODUCT_DETAIL: (slug: string) => `/products/${slug}`,
+  BLOGS: "/blogs",
+  BLOG_DETAIL: (slug: string) => `/blogs/${slug}`,
 };
 
 export const PROTECTED_ROUTES = [
