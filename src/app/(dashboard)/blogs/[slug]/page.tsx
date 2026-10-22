@@ -139,9 +139,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               <h2 className="font-serif text-lg sm:text-xl md:text-2xl font-bold text-stone-900 leading-snug">
                 {post.content.sectionHeading}
               </h2>
-              <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-stone-600 leading-relaxed">
-                {post.content.sectionIntro}
-              </p>
+              {post.content.sectionIntro && (
+                <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-stone-600 leading-relaxed">
+                  {post.content.sectionIntro}
+                </p>
+              )}
             </div>
 
             {post.insightImage && (

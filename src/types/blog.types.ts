@@ -25,7 +25,7 @@ export interface BlogContent {
 export interface BlogPost {
   slug: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   excerpt: string;
   publishedAt: string;
   featuredImage: string;
