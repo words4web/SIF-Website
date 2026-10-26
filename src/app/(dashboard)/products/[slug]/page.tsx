@@ -53,8 +53,6 @@ export default function ProductPage() {
         ? productData?.variants?.[0]?.price
         : productData?.price || null,
     unit: productData?.unit,
-    stock: productData?.stock,
-    stockStatus: productData?.stockStatus,
     images: Array.isArray(productData?.images) ? productData?.images : [],
     imageUrl:
       Array.isArray(productData?.images) && productData?.images?.length > 0

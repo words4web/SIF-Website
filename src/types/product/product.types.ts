@@ -12,6 +12,7 @@ export type StockStatus = "IN_STOCK" | "OUT_OF_STOCK";
 export interface ProductVariant {
   weight: number;
   price: number;
+  stock: number;
 }
 
 export interface ProductRow {
@@ -21,8 +22,6 @@ export interface ProductRow {
   sku?: string;
   description?: string;
   variants: ProductVariant[];
-  stock?: number;
-  stockStatus?: StockStatus;
   categoryId:
     | {
         _id: string;
@@ -47,8 +46,6 @@ export interface Product {
   pack?: string | null;
   price?: number | null;
   unit?: string;
-  stock?: number;
-  stockStatus?: StockStatus;
   categoryId: string;
   categoryName: string;
   keywords?: string[];

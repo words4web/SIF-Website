@@ -45,8 +45,11 @@ export function ProductCard({ product }: { product: Product }) {
                     {product.sku}
                   </span>
                 )}
-                {product?.stockStatus === "OUT_OF_STOCK" ||
-                (typeof product?.stock === "number" && product?.stock <= 0) ? (
+                {product?.variants &&
+                product.variants.length > 0 &&
+                product.variants.every(
+                  (v) => typeof v?.stock === "number" && v.stock <= 0,
+                ) ? (
                   <span className="inline-flex items-center text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
                     {t("outOfStock")}
                   </span>

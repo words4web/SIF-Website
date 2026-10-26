@@ -79,8 +79,6 @@ export default function CataloguePage() {
         ? prod?.variants[0]?.price
         : prod?.price || null,
     unit: prod?.unit,
-    stock: prod?.stock,
-    stockStatus: prod?.stockStatus,
     images: Array.isArray(prod?.images) ? prod?.images : [],
     imageUrl:
       Array.isArray(prod?.images) && prod?.images?.length > 0

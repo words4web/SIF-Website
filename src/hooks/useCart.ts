@@ -53,8 +53,6 @@ function normalizeCartItem(item: any): CartItem | null {
       pack: prod?.pack || null,
       price: itemPrice,
       unit: prod?.unit,
-      stock: prod?.stock,
-      stockStatus: prod?.stockStatus,
       images: Array.isArray(prod?.images) ? prod?.images : [],
       imageUrl:
         Array.isArray(prod?.images) && prod?.images?.length > 0

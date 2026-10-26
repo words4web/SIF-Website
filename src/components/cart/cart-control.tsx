@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Check, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Product } from "@/types/product/product.types";
+import { Product, ProductVariant } from "@/types/product/product.types";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -41,10 +41,10 @@ export function CartControl({
   const { items, getItemQuantity, addItem, increment, decrement, removeItem } =
     useCart();
 
-  const variants =
+  const variants: ProductVariant[] =
     Array.isArray(product?.variants) && product.variants.length > 0
       ? product.variants
-      : [{ weight: 500, price: product?.price || 0 }];
+      : [{ weight: 500, price: product?.price || 0, stock: 0 }];
 
   const [internalWeight, setInternalWeight] = useState<number>(
     variants[0]?.weight || 500,
@@ -62,15 +62,15 @@ export function CartControl({
     onWeightChange?.(weight);
   };
 
+  const activeVariant =
+    variants?.find((v) => Number(v?.weight) === Number(activeWeight)) ||
+    variants[0];
+  const activePrice = activeVariant?.price ?? product?.price ?? 0;
+  const activeStock = activeVariant?.stock ?? 0;
+
   const quantity = getItemQuantity(product?.id, activeWeight);
 
-  const totalProductQuantityInCart =
-    items
-      ?.filter((item) => item?.productId === product?.id)
-      ?.reduce((sum, item) => sum + (item?.quantity || 0), 0) || 0;
-
-  const isStockLimitReached =
-    totalProductQuantityInCart >= (product?.stock ?? 0);
+  const isStockLimitReached = quantity >= activeStock;
 
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -78,12 +78,7 @@ export function CartControl({
     router.push(ROUTES.LOGIN);
   };
 
-  const isOutOfStock =
-    product?.stockStatus === "OUT_OF_STOCK" || (product?.stock ?? 0) <= 0;
-
-  const activeVariant =
-    variants?.find((v) => v?.weight === activeWeight) || variants[0];
-  const activePrice = activeVariant?.price ?? product?.price ?? 0;
+  const isOutOfStock = activeStock <= 0;
 
   if (variant === "detail") {
     const handleDetailAdd = (e: React.MouseEvent) => {
@@ -94,7 +89,12 @@ export function CartControl({
         router.push(ROUTES.LOGIN);
         return;
       }
-      addItem(product, activeWeight, detailStepperQty);
+      const qtyToAdd = Math.min(
+        detailStepperQty,
+        Math.max(0, activeStock - quantity),
+      );
+      if (qtyToAdd <= 0) return;
+      addItem(product, activeWeight, qtyToAdd);
       setJustAdded(true);
       window.setTimeout(() => setJustAdded(false), 1600);
     };
@@ -108,7 +108,9 @@ export function CartControl({
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               {variants?.map((v) => {
-                const isSelected = activeWeight === v?.weight;
+                const isSelected = Number(activeWeight) === Number(v?.weight);
+                const vStock = v?.stock ?? 0;
+                const isVOutOfStock = vStock <= 0;
                 return (
                   <button
                     key={v?.weight}
@@ -123,10 +125,18 @@ export function CartControl({
                       isSelected
                         ? "border-primary bg-primary/5 ring-2 ring-primary/20 shadow-xs"
                         : "border-border/70 bg-card hover:bg-muted/40",
+                      isVOutOfStock && "opacity-60 bg-muted/30 border-dashed",
                     )}>
-                    <span className="text-xs sm:text-sm font-extrabold text-foreground">
-                      {formatWeight(v?.weight)}
-                    </span>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-xs sm:text-sm font-extrabold text-foreground">
+                        {formatWeight(v?.weight)}
+                      </span>
+                      {isVOutOfStock && (
+                        <span className="text-[9px] font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
+                          {t("outOfStock")}
+                        </span>
+                      )}
+                    </div>
                     <span className="text-xs font-bold text-primary mt-0.5">
                       {formatPrice(v?.price)}
                     </span>
@@ -159,10 +169,14 @@ export function CartControl({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setDetailStepperQty((prev) => prev + 1);
+                setDetailStepperQty((prev) =>
+                  Math.min(activeStock > 0 ? activeStock : 1, prev + 1),
+                );
               }}
-              disabled={!user || isOutOfStock}
-              className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer"
+              disabled={
+                !user || isOutOfStock || detailStepperQty >= activeStock
+              }
+              className="px-3 sm:px-4 h-full hover:bg-muted transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
               aria-label={t("increaseAria")}>
               <Plus className="size-3.5 sm:size-4" />
             </button>
@@ -179,8 +193,9 @@ export function CartControl({
           ) : user ? (
             <Button
               onClick={handleDetailAdd}
+              disabled={isStockLimitReached}
               size="lg"
-              className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer">
+              className="flex-1 h-10 sm:h-11 text-xs sm:text-sm rounded-xl font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
               {justAdded ? (
                 <Check className="size-3.5 sm:size-4" />
               ) : (
@@ -350,7 +365,9 @@ export function CartControl({
         {variants?.length > 1 && (
           <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
             {variants?.map((v) => {
-              const isSelected = activeWeight === v?.weight;
+              const isSelected = Number(activeWeight) === Number(v?.weight);
+              const vStock = v?.stock ?? 0;
+              const isVOutOfStock = vStock <= 0;
               return (
                 <button
                   key={v?.weight}
@@ -365,6 +382,7 @@ export function CartControl({
                     isSelected
                       ? "bg-primary text-primary-foreground border-primary shadow-xs"
                       : "bg-muted/60 text-muted-foreground border-border/70 hover:bg-muted hover:text-foreground",
+                    isVOutOfStock && "opacity-60 line-through",
                   )}>
                   {formatWeight(v?.weight)}
                 </button>

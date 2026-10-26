@@ -17,10 +17,10 @@ export function ProductDetail({ product }: { product: Product }) {
   const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  const variants =
+  const variants: ProductVariant[] =
     Array.isArray(product?.variants) && product?.variants?.length > 0
       ? product?.variants
-      : [{ weight: 500, price: product?.price || 0 }];
+      : [{ weight: 500, price: product?.price || 0, stock: 0 }];
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
     variants[0],
@@ -122,8 +122,8 @@ export function ProductDetail({ product }: { product: Product }) {
                   </span>
                 )}
 
-                {product?.stockStatus === "OUT_OF_STOCK" ||
-                (typeof product?.stock === "number" && product?.stock <= 0) ? (
+                {typeof selectedVariant?.stock === "number" &&
+                selectedVariant?.stock <= 0 ? (
                   <span className="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-destructive/10 text-destructive uppercase tracking-wider">
                     {t("outOfStock")}
                   </span>
